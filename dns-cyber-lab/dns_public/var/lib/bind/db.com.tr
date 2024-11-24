@@ -1,0 +1,21 @@
+$TTL 86400
+@   IN  SOA ns1.com.tr. admin.com.tr. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.com.tr.
+@   IN  NS  ns2.com.tr.
+ns1.com.tr. IN A 10.0.0.1
+ns2.com.tr. IN A 10.0.0.2
+admatic IN A 49.138.117.43
+adtarget IN A 173.190.207.131
+adtarget IN A 185.228.174.212
+amazon IN A 174.107.112.79
+google IN A 206.182.249.65
+google IN A 123.100.145.250
+google IN A 201.189.132.239
+pixad IN A 186.203.81.28
+yandex IN A 213.69.5.21

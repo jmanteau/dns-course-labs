@@ -1,0 +1,25 @@
+$TTL 86400
+@   IN  SOA ns1.id. admin.id. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.id.
+@   IN  NS  ns2.id.
+ns1.id. IN A 10.0.0.1
+ns2.id. IN A 10.0.0.2
+ac IN A 59.151.89.162
+ac IN A 221.134.48.78
+biz IN A 9.218.89.110
+dana IN A 71.15.59.22
+desa IN A 147.253.91.42
+go IN A 107.195.89.188
+my IN A 137.228.187.115
+my IN A 164.152.187.48
+my IN A 96.84.174.51
+or IN A 117.202.243.222
+sch IN A 112.150.51.203
+web IN A 70.204.240.161
+web IN A 40.237.139.38

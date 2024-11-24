@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.tk. admin.tk. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.tk.
+@   IN  NS  ns2.tk.
+ns1.tk. IN A 10.0.0.1
+ns2.tk. IN A 10.0.0.2
+coppersurfer IN A 127.73.110.119
+google IN A 41.181.240.49
+google IN A 29.230.79.109
+google IN A 201.179.241.23

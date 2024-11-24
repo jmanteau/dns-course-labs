@@ -1,0 +1,41 @@
+$TTL 86400
+@   IN  SOA ns1.network. admin.network. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.network.
+@   IN  NS  ns2.network.
+ns1.network. IN A 10.0.0.1
+ns2.network. IN A 10.0.0.2
+avax IN A 104.188.11.207
+avax IN A 192.23.240.250
+avax IN A 105.70.222.57
+bereal IN A 72.130.48.211
+bereal IN A 149.81.37.38
+blockpi IN A 59.229.38.52
+bsky IN A 72.54.131.189
+codefi IN A 175.249.183.85
+codefi IN A 129.55.153.193
+gradient IN A 5.163.170.237
+hath IN A 210.205.80.50
+hath IN A 99.11.232.17
+hivebedrock IN A 32.103.52.255
+iroh IN A 67.160.102.218
+iroh IN A 137.24.160.106
+mangadex IN A 48.149.226.20
+mangadex IN A 145.33.26.95
+moonbeam IN A 40.126.187.15
+mysterium IN A 220.44.142.211
+ol-infra IN A 93.158.48.163
+pontem IN A 207.16.221.247
+pub IN A 117.36.243.5
+pub IN A 181.243.136.239
+pub IN A 106.10.20.165
+stripe IN A 62.68.105.126
+tracker IN A 134.34.180.90
+wynd IN A 67.142.246.24
+wynd IN A 17.145.97.91
+wynd IN A 140.118.203.164

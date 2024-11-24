@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.globo. admin.globo. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.globo.
+@   IN  NS  ns2.globo.
+ns1.globo. IN A 10.0.0.1
+ns2.globo. IN A 10.0.0.2
+cloud IN A 196.65.104.138
+g IN A 78.70.188.92

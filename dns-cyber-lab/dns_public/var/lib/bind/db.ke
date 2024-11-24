@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.ke. admin.ke. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ke.
+@   IN  NS  ns2.ke.
+ns1.ke. IN A 10.0.0.1
+ns2.ke. IN A 10.0.0.2
+go IN A 190.124.20.33
+go IN A 220.168.78.228

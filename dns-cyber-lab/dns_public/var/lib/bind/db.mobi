@@ -1,0 +1,31 @@
+$TTL 86400
+@   IN  SOA ns1.mobi. admin.mobi. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.mobi.
+@   IN  NS  ns2.mobi.
+ns1.mobi. IN A 10.0.0.1
+ns2.mobi. IN A 10.0.0.2
+99taxis IN A 121.72.222.182
+clarobrasil IN A 62.222.212.249
+digitaleast IN A 34.52.155.181
+grindr IN A 42.84.156.200
+grindr IN A 94.198.127.214
+habby IN A 113.254.226.90
+habby IN A 150.126.140.147
+haokan IN A 49.0.17.116
+inner-active IN A 212.40.72.109
+mangatoon IN A 36.130.175.118
+mangatoon IN A 172.162.236.25
+mangatoon IN A 192.68.48.252
+mytuner IN A 203.239.32.75
+mytuner IN A 217.219.15.229
+starhalo IN A 13.135.26.119
+surfeasy IN A 136.39.144.181
+v-mate IN A 77.22.40.23
+videomate IN A 99.194.182.116
+xunyou IN A 164.126.50.222

@@ -1,0 +1,41 @@
+$TTL 86400
+@   IN  SOA ns1.gg. admin.gg. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gg.
+@   IN  NS  ns2.gg.
+ns1.gg. IN A 10.0.0.1
+ns2.gg. IN A 10.0.0.2
+7tv IN A 58.1.81.112
+7tv IN A 178.55.167.174
+7tv IN A 70.111.43.193
+acg IN A 11.122.162.233
+blitz IN A 28.175.35.6
+blitz IN A 142.223.229.230
+blitz IN A 83.17.154.104
+clean IN A 110.58.240.229
+discord IN A 116.13.87.65
+discord IN A 205.102.99.248
+discord IN A 70.150.112.91
+enchanted IN A 1.230.62.58
+fb IN A 19.27.26.23
+google IN A 127.234.164.85
+maxroll IN A 22.147.88.207
+mobalytics IN A 90.170.1.2
+mobalytics IN A 3.38.163.145
+mobalytics IN A 17.201.232.246
+now IN A 88.202.186.147
+now IN A 83.164.87.154
+op IN A 162.111.31.105
+opr IN A 151.158.53.122
+playit IN A 16.245.126.51
+porofessor IN A 37.213.72.34
+porofessor IN A 113.202.207.205
+psynet IN A 218.190.220.48
+tracker IN A 128.134.97.133
+tracker IN A 97.29.166.129
+tracker IN A 205.153.8.15

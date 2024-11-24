@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.social. admin.social. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.social.
+@   IN  NS  ns2.social.
+ns1.social. IN A 10.0.0.1
+ns2.social. IN A 10.0.0.2
+bsky IN A 152.169.119.238
+bsky IN A 173.72.100.212
+mastodon IN A 104.202.15.140

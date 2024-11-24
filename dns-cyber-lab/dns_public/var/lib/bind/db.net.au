@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.net.au. admin.net.au. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.net.au.
+@   IN  NS  ns2.net.au.
+ns1.net.au. IN A 10.0.0.1
+ns2.net.au. IN A 10.0.0.2
+abc IN A 11.217.10.108
+abc IN A 69.250.71.221
+abc IN A 79.220.100.255
+iinet IN A 37.140.112.173

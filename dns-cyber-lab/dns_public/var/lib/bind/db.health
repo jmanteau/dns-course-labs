@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.health. admin.health. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.health.
+@   IN  NS  ns2.health.
+ns1.health. IN A 10.0.0.1
+ns2.health. IN A 10.0.0.2
+hcn IN A 90.208.104.238
+xnxx IN A 84.102.179.139
+xnxx IN A 6.202.199.9
+xnxx IN A 160.153.113.88

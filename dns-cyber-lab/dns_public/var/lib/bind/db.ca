@@ -1,0 +1,35 @@
+$TTL 86400
+@   IN  SOA ns1.ca. admin.ca. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ca.
+@   IN  NS  ns2.ca.
+ns1.ca. IN A 10.0.0.1
+ns2.ca. IN A 10.0.0.2
+amazon IN A 12.216.72.236
+bell IN A 180.119.93.215
+bestbuy IN A 101.22.139.139
+canada IN A 34.10.150.78
+canada IN A 30.15.230.140
+canada IN A 53.134.164.189
+canadiantire IN A 192.35.181.171
+cbc IN A 218.141.222.201
+gc IN A 25.236.18.75
+gc IN A 164.183.186.123
+google IN A 62.64.21.63
+google IN A 176.228.251.251
+ovh IN A 91.1.112.141
+qc IN A 174.133.130.8
+qc IN A 219.218.190.109
+ticketmaster IN A 126.100.241.224
+walmart IN A 87.253.188.166
+walmartimages IN A 7.125.129.143
+walmartimages IN A 15.6.237.196
+wemesh IN A 196.100.167.106
+zsw IN A 188.102.53.234
+zsw IN A 127.127.89.173
+zsw IN A 2.253.131.176

@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.homes. admin.homes. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.homes.
+@   IN  NS  ns2.homes.
+ns1.homes. IN A 10.0.0.1
+ns2.homes. IN A 10.0.0.2
+967sd1f IN A 193.81.6.60
+gsa5sdeled IN A 149.142.66.62
+kdsfo2diggd IN A 128.23.77.196

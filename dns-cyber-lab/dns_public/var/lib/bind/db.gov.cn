@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.gov.cn. admin.gov.cn. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gov.cn.
+@   IN  NS  ns2.gov.cn.
+ns1.gov.cn. IN A 10.0.0.1
+ns2.gov.cn. IN A 10.0.0.2
+chinatax IN A 4.145.98.154
+chinatax IN A 98.180.59.225
+chinatax IN A 59.156.111.4

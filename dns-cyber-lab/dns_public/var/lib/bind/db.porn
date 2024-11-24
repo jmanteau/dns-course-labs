@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.porn. admin.porn. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.porn.
+@   IN  NS  ns2.porn.
+ns1.porn. IN A 10.0.0.1
+ns2.porn. IN A 10.0.0.2
+hdtube IN A 194.144.144.53
+tik IN A 85.92.239.196
+tik IN A 22.103.223.83

@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.net.cn. admin.net.cn. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.net.cn.
+@   IN  NS  ns2.net.cn.
+ns1.net.cn. IN A 10.0.0.1
+ns2.net.cn. IN A 10.0.0.2
+dcloud IN A 108.194.132.25

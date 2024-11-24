@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.rip. admin.rip. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.rip.
+@   IN  NS  ns2.rip.
+ns1.rip. IN A 10.0.0.1
+ns2.rip. IN A 10.0.0.2
+acg IN A 92.148.3.221
+stats IN A 55.62.38.130

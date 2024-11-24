@@ -1,0 +1,38 @@
+$TTL 86400
+@   IN  SOA ns1.link. admin.link. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.link.
+@   IN  NS  ns2.link.
+ns1.link. IN A 10.0.0.1
+ns2.link. IN A 10.0.0.2
+app IN A 109.147.156.10
+app IN A 1.21.202.174
+app IN A 37.234.235.69
+cnnx IN A 130.220.206.225
+dweb IN A 115.229.54.230
+dweb IN A 85.119.144.98
+headliner IN A 154.43.249.11
+hi IN A 125.148.17.187
+impression IN A 18.60.76.18
+impression IN A 138.55.111.84
+nftstorage IN A 128.92.7.60
+nftstorage IN A 92.175.179.88
+nothingtech IN A 63.42.167.139
+o18 IN A 163.45.232.64
+o18 IN A 83.153.100.99
+o18 IN A 140.102.107.77
+page IN A 192.10.94.245
+rj IN A 22.76.220.183
+smart IN A 218.59.214.214
+smart IN A 142.83.147.234
+smart IN A 35.217.213.110
+sng IN A 119.5.49.61
+wp2p IN A 73.233.139.226
+zog IN A 185.65.96.236
+zog IN A 64.28.194.43
+zog IN A 76.85.56.11

@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.icu. admin.icu. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.icu.
+@   IN  NS  ns2.icu.
+ns1.icu. IN A 10.0.0.1
+ns2.icu. IN A 10.0.0.2
+imgoingto IN A 117.74.136.163
+imgoingto IN A 4.126.52.220
+imgoingto IN A 7.101.139.159
+prreqcroab IN A 196.249.184.89
+wenoolgo IN A 124.145.193.38
+wenoolgo IN A 99.33.231.108

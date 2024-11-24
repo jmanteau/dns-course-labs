@@ -1,0 +1,25 @@
+$TTL 86400
+@   IN  SOA ns1.space. admin.space. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.space.
+@   IN  NS  ns2.space.
+ns1.space. IN A 10.0.0.1
+ns2.space. IN A 10.0.0.2
+adkaora IN A 107.18.223.111
+adkaora IN A 22.118.159.87
+adspend IN A 63.24.203.80
+adspend IN A 178.65.173.129
+cdns IN A 59.114.41.244
+clmbosean IN A 182.72.246.81
+hiive IN A 87.224.19.201
+mempool IN A 165.54.63.2
+nex8 IN A 77.145.151.33
+ololosh IN A 156.41.233.19
+ton IN A 210.158.99.123
+ton IN A 135.167.61.105
+ton IN A 98.244.2.217

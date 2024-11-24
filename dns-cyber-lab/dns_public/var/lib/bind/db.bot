@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.bot. admin.bot. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.bot.
+@   IN  NS  ns2.bot.
+ns1.bot. IN A 10.0.0.1
+ns2.bot. IN A 10.0.0.2
+bums IN A 75.93.224.0
+bums IN A 84.80.24.134
+bums IN A 46.193.97.199
+major IN A 16.247.88.98

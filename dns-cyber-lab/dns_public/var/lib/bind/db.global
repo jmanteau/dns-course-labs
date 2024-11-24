@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.global. admin.global. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.global.
+@   IN  NS  ns2.global.
+ns1.global. IN A 10.0.0.1
+ns2.global. IN A 10.0.0.2
+peer2profit IN A 123.92.190.246
+peer2profit IN A 170.222.127.216
+stripchat IN A 62.59.158.218
+stripchat IN A 96.221.157.16

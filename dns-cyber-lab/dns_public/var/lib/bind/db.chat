@@ -1,0 +1,22 @@
+$TTL 86400
+@   IN  SOA ns1.chat. admin.chat. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.chat.
+@   IN  NS  ns2.chat.
+ns1.chat. IN A 10.0.0.1
+ns2.chat. IN A 10.0.0.2
+crisp IN A 17.22.49.10
+freestrip IN A 45.65.29.55
+freestrip IN A 36.107.230.106
+gorgias IN A 219.98.84.155
+strip IN A 153.54.136.138
+strip IN A 111.177.122.245
+strp IN A 190.47.96.229
+tamtam IN A 169.117.85.101
+tamtam IN A 117.113.68.29
+veeka IN A 195.101.89.169

@@ -1,0 +1,46 @@
+$TTL 86400
+@   IN  SOA ns1.dev. admin.dev. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.dev.
+@   IN  NS  ns2.dev.
+ns1.dev. IN A 10.0.0.1
+ns2.dev. IN A 10.0.0.2
+adblock IN A 175.60.85.156
+adblock IN A 102.102.121.49
+adblockplus IN A 217.171.6.196
+amazon IN A 107.137.140.93
+aurora IN A 90.128.102.101
+aurora IN A 139.14.207.46
+aws IN A 67.121.13.164
+aws IN A 16.144.225.41
+aws IN A 4.164.147.20
+decide IN A 63.36.250.84
+deeplink IN A 216.166.109.153
+deeplink IN A 144.206.239.241
+epicgames IN A 138.174.227.159
+errortrace IN A 44.31.226.116
+expo IN A 141.227.172.69
+floors IN A 111.171.149.117
+fly IN A 42.237.230.246
+getsolara IN A 191.20.40.46
+intools IN A 14.161.11.243
+jcplatform IN A 21.135.0.0
+jcplatform IN A 209.211.213.139
+k8slens IN A 221.205.41.244
+k8slens IN A 44.221.0.30
+k8slens IN A 75.99.189.78
+myth IN A 104.6.99.185
+pages IN A 179.92.173.237
+pages IN A 27.167.20.36
+pkg IN A 194.150.105.118
+r2 IN A 138.146.113.234
+r2 IN A 38.176.115.166
+spotify IN A 190.104.60.99
+warp IN A 189.180.214.138
+warp IN A 58.110.83.254
+workers IN A 127.68.18.116

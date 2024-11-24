@@ -1,0 +1,27 @@
+$TTL 86400
+@   IN  SOA ns1.services. admin.services. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.services.
+@   IN  NS  ns2.services.
+ns1.services. IN A 10.0.0.1
+ns2.services. IN A 10.0.0.2
+adxpremium IN A 171.123.218.94
+adxpremium IN A 43.230.226.141
+cdpred IN A 163.49.170.144
+cdpred IN A 129.102.224.56
+cdpred IN A 41.68.67.24
+gateio IN A 221.198.241.72
+livesport IN A 140.248.39.243
+svr3456 IN A 3.80.103.96
+svr3456 IN A 184.45.16.201
+svr3456 IN A 55.45.67.13
+tesla IN A 33.21.240.108
+vidazoo IN A 142.254.27.240
+zenno IN A 122.45.140.251
+zenno IN A 180.134.248.106
+zenno IN A 121.12.33.228

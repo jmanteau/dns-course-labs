@@ -1,0 +1,23 @@
+$TTL 86400
+@   IN  SOA ns1.pw. admin.pw. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.pw.
+@   IN  NS  ns2.pw.
+ns1.pw. IN A 10.0.0.1
+ns2.pw. IN A 10.0.0.2
+bittor IN A 51.61.116.93
+bittor IN A 43.144.99.54
+clearnet IN A 71.219.215.148
+glotorrents IN A 215.223.231.71
+glotorrents IN A 94.169.111.88
+glotorrents IN A 6.223.31.125
+heihachi IN A 132.250.239.199
+pansy IN A 138.87.14.125
+u-p IN A 168.37.87.250
+u-p IN A 1.86.135.41
+u-p IN A 184.178.186.1

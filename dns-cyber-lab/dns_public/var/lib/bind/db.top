@@ -1,0 +1,26 @@
+$TTL 86400
+@   IN  SOA ns1.top. admin.top. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.top.
+@   IN  NS  ns2.top.
+ns1.top. IN A 10.0.0.1
+ns2.top. IN A 10.0.0.2
+6p71hs IN A 122.71.0.127
+bitkeep IN A 35.170.118.65
+bitkeep IN A 180.205.173.100
+bitkeep IN A 174.11.65.11
+cloudit IN A 48.104.120.5
+cobiasonymy IN A 20.6.37.203
+gcrenwp IN A 4.170.123.19
+launcher365 IN A 145.126.90.202
+ofcs IN A 84.226.106.65
+oilwellsublot IN A 8.6.37.244
+push1000 IN A 30.36.234.74
+push1000 IN A 209.13.220.46
+vood IN A 62.0.245.229
+vood IN A 124.12.49.158

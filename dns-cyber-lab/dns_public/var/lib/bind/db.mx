@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.mx. admin.mx. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.mx.
+@   IN  NS  ns2.mx.
+ns1.mx. IN A 10.0.0.1
+ns2.mx. IN A 10.0.0.2
+kebhana IN A 164.40.155.88
+plu IN A 136.216.98.217
+plu IN A 52.200.96.25
+plu IN A 132.160.28.139
+rtb IN A 79.120.56.18
+yts IN A 140.69.119.136

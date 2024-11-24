@@ -1,0 +1,47 @@
+$TTL 86400
+@   IN  SOA ns1.in. admin.in. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.in.
+@   IN  NS  ns2.in.
+ns1.in. IN A 10.0.0.1
+ns2.in. IN A 10.0.0.2
+ac IN A 154.117.55.115
+adsolut IN A 182.195.109.212
+adsolut IN A 20.131.247.117
+aeropres IN A 28.160.42.226
+aeropres IN A 105.24.51.233
+amazon IN A 161.188.201.125
+angelone IN A 173.21.74.48
+appanalytics IN A 165.246.221.79
+bajajfinserv IN A 48.201.94.123
+dailyhunt IN A 66.94.50.45
+freebitco IN A 157.140.29.21
+freefireind IN A 144.44.88.103
+goindigo IN A 55.35.126.97
+google IN A 138.123.124.27
+growthrx IN A 126.169.237.207
+growthrx IN A 184.53.248.184
+groww IN A 136.180.172.215
+hubble IN A 51.237.230.122
+juspay IN A 155.202.89.40
+juspay IN A 119.151.87.186
+juspay IN A 140.63.17.171
+logme IN A 194.234.191.0
+mosite IN A 99.213.159.26
+mosite IN A 172.6.109.51
+mosite IN A 132.26.44.135
+myjosh IN A 164.240.165.165
+nic IN A 178.234.119.160
+oceansaver IN A 85.67.97.251
+popt IN A 104.99.44.209
+reqres IN A 129.198.197.110
+snackvideo IN A 84.163.181.54
+sweatco IN A 195.231.50.245
+unibots IN A 171.20.53.30
+zoho IN A 137.50.122.48
+zoho IN A 186.250.90.159

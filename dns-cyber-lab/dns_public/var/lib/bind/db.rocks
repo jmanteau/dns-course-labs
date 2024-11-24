@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.rocks. admin.rocks. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.rocks.
+@   IN  NS  ns2.rocks.
+ns1.rocks. IN A 10.0.0.1
+ns2.rocks. IN A 10.0.0.2
+fstr IN A 221.31.37.142
+fstr IN A 153.23.66.216
+fstr IN A 135.20.121.165

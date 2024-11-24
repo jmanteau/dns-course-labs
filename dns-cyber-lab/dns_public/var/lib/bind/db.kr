@@ -1,0 +1,20 @@
+$TTL 86400
+@   IN  SOA ns1.kr. admin.kr. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.kr.
+@   IN  NS  ns2.kr.
+ns1.kr. IN A 10.0.0.1
+ns2.kr. IN A 10.0.0.2
+ac IN A 166.134.38.157
+ac IN A 189.237.169.69
+adxcorp IN A 197.243.157.145
+go IN A 78.200.9.231
+go IN A 59.195.5.155
+or IN A 60.197.253.232
+or IN A 49.208.90.71
+or IN A 197.152.5.198

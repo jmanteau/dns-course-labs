@@ -1,0 +1,21 @@
+$TTL 86400
+@   IN  SOA ns1.mil. admin.mil. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.mil.
+@   IN  NS  ns2.mil.
+ns1.mil. IN A 10.0.0.1
+ns2.mil. IN A 10.0.0.2
+apps IN A 94.199.67.44
+apps IN A 208.188.164.82
+apps IN A 125.134.70.15
+army IN A 136.114.239.210
+disa IN A 17.131.190.61
+disa IN A 178.3.218.112
+disa IN A 156.137.107.22
+navy IN A 78.247.56.93
+navy IN A 192.167.250.169

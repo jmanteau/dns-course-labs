@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.google. admin.google. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.google.
+@   IN  NS  ns2.google.
+ns1.google. IN A 10.0.0.1
+ns2.google. IN A 10.0.0.2
+8888 IN A 206.229.250.27
+8888 IN A 204.7.172.3
+8888 IN A 97.176.243.248
+adtrafficquality IN A 218.209.238.15
+dns IN A 139.130.84.247
+dns IN A 111.92.137.188

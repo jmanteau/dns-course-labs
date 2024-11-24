@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.email. admin.email. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.email.
+@   IN  NS  ns2.email.
+ns1.email. IN A 10.0.0.1
+ns2.email. IN A 10.0.0.2
+realtime IN A 96.187.153.1
+stripocdn IN A 54.150.100.215
+titan IN A 109.69.168.7
+titan IN A 93.80.153.34

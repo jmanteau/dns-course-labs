@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.work. admin.work. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.work.
+@   IN  NS  ns2.work.
+ns1.work. IN A 10.0.0.1
+ns2.work. IN A 10.0.0.2
+amazon IN A 8.162.165.94

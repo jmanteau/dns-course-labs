@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.org.cn. admin.org.cn. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.org.cn.
+@   IN  NS  ns2.org.cn.
+ns1.org.cn. IN A 10.0.0.1
+ns2.org.cn. IN A 10.0.0.2
+ntp IN A 157.14.160.116

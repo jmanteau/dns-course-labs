@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.management. admin.management. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.management.
+@   IN  NS  ns2.management.
+ns1.management. IN A 10.0.0.1
+ns2.management. IN A 10.0.0.2
+cloudbackup IN A 216.0.121.174
+remote IN A 101.22.25.44
+remote IN A 82.35.127.223
+remote IN A 140.211.249.128

@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.moe. admin.moe. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.moe.
+@   IN  NS  ns2.moe.
+ns1.moe. IN A 10.0.0.1
+ns2.moe. IN A 10.0.0.2
+anidex IN A 179.255.47.112
+bangumi IN A 18.119.157.12
+leet-tracker IN A 55.178.227.198

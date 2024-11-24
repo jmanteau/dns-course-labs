@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.ga. admin.ga. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ga.
+@   IN  NS  ns2.ga.
+ns1.ga. IN A 10.0.0.1
+ns2.ga. IN A 10.0.0.2
+free-tracker IN A 74.38.32.164
+free-tracker IN A 122.138.95.135
+google IN A 213.53.226.18
+google IN A 39.0.207.108

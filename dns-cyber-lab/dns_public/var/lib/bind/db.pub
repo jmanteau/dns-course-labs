@@ -1,0 +1,19 @@
+$TTL 86400
+@   IN  SOA ns1.pub. admin.pub. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.pub.
+@   IN  NS  ns2.pub.
+ns1.pub. IN A 10.0.0.1
+ns2.pub. IN A 10.0.0.2
+doh IN A 96.29.0.74
+isu IN A 60.218.250.166
+isu IN A 146.194.8.102
+pix IN A 58.212.172.134
+pix IN A 204.126.196.48
+pix IN A 46.8.27.154
+static IN A 62.150.158.82

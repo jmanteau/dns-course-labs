@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.apple. admin.apple. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.apple.
+@   IN  NS  ns2.apple.
+ns1.apple. IN A 10.0.0.1
+ns2.apple. IN A 10.0.0.2
+edge IN A 92.61.129.111
+safebrowsing IN A 54.227.101.245
+safebrowsing IN A 156.224.212.93

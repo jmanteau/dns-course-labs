@@ -1,0 +1,32 @@
+$TTL 86400
+@   IN  SOA ns1.fm. admin.fm. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.fm.
+@   IN  NS  ns2.fm.
+ns1.fm. IN A 10.0.0.1
+ns2.fm. IN A 10.0.0.2
+airbuds IN A 71.57.14.172
+castbox IN A 141.142.39.103
+chrt IN A 123.175.181.187
+chrt IN A 145.66.158.211
+chrt IN A 77.189.131.169
+earn IN A 101.11.109.82
+earn IN A 114.0.138.12
+earn IN A 27.198.120.191
+files IN A 210.106.45.152
+files IN A 111.231.53.107
+files IN A 137.57.179.149
+google IN A 129.79.253.230
+megaphone IN A 161.180.4.198
+omny IN A 34.123.252.191
+omny IN A 20.66.136.42
+omny IN A 58.192.116.208
+pdst IN A 144.53.227.14
+pdst IN A 31.0.188.211
+pdst IN A 13.188.203.86
+zeno IN A 201.55.130.114

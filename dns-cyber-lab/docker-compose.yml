@@ -1,0 +1,121 @@
+
+services:
+
+
+
+  # Firewall
+  firewall:
+    image: alpine
+    container_name: firewall
+    networks:
+      - internal_network
+      - public_network
+    privileged: true 
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./firewall/start.sh:/start.sh
+    entrypoint: ["/bin/sh", "-c", "/start.sh"]
+
+
+  # Internal Network
+  client:
+    platform: linux/amd64
+    image: alpine
+    container_name: client
+    networks:
+      - internal_network
+    depends_on:
+      - dns_internal
+    environment:
+      - DNS_SERVER_IP=  # Placeholder for the IP of dns_internal
+    entrypoint: ["/bin/sh", "-c", "/start.sh"]
+    volumes:
+      - ./client/start.sh:/start.sh
+      - ./shared-data:/shared-data  
+
+  dns_internal:
+    image: internetsystemsconsortium/bind9:9.20
+    container_name: dns_internal
+    networks:
+      - internal_network
+    depends_on:
+      - dns_public
+      - firewall
+    environment:
+      - TZ=UTC
+    cap_add:
+      - NET_ADMIN
+    privileged: true 
+    volumes:
+      - ./dns_internal/etc/bind:/etc/bind
+      - ./dns_internal/var/cache/bind:/var/cache/bind
+      - ./dns_internal/var/lib/bind:/var/lib/bind
+      - ./dns_internal/var/log:/var/log
+      - ./dns_internal/start.sh:/start.sh
+      - ./shared-data:/shared-data  
+    tmpfs:
+      - /run/named
+    entrypoint: ["/bin/sh", "-c", "/start.sh"]
+
+
+
+  # Public Network
+  dns_public:
+    image: internetsystemsconsortium/bind9:9.20
+    container_name: dns_public
+    networks:
+      - public_network
+    depends_on:
+      - firewall
+    environment:
+      - TZ=UTC
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./dns_public/etc/bind:/etc/bind
+      - ./dns_public/var/cache/bind:/var/cache/bind
+      - ./dns_public/var/lib/bind:/var/lib/bind
+      - ./dns_public/var/log:/var/log
+      - ./dns_public/start.sh:/start.sh
+      - ./shared-data:/shared-data  
+    tmpfs:
+      - /run/named
+    entrypoint: ["/bin/sh", "-c", "/start.sh"]
+
+  c2_server:
+#    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: c2_server/Dockerfile
+#      args:
+#        - TARGETPLATFORM=linux/amd64
+    privileged: true
+    container_name: c2_server
+    networks:
+      - public_network
+    ports:
+      - "8888:8888"
+      - "8443:8443"
+      - "31337:31337"
+    volumes:
+      - ./shared-data:/shared-data  
+    tty: true
+    stdin_open: true
+
+
+  webserver:
+    image: nginx
+    container_name: webserver
+    networks:
+      - public_network
+    volumes:
+      - ./web_content:/usr/share/nginx/html
+
+
+
+networks:
+  internal_network:
+    driver: bridge
+  public_network:
+    driver: bridge

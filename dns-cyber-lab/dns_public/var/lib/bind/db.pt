@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.pt. admin.pt. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.pt.
+@   IN  NS  ns2.pt.
+ns1.pt. IN A 10.0.0.1
+ns2.pt. IN A 10.0.0.2
+google IN A 61.28.107.30
+sapo IN A 44.75.12.77
+vodafone IN A 74.222.160.76
+vodafone IN A 186.142.240.245
+vodafone IN A 191.86.235.29

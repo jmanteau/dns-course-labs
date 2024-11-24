@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.uk. admin.uk. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.uk.
+@   IN  NS  ns2.uk.
+ns1.uk. IN A 10.0.0.1
+ns2.uk. IN A 10.0.0.2
+ac IN A 128.128.70.217
+ac IN A 22.113.178.156
+me IN A 127.146.135.208
+nhs IN A 204.49.73.106
+nhs IN A 64.234.255.116

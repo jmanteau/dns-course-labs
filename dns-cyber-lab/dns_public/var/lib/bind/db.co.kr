@@ -1,0 +1,23 @@
+$TTL 86400
+@   IN  SOA ns1.co.kr. admin.co.kr. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.co.kr.
+@   IN  NS  ns2.co.kr.
+ns1.co.kr. IN A 10.0.0.1
+ns2.co.kr. IN A 10.0.0.2
+admixer IN A 159.31.211.146
+google IN A 179.119.191.246
+moack IN A 221.196.111.227
+nexoncdn IN A 105.22.168.11
+pavv IN A 52.144.111.47
+sooplive IN A 58.6.106.210
+sooplive IN A 157.38.132.217
+sooplive IN A 129.193.216.80
+tpmn IN A 195.227.247.125
+whois IN A 208.14.94.127
+whois IN A 172.250.40.60

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Answer Encoder Utility</title>
+    <style>
+        /* CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+
+        button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+        }
+
+        .encoded-output {
+            background-color: #f4f4f4;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Answer Encoder Utility</h1>
+
+    <label for="answer">Enter the answer to encode (HTML styling is allowed):</label>
+    <textarea id="answer" rows="5"></textarea>
+
+    <label for="password">Enter the password:</label>
+    <input type="password" id="password">
+
+    <button onclick="encodeAnswer()">Encode Answer</button>
+
+    <h2>Encoded Answer:</h2>
+    <div id="encodedOutput" class="encoded-output"></div>
+
+    <script>
+        function encodeAnswer() {
+            const text = document.getElementById('answer').value;
+            const password = document.getElementById('password').value;
+
+            if (!text || !password) {
+                alert('Please enter both the answer and the password.');
+                return;
+            }
+
+            const encodedText = xorCipher(text, password);
+            const base64Encoded = btoa(encodedText);
+            document.getElementById('encodedOutput').textContent = base64Encoded;
+        }
+
+        function xorCipher(text, key) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                result += String.fromCharCode(charCode);
+            }
+            return result;
+        }
+    </script>
+
+</body>
+
+</html>

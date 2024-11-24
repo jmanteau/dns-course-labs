@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.hu. admin.hu. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.hu.
+@   IN  NS  ns2.hu.
+ns1.hu. IN A 10.0.0.1
+ns2.hu. IN A 10.0.0.2
+google IN A 73.9.226.60
+google IN A 52.78.178.92
+google IN A 87.30.115.234

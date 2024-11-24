@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.stream. admin.stream. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.stream.
+@   IN  NS  ns2.stream.
+ns1.stream. IN A 10.0.0.1
+ns2.stream. IN A 10.0.0.2
+moneroocean IN A 55.139.154.0
+moneroocean IN A 105.23.212.176
+moneroocean IN A 1.247.145.85
+plxcdn IN A 133.209.178.126
+xhamsterlive IN A 29.148.103.100
+xhlive IN A 191.75.70.17

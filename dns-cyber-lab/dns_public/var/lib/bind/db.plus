@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.plus. admin.plus. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.plus.
+@   IN  NS  ns2.plus.
+ns1.plus. IN A 10.0.0.1
+ns2.plus. IN A 10.0.0.2
+kucoin IN A 106.161.148.156
+toolmatrix IN A 202.94.137.125
+toolmatrix IN A 77.70.3.95

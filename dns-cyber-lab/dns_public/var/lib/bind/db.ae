@@ -1,0 +1,19 @@
+$TTL 86400
+@   IN  SOA ns1.ae. admin.ae. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ae.
+@   IN  NS  ns2.ae.
+ns1.ae. IN A 10.0.0.1
+ns2.ae. IN A 10.0.0.2
+amazon IN A 122.194.166.51
+amazon IN A 220.255.253.18
+amazon IN A 92.78.145.183
+etisalat IN A 80.54.14.15
+google IN A 194.201.50.66
+google IN A 39.223.64.108
+google IN A 171.240.215.128

@@ -1,0 +1,28 @@
+$TTL 86400
+@   IN  SOA ns1.se. admin.se. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.se.
+@   IN  NS  ns2.se.
+ns1.se. IN A 10.0.0.1
+ns2.se. IN A 10.0.0.2
+aftonbladet IN A 35.181.79.129
+amazon IN A 153.26.242.189
+bahnhof IN A 2.110.223.39
+google IN A 38.45.160.50
+netnod IN A 116.218.220.121
+netnod IN A 113.60.41.100
+ntp IN A 132.77.107.50
+ntp IN A 149.107.112.233
+pomf IN A 130.231.121.81
+pomf IN A 182.176.144.161
+rixtelecom IN A 146.148.53.22
+rixtelecom IN A 125.87.149.166
+rixtelecom IN A 207.23.23.6
+seenthis IN A 178.204.87.237
+tele2 IN A 43.177.236.234
+tele2 IN A 127.35.129.51

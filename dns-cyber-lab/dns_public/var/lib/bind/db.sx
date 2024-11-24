@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.sx. admin.sx. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.sx.
+@   IN  NS  ns2.sx.
+ns1.sx. IN A 10.0.0.1
+ns2.sx. IN A 10.0.0.2
+filemoon IN A 23.165.114.58
+filemoon IN A 132.194.87.205
+filemoon IN A 41.72.154.128
+voe IN A 129.19.204.17

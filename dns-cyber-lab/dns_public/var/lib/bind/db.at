@@ -1,0 +1,21 @@
+$TTL 86400
+@   IN  SOA ns1.at. admin.at. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.at.
+@   IN  NS  ns2.at.
+ns1.at. IN A 10.0.0.1
+ns2.at. IN A 10.0.0.2
+ac IN A 220.98.152.41
+ad4m IN A 183.65.132.181
+ad4m IN A 140.145.251.68
+google IN A 118.97.222.215
+google IN A 58.34.251.176
+google IN A 15.28.219.30
+gotoassist IN A 115.172.58.30
+lieferando IN A 215.142.221.14
+waust IN A 111.77.154.121
