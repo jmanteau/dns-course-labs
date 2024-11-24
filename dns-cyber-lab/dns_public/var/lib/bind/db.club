@@ -1,0 +1,25 @@
+$TTL 86400
+@   IN  SOA ns1.club. admin.club. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.club.
+@   IN  NS  ns2.club.
+ns1.club. IN A 10.0.0.1
+ns2.club. IN A 10.0.0.2
+adbeat IN A 220.228.210.129
+adbeat IN A 124.8.151.216
+adbeat IN A 173.230.22.161
+be100a IN A 167.171.86.207
+hfdfyrqj-ws IN A 40.176.3.47
+memefi IN A 215.41.218.108
+moonburrow IN A 78.165.2.216
+moonburrow IN A 36.61.148.81
+musicdream IN A 55.99.214.101
+myporn IN A 132.56.55.204
+redplaybox IN A 170.180.124.173
+richardsw IN A 91.23.141.229
+tapswap IN A 158.120.245.89

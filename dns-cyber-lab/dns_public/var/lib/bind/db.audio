@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.audio. admin.audio. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.audio.
+@   IN  NS  ns2.audio.
+ns1.audio. IN A 10.0.0.1
+ns2.audio. IN A 10.0.0.2
+cast4 IN A 190.10.189.136
+cast4 IN A 108.67.76.148
+instant IN A 163.126.220.80

@@ -1,0 +1,19 @@
+$TTL 86400
+@   IN  SOA ns1.aws. admin.aws. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.aws.
+@   IN  NS  ns2.aws.
+ns1.aws. IN A 10.0.0.1
+ns2.aws. IN A 10.0.0.2
+api IN A 55.126.7.71
+chime IN A 70.98.228.214
+chime IN A 150.72.45.142
+chime IN A 172.69.9.93
+connect IN A 108.153.1.105
+on IN A 10.198.82.24
+on IN A 16.39.253.36

@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.ninja. admin.ninja. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ninja.
+@   IN  NS  ns2.ninja.
+ns1.ninja. IN A 10.0.0.1
+ns2.ninja. IN A 10.0.0.2
+flashscore IN A 10.132.19.54

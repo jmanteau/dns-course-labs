@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.vg. admin.vg. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.vg.
+@   IN  NS  ns2.vg.
+ns1.vg. IN A 10.0.0.1
+ns2.vg. IN A 10.0.0.2
+google IN A 59.41.218.66
+google IN A 174.233.179.28
+google IN A 162.222.20.109
+pn IN A 214.34.24.108
+pn IN A 152.208.250.192
+pn IN A 19.142.217.128

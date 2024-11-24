@@ -1,0 +1,24 @@
+$TTL 86400
+@   IN  SOA ns1.games. admin.games. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.games.
+@   IN  NS  ns2.games.
+ns1.games. IN A 10.0.0.1
+ns2.games. IN A 10.0.0.2
+a8r IN A 68.232.57.22
+a8r IN A 35.4.32.177
+familyisland IN A 25.4.151.160
+gx IN A 150.157.131.51
+gx IN A 78.33.182.75
+gx IN A 138.41.158.158
+gxcorner IN A 31.219.0.62
+gxcorner IN A 213.245.167.147
+gxcorner IN A 123.225.210.131
+my IN A 52.174.132.96
+playsimple IN A 34.63.127.114
+yalla IN A 117.181.192.93

@@ -1,0 +1,29 @@
+$TTL 86400
+@   IN  SOA ns1.edu. admin.edu. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.edu.
+@   IN  NS  ns2.edu.
+ns1.edu. IN A 10.0.0.1
+ns2.edu. IN A 10.0.0.2
+academia IN A 34.161.16.130
+academia IN A 188.187.73.44
+berkeley IN A 170.231.214.111
+berkeley IN A 10.72.58.109
+berkeley IN A 134.26.11.61
+colorado IN A 217.235.168.71
+cornell IN A 214.243.227.56
+harvard IN A 3.72.160.106
+harvard IN A 132.86.14.133
+harvard IN A 104.194.132.180
+mit IN A 162.91.190.6
+mit IN A 161.105.249.41
+stanford IN A 190.184.177.114
+ucdavis IN A 59.5.88.195
+ucsd IN A 42.14.105.244
+umn IN A 192.62.228.59
+wisc IN A 109.218.110.9

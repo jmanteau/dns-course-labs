@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.software. admin.software. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.software.
+@   IN  NS  ns2.software.
+ns1.software. IN A 10.0.0.1
+ns2.software. IN A 10.0.0.2
+opera IN A 11.39.221.151
+opera IN A 217.49.26.31
+vigo IN A 39.139.199.210

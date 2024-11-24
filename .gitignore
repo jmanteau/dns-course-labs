@@ -1,0 +1,5 @@
+dns-cyber-lab/toplist/dns_config/
+.DS_Store
+dns-cyber-lab/shared-data/*
+!dns-cyber-lab/shared-data/dnslist.txt
+dns-cyber-lab/dns_internal/var/log/

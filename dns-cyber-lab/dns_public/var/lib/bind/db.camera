@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.camera. admin.camera. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.camera.
+@   IN  NS  ns2.camera.
+ns1.camera. IN A 10.0.0.1
+ns2.camera. IN A 10.0.0.2
+whale IN A 32.26.228.96
+whale IN A 207.77.4.124
+whale IN A 43.112.132.70

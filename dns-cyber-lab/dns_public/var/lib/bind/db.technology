@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.technology. admin.technology. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.technology.
+@   IN  NS  ns2.technology.
+ns1.technology. IN A 10.0.0.1
+ns2.technology. IN A 10.0.0.2
+codefusion IN A 204.68.12.200
+opera IN A 147.150.162.109
+opera IN A 7.159.227.119
+sizebay IN A 209.160.160.119

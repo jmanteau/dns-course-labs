@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.by. admin.by. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.by.
+@   IN  NS  ns2.by.
+ns1.by. IN A 10.0.0.1
+ns2.by. IN A 10.0.0.2
+google IN A 175.214.245.237
+mts IN A 125.164.193.4
+yandex IN A 84.32.147.199

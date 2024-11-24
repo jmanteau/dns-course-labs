@@ -1,0 +1,20 @@
+$TTL 86400
+@   IN  SOA ns1.world. admin.world. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.world.
+@   IN  NS  ns2.world.
+ns1.world. IN A 10.0.0.1
+ns2.world. IN A 10.0.0.2
+adjust IN A 210.165.199.235
+dewrain IN A 107.206.1.9
+edgecdn IN A 162.36.6.239
+provpn IN A 133.26.203.26
+provpn IN A 168.151.170.114
+wiz IN A 65.84.210.20
+xhcrowd IN A 168.61.120.36
+xhcrowd IN A 33.232.157.91

@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.best. admin.best. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.best.
+@   IN  NS  ns2.best.
+ns1.best. IN A 10.0.0.1
+ns2.best. IN A 10.0.0.2
+kinogram IN A 160.231.159.219
+kinogram IN A 26.7.28.206

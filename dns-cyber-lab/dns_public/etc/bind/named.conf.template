@@ -1,0 +1,2370 @@
+options {
+    directory "/var/cache/bind";
+    
+    // Listen on all interfaces (both IPv4 and IPv6)
+    listen-on { any; };
+    listen-on-v6 { any; };
+
+    recursion yes;
+    allow-recursion { any; };
+
+    // Disable fetching of DNSKEYs 
+    dnssec-validation no;
+
+    allow-query { any; };
+
+    // Disable zone transfers and dynamic updates
+    allow-transfer { none; };
+    allow-update { none; };
+
+    // Set maximum response size for EDNS over UDP
+    edns-udp-size 65535;
+    max-udp-size 65535;
+};
+
+include "/etc/bind/rndc.key"; 
+
+controls {
+    inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };
+};
+
+
+// Zones configuration
+
+
+zone "com" {
+    type primary;
+    file "/var/lib/bind/db.com";
+    allow-query { any; };
+};
+
+zone "commandcontrol.com" {
+    type primary;
+    file "/var/lib/bind/db.commandcontrol.com";
+    allow-query { any; };
+};
+
+zone "s.commandcontrol.com" {
+    type forward;
+    forward only;
+    forwarders { 127.0.0.2; };
+};
+
+zone "example.com." {
+    type primary;
+    file "/var/lib/bind/db.example.com";
+    allow-query { any; };
+};
+
+
+
+zone "io" {
+    type primary;
+    file "/var/lib/bind/db.io";
+    allow-query { any; };
+};
+
+zone "site" {
+    type primary;
+    file "/var/lib/bind/db.site";
+    allow-query { any; };
+};
+
+zone "cn" {
+    type primary;
+    file "/var/lib/bind/db.cn";
+    allow-query { any; };
+};
+
+zone "com.cn" {
+    type primary;
+    file "/var/lib/bind/db.com.cn";
+    allow-query { any; };
+};
+
+zone "vn" {
+    type primary;
+    file "/var/lib/bind/db.vn";
+    allow-query { any; };
+};
+
+zone "net" {
+    type primary;
+    file "/var/lib/bind/db.net";
+    allow-query { any; };
+};
+
+zone "to" {
+    type primary;
+    file "/var/lib/bind/db.to";
+    allow-query { any; };
+};
+
+zone "vip" {
+    type primary;
+    file "/var/lib/bind/db.vip";
+    allow-query { any; };
+};
+
+zone "ru" {
+    type primary;
+    file "/var/lib/bind/db.ru";
+    allow-query { any; };
+};
+
+zone "de" {
+    type primary;
+    file "/var/lib/bind/db.de";
+    allow-query { any; };
+};
+
+zone "cc" {
+    type primary;
+    file "/var/lib/bind/db.cc";
+    allow-query { any; };
+};
+
+zone "online" {
+    type primary;
+    file "/var/lib/bind/db.online";
+    allow-query { any; };
+};
+
+zone "info" {
+    type primary;
+    file "/var/lib/bind/db.info";
+    allow-query { any; };
+};
+
+zone "org" {
+    type primary;
+    file "/var/lib/bind/db.org";
+    allow-query { any; };
+};
+
+zone "xyz" {
+    type primary;
+    file "/var/lib/bind/db.xyz";
+    allow-query { any; };
+};
+
+zone "us" {
+    type primary;
+    file "/var/lib/bind/db.us";
+    allow-query { any; };
+};
+
+zone "xxx" {
+    type primary;
+    file "/var/lib/bind/db.xxx";
+    allow-query { any; };
+};
+
+zone "la" {
+    type primary;
+    file "/var/lib/bind/db.la";
+    allow-query { any; };
+};
+
+zone "jp" {
+    type primary;
+    file "/var/lib/bind/db.jp";
+    allow-query { any; };
+};
+
+zone "top" {
+    type primary;
+    file "/var/lib/bind/db.top";
+    allow-query { any; };
+};
+
+zone "co" {
+    type primary;
+    file "/var/lib/bind/db.co";
+    allow-query { any; };
+};
+
+zone "bet" {
+    type primary;
+    file "/var/lib/bind/db.bet";
+    allow-query { any; };
+};
+
+zone "app" {
+    type primary;
+    file "/var/lib/bind/db.app";
+    allow-query { any; };
+};
+
+zone "gg" {
+    type primary;
+    file "/var/lib/bind/db.gg";
+    allow-query { any; };
+};
+
+zone "cloud" {
+    type primary;
+    file "/var/lib/bind/db.cloud";
+    allow-query { any; };
+};
+
+zone "click" {
+    type primary;
+    file "/var/lib/bind/db.click";
+    allow-query { any; };
+};
+
+zone "google" {
+    type primary;
+    file "/var/lib/bind/db.google";
+    allow-query { any; };
+};
+
+zone "vc" {
+    type primary;
+    file "/var/lib/bind/db.vc";
+    allow-query { any; };
+};
+
+zone "homes" {
+    type primary;
+    file "/var/lib/bind/db.homes";
+    allow-query { any; };
+};
+
+zone "mobi" {
+    type primary;
+    file "/var/lib/bind/db.mobi";
+    allow-query { any; };
+};
+
+zone "games" {
+    type primary;
+    file "/var/lib/bind/db.games";
+    allow-query { any; };
+};
+
+zone "net.au" {
+    type primary;
+    file "/var/lib/bind/db.net.au";
+    allow-query { any; };
+};
+
+zone "ch" {
+    type primary;
+    file "/var/lib/bind/db.ch";
+    allow-query { any; };
+};
+
+zone "at" {
+    type primary;
+    file "/var/lib/bind/db.at";
+    allow-query { any; };
+};
+
+zone "id" {
+    type primary;
+    file "/var/lib/bind/db.id";
+    allow-query { any; };
+};
+
+zone "in" {
+    type primary;
+    file "/var/lib/bind/db.in";
+    allow-query { any; };
+};
+
+zone "ir" {
+    type primary;
+    file "/var/lib/bind/db.ir";
+    allow-query { any; };
+};
+
+zone "kr" {
+    type primary;
+    file "/var/lib/bind/db.kr";
+    allow-query { any; };
+};
+
+zone "th" {
+    type primary;
+    file "/var/lib/bind/db.th";
+    allow-query { any; };
+};
+
+zone "uk" {
+    type primary;
+    file "/var/lib/bind/db.uk";
+    allow-query { any; };
+};
+
+zone "edu" {
+    type primary;
+    file "/var/lib/bind/db.edu";
+    allow-query { any; };
+};
+
+zone "gov.br" {
+    type primary;
+    file "/var/lib/bind/db.gov.br";
+    allow-query { any; };
+};
+
+zone "rip" {
+    type primary;
+    file "/var/lib/bind/db.rip";
+    allow-query { any; };
+};
+
+zone "cz" {
+    type primary;
+    file "/var/lib/bind/db.cz";
+    allow-query { any; };
+};
+
+zone "it" {
+    type primary;
+    file "/var/lib/bind/db.it";
+    allow-query { any; };
+};
+
+zone "asia" {
+    type primary;
+    file "/var/lib/bind/db.asia";
+    allow-query { any; };
+};
+
+zone "gt" {
+    type primary;
+    file "/var/lib/bind/db.gt";
+    allow-query { any; };
+};
+
+zone "support" {
+    type primary;
+    file "/var/lib/bind/db.support";
+    allow-query { any; };
+};
+
+zone "club" {
+    type primary;
+    file "/var/lib/bind/db.club";
+    allow-query { any; };
+};
+
+zone "dev" {
+    type primary;
+    file "/var/lib/bind/db.dev";
+    allow-query { any; };
+};
+
+zone "me" {
+    type primary;
+    file "/var/lib/bind/db.me";
+    allow-query { any; };
+};
+
+zone "co.in" {
+    type primary;
+    file "/var/lib/bind/db.co.in";
+    allow-query { any; };
+};
+
+zone "tech" {
+    type primary;
+    file "/var/lib/bind/db.tech";
+    allow-query { any; };
+};
+
+zone "st" {
+    type primary;
+    file "/var/lib/bind/db.st";
+    allow-query { any; };
+};
+
+zone "zone" {
+    type primary;
+    file "/var/lib/bind/db.zone";
+    allow-query { any; };
+};
+
+zone "media" {
+    type primary;
+    file "/var/lib/bind/db.media";
+    allow-query { any; };
+};
+
+zone "net.in" {
+    type primary;
+    file "/var/lib/bind/db.net.in";
+    allow-query { any; };
+};
+
+zone "world" {
+    type primary;
+    file "/var/lib/bind/db.world";
+    allow-query { any; };
+};
+
+zone "space" {
+    type primary;
+    file "/var/lib/bind/db.space";
+    allow-query { any; };
+};
+
+zone "com.tr" {
+    type primary;
+    file "/var/lib/bind/db.com.tr";
+    allow-query { any; };
+};
+
+zone "co.kr" {
+    type primary;
+    file "/var/lib/bind/db.co.kr";
+    allow-query { any; };
+};
+
+zone "pl" {
+    type primary;
+    file "/var/lib/bind/db.pl";
+    allow-query { any; };
+};
+
+zone "pro" {
+    type primary;
+    file "/var/lib/bind/db.pro";
+    allow-query { any; };
+};
+
+zone "tv" {
+    type primary;
+    file "/var/lib/bind/db.tv";
+    allow-query { any; };
+};
+
+zone "re" {
+    type primary;
+    file "/var/lib/bind/db.re";
+    allow-query { any; };
+};
+
+zone "ai" {
+    type primary;
+    file "/var/lib/bind/db.ai";
+    allow-query { any; };
+};
+
+zone "co.uk" {
+    type primary;
+    file "/var/lib/bind/db.co.uk";
+    allow-query { any; };
+};
+
+zone "com.ru" {
+    type primary;
+    file "/var/lib/bind/db.com.ru";
+    allow-query { any; };
+};
+
+zone "services" {
+    type primary;
+    file "/var/lib/bind/db.services";
+    allow-query { any; };
+};
+
+zone "se" {
+    type primary;
+    file "/var/lib/bind/db.se";
+    allow-query { any; };
+};
+
+zone "goog" {
+    type primary;
+    file "/var/lib/bind/db.goog";
+    allow-query { any; };
+};
+
+zone "fm" {
+    type primary;
+    file "/var/lib/bind/db.fm";
+    allow-query { any; };
+};
+
+zone "gs" {
+    type primary;
+    file "/var/lib/bind/db.gs";
+    allow-query { any; };
+};
+
+zone "systems" {
+    type primary;
+    file "/var/lib/bind/db.systems";
+    allow-query { any; };
+};
+
+zone "ms" {
+    type primary;
+    file "/var/lib/bind/db.ms";
+    allow-query { any; };
+};
+
+zone "com.br" {
+    type primary;
+    file "/var/lib/bind/db.com.br";
+    allow-query { any; };
+};
+
+zone "ac" {
+    type primary;
+    file "/var/lib/bind/db.ac";
+    allow-query { any; };
+};
+
+zone "works" {
+    type primary;
+    file "/var/lib/bind/db.works";
+    allow-query { any; };
+};
+
+zone "inc" {
+    type primary;
+    file "/var/lib/bind/db.inc";
+    allow-query { any; };
+};
+
+zone "ae" {
+    type primary;
+    file "/var/lib/bind/db.ae";
+    allow-query { any; };
+};
+
+zone "ca" {
+    type primary;
+    file "/var/lib/bind/db.ca";
+    allow-query { any; };
+};
+
+zone "co.jp" {
+    type primary;
+    file "/var/lib/bind/db.co.jp";
+    allow-query { any; };
+};
+
+zone "com.au" {
+    type primary;
+    file "/var/lib/bind/db.com.au";
+    allow-query { any; };
+};
+
+zone "com.mx" {
+    type primary;
+    file "/var/lib/bind/db.com.mx";
+    allow-query { any; };
+};
+
+zone "eg" {
+    type primary;
+    file "/var/lib/bind/db.eg";
+    allow-query { any; };
+};
+
+zone "es" {
+    type primary;
+    file "/var/lib/bind/db.es";
+    allow-query { any; };
+};
+
+zone "eu" {
+    type primary;
+    file "/var/lib/bind/db.eu";
+    allow-query { any; };
+};
+
+zone "fr" {
+    type primary;
+    file "/var/lib/bind/db.fr";
+    allow-query { any; };
+};
+
+zone "nl" {
+    type primary;
+    file "/var/lib/bind/db.nl";
+    allow-query { any; };
+};
+
+zone "sa" {
+    type primary;
+    file "/var/lib/bind/db.sa";
+    allow-query { any; };
+};
+
+zone "work" {
+    type primary;
+    file "/var/lib/bind/db.work";
+    allow-query { any; };
+};
+
+zone "moe" {
+    type primary;
+    file "/var/lib/bind/db.moe";
+    allow-query { any; };
+};
+
+zone "farm" {
+    type primary;
+    file "/var/lib/bind/db.farm";
+    allow-query { any; };
+};
+
+zone "aws" {
+    type primary;
+    file "/var/lib/bind/db.aws";
+    allow-query { any; };
+};
+
+zone "br" {
+    type primary;
+    file "/var/lib/bind/db.br";
+    allow-query { any; };
+};
+
+zone "delivery" {
+    type primary;
+    file "/var/lib/bind/db.delivery";
+    allow-query { any; };
+};
+
+zone "link" {
+    type primary;
+    file "/var/lib/bind/db.link";
+    allow-query { any; };
+};
+
+zone "news" {
+    type primary;
+    file "/var/lib/bind/db.news";
+    allow-query { any; };
+};
+
+zone "mil" {
+    type primary;
+    file "/var/lib/bind/db.mil";
+    allow-query { any; };
+};
+
+zone "im" {
+    type primary;
+    file "/var/lib/bind/db.im";
+    allow-query { any; };
+};
+
+zone "art" {
+    type primary;
+    file "/var/lib/bind/db.art";
+    allow-query { any; };
+};
+
+zone "fox" {
+    type primary;
+    file "/var/lib/bind/db.fox";
+    allow-query { any; };
+};
+
+zone "network" {
+    type primary;
+    file "/var/lib/bind/db.network";
+    allow-query { any; };
+};
+
+zone "gov" {
+    type primary;
+    file "/var/lib/bind/db.gov";
+    allow-query { any; };
+};
+
+zone "host" {
+    type primary;
+    file "/var/lib/bind/db.host";
+    allow-query { any; };
+};
+
+zone "bradesco" {
+    type primary;
+    file "/var/lib/bind/db.bradesco";
+    allow-query { any; };
+};
+
+zone "co.id" {
+    type primary;
+    file "/var/lib/bind/db.co.id";
+    allow-query { any; };
+};
+
+zone "li" {
+    type primary;
+    file "/var/lib/bind/db.li";
+    allow-query { any; };
+};
+
+zone "biz" {
+    type primary;
+    file "/var/lib/bind/db.biz";
+    allow-query { any; };
+};
+
+zone "co.il" {
+    type primary;
+    file "/var/lib/bind/db.co.il";
+    allow-query { any; };
+};
+
+zone "sg" {
+    type primary;
+    file "/var/lib/bind/db.sg";
+    allow-query { any; };
+};
+
+zone "so" {
+    type primary;
+    file "/var/lib/bind/db.so";
+    allow-query { any; };
+};
+
+zone "ly" {
+    type primary;
+    file "/var/lib/bind/db.ly";
+    allow-query { any; };
+};
+
+zone "fun" {
+    type primary;
+    file "/var/lib/bind/db.fun";
+    allow-query { any; };
+};
+
+zone "life" {
+    type primary;
+    file "/var/lib/bind/db.life";
+    allow-query { any; };
+};
+
+zone "pw" {
+    type primary;
+    file "/var/lib/bind/db.pw";
+    allow-query { any; };
+};
+
+zone "sh" {
+    type primary;
+    file "/var/lib/bind/db.sh";
+    allow-query { any; };
+};
+
+zone "codes" {
+    type primary;
+    file "/var/lib/bind/db.codes";
+    allow-query { any; };
+};
+
+zone "pm" {
+    type primary;
+    file "/var/lib/bind/db.pm";
+    allow-query { any; };
+};
+
+zone "show" {
+    type primary;
+    file "/var/lib/bind/db.show";
+    allow-query { any; };
+};
+
+zone "social" {
+    type primary;
+    file "/var/lib/bind/db.social";
+    allow-query { any; };
+};
+
+zone "bot" {
+    type primary;
+    file "/var/lib/bind/db.bot";
+    allow-query { any; };
+};
+
+zone "audio" {
+    type primary;
+    file "/var/lib/bind/db.audio";
+    allow-query { any; };
+};
+
+zone "house" {
+    type primary;
+    file "/var/lib/bind/db.house";
+    allow-query { any; };
+};
+
+zone "live" {
+    type primary;
+    file "/var/lib/bind/db.live";
+    allow-query { any; };
+};
+
+zone "ml" {
+    type primary;
+    file "/var/lib/bind/db.ml";
+    allow-query { any; };
+};
+
+zone "com.com" {
+    type primary;
+    file "/var/lib/bind/db.com.com";
+    allow-query { any; };
+};
+
+zone "gov.cn" {
+    type primary;
+    file "/var/lib/bind/db.gov.cn";
+    allow-query { any; };
+};
+
+zone "page" {
+    type primary;
+    file "/var/lib/bind/db.page";
+    allow-query { any; };
+};
+
+zone "globo" {
+    type primary;
+    file "/var/lib/bind/db.globo";
+    allow-query { any; };
+};
+
+zone "microsoft" {
+    type primary;
+    file "/var/lib/bind/db.microsoft";
+    allow-query { any; };
+};
+
+zone "sap" {
+    type primary;
+    file "/var/lib/bind/db.sap";
+    allow-query { any; };
+};
+
+zone "management" {
+    type primary;
+    file "/var/lib/bind/db.management";
+    allow-query { any; };
+};
+
+zone "my" {
+    type primary;
+    file "/var/lib/bind/db.my";
+    allow-query { any; };
+};
+
+zone "technology" {
+    type primary;
+    file "/var/lib/bind/db.technology";
+    allow-query { any; };
+};
+
+zone "ltd" {
+    type primary;
+    file "/var/lib/bind/db.ltd";
+    allow-query { any; };
+};
+
+zone "digital" {
+    type primary;
+    file "/var/lib/bind/db.digital";
+    allow-query { any; };
+};
+
+zone "su" {
+    type primary;
+    file "/var/lib/bind/db.su";
+    allow-query { any; };
+};
+
+zone "tk" {
+    type primary;
+    file "/var/lib/bind/db.tk";
+    allow-query { any; };
+};
+
+zone "is" {
+    type primary;
+    file "/var/lib/bind/db.is";
+    allow-query { any; };
+};
+
+zone "chat" {
+    type primary;
+    file "/var/lib/bind/db.chat";
+    allow-query { any; };
+};
+
+zone "cx" {
+    type primary;
+    file "/var/lib/bind/db.cx";
+    allow-query { any; };
+};
+
+zone "com.bd" {
+    type primary;
+    file "/var/lib/bind/db.com.bd";
+    allow-query { any; };
+};
+
+zone "pk" {
+    type primary;
+    file "/var/lib/bind/db.pk";
+    allow-query { any; };
+};
+
+zone "net.cn" {
+    type primary;
+    file "/var/lib/bind/db.net.cn";
+    allow-query { any; };
+};
+
+zone "industries" {
+    type primary;
+    file "/var/lib/bind/db.industries";
+    allow-query { any; };
+};
+
+zone "si" {
+    type primary;
+    file "/var/lib/bind/db.si";
+    allow-query { any; };
+};
+
+zone "net.id" {
+    type primary;
+    file "/var/lib/bind/db.net.id";
+    allow-query { any; };
+};
+
+zone "solutions" {
+    type primary;
+    file "/var/lib/bind/db.solutions";
+    allow-query { any; };
+};
+
+zone "shop" {
+    type primary;
+    file "/var/lib/bind/db.shop";
+    allow-query { any; };
+};
+
+zone "be" {
+    type primary;
+    file "/var/lib/bind/db.be";
+    allow-query { any; };
+};
+
+zone "sb" {
+    type primary;
+    file "/var/lib/bind/db.sb";
+    allow-query { any; };
+};
+
+zone "pub" {
+    type primary;
+    file "/var/lib/bind/db.pub";
+    allow-query { any; };
+};
+
+zone "name" {
+    type primary;
+    file "/var/lib/bind/db.name";
+    allow-query { any; };
+};
+
+zone "cl" {
+    type primary;
+    file "/var/lib/bind/db.cl";
+    allow-query { any; };
+};
+
+zone "sk" {
+    type primary;
+    file "/var/lib/bind/db.sk";
+    allow-query { any; };
+};
+
+zone "apple" {
+    type primary;
+    file "/var/lib/bind/db.apple";
+    allow-query { any; };
+};
+
+zone "video" {
+    type primary;
+    file "/var/lib/bind/db.video";
+    allow-query { any; };
+};
+
+zone "ws" {
+    type primary;
+    file "/var/lib/bind/db.ws";
+    allow-query { any; };
+};
+
+zone "co.za" {
+    type primary;
+    file "/var/lib/bind/db.co.za";
+    allow-query { any; };
+};
+
+zone "net.co" {
+    type primary;
+    file "/var/lib/bind/db.net.co";
+    allow-query { any; };
+};
+
+zone "gov.uk" {
+    type primary;
+    file "/var/lib/bind/db.gov.uk";
+    allow-query { any; };
+};
+
+zone "sx" {
+    type primary;
+    file "/var/lib/bind/db.sx";
+    allow-query { any; };
+};
+
+zone "ag" {
+    type primary;
+    file "/var/lib/bind/db.ag";
+    allow-query { any; };
+};
+
+zone "no" {
+    type primary;
+    file "/var/lib/bind/db.no";
+    allow-query { any; };
+};
+
+zone "ninja" {
+    type primary;
+    file "/var/lib/bind/db.ninja";
+    allow-query { any; };
+};
+
+zone "studio" {
+    type primary;
+    file "/var/lib/bind/db.studio";
+    allow-query { any; };
+};
+
+zone "buzz" {
+    type primary;
+    file "/var/lib/bind/db.buzz";
+    allow-query { any; };
+};
+
+zone "gle" {
+    type primary;
+    file "/var/lib/bind/db.gle";
+    allow-query { any; };
+};
+
+zone "monster" {
+    type primary;
+    file "/var/lib/bind/db.monster";
+    allow-query { any; };
+};
+
+zone "ga" {
+    type primary;
+    file "/var/lib/bind/db.ga";
+    allow-query { any; };
+};
+
+zone "rocks" {
+    type primary;
+    file "/var/lib/bind/db.rocks";
+    allow-query { any; };
+};
+
+zone "agency" {
+    type primary;
+    file "/var/lib/bind/db.agency";
+    allow-query { any; };
+};
+
+zone "tools" {
+    type primary;
+    file "/var/lib/bind/db.tools";
+    allow-query { any; };
+};
+
+zone "town" {
+    type primary;
+    file "/var/lib/bind/db.town";
+    allow-query { any; };
+};
+
+zone "onl" {
+    type primary;
+    file "/var/lib/bind/db.onl";
+    allow-query { any; };
+};
+
+zone "pics" {
+    type primary;
+    file "/var/lib/bind/db.pics";
+    allow-query { any; };
+};
+
+zone "build" {
+    type primary;
+    file "/var/lib/bind/db.build";
+    allow-query { any; };
+};
+
+zone "com.ph" {
+    type primary;
+    file "/var/lib/bind/db.com.ph";
+    allow-query { any; };
+};
+
+zone "ke" {
+    type primary;
+    file "/var/lib/bind/db.ke";
+    allow-query { any; };
+};
+
+zone "gl" {
+    type primary;
+    file "/var/lib/bind/db.gl";
+    allow-query { any; };
+};
+
+zone "ad" {
+    type primary;
+    file "/var/lib/bind/db.ad";
+    allow-query { any; };
+};
+
+zone "al" {
+    type primary;
+    file "/var/lib/bind/db.al";
+    allow-query { any; };
+};
+
+zone "am" {
+    type primary;
+    file "/var/lib/bind/db.am";
+    allow-query { any; };
+};
+
+zone "as" {
+    type primary;
+    file "/var/lib/bind/db.as";
+    allow-query { any; };
+};
+
+zone "az" {
+    type primary;
+    file "/var/lib/bind/db.az";
+    allow-query { any; };
+};
+
+zone "ba" {
+    type primary;
+    file "/var/lib/bind/db.ba";
+    allow-query { any; };
+};
+
+zone "bf" {
+    type primary;
+    file "/var/lib/bind/db.bf";
+    allow-query { any; };
+};
+
+zone "bg" {
+    type primary;
+    file "/var/lib/bind/db.bg";
+    allow-query { any; };
+};
+
+zone "bi" {
+    type primary;
+    file "/var/lib/bind/db.bi";
+    allow-query { any; };
+};
+
+zone "bj" {
+    type primary;
+    file "/var/lib/bind/db.bj";
+    allow-query { any; };
+};
+
+zone "bs" {
+    type primary;
+    file "/var/lib/bind/db.bs";
+    allow-query { any; };
+};
+
+zone "bt" {
+    type primary;
+    file "/var/lib/bind/db.bt";
+    allow-query { any; };
+};
+
+zone "by" {
+    type primary;
+    file "/var/lib/bind/db.by";
+    allow-query { any; };
+};
+
+zone "cat" {
+    type primary;
+    file "/var/lib/bind/db.cat";
+    allow-query { any; };
+};
+
+zone "cd" {
+    type primary;
+    file "/var/lib/bind/db.cd";
+    allow-query { any; };
+};
+
+zone "cf" {
+    type primary;
+    file "/var/lib/bind/db.cf";
+    allow-query { any; };
+};
+
+zone "cg" {
+    type primary;
+    file "/var/lib/bind/db.cg";
+    allow-query { any; };
+};
+
+zone "ci" {
+    type primary;
+    file "/var/lib/bind/db.ci";
+    allow-query { any; };
+};
+
+zone "cm" {
+    type primary;
+    file "/var/lib/bind/db.cm";
+    allow-query { any; };
+};
+
+zone "co.ao" {
+    type primary;
+    file "/var/lib/bind/db.co.ao";
+    allow-query { any; };
+};
+
+zone "co.bw" {
+    type primary;
+    file "/var/lib/bind/db.co.bw";
+    allow-query { any; };
+};
+
+zone "co.ck" {
+    type primary;
+    file "/var/lib/bind/db.co.ck";
+    allow-query { any; };
+};
+
+zone "co.cr" {
+    type primary;
+    file "/var/lib/bind/db.co.cr";
+    allow-query { any; };
+};
+
+zone "co.ke" {
+    type primary;
+    file "/var/lib/bind/db.co.ke";
+    allow-query { any; };
+};
+
+zone "co.ls" {
+    type primary;
+    file "/var/lib/bind/db.co.ls";
+    allow-query { any; };
+};
+
+zone "co.ma" {
+    type primary;
+    file "/var/lib/bind/db.co.ma";
+    allow-query { any; };
+};
+
+zone "co.mz" {
+    type primary;
+    file "/var/lib/bind/db.co.mz";
+    allow-query { any; };
+};
+
+zone "co.nz" {
+    type primary;
+    file "/var/lib/bind/db.co.nz";
+    allow-query { any; };
+};
+
+zone "co.th" {
+    type primary;
+    file "/var/lib/bind/db.co.th";
+    allow-query { any; };
+};
+
+zone "co.tz" {
+    type primary;
+    file "/var/lib/bind/db.co.tz";
+    allow-query { any; };
+};
+
+zone "co.ug" {
+    type primary;
+    file "/var/lib/bind/db.co.ug";
+    allow-query { any; };
+};
+
+zone "co.uz" {
+    type primary;
+    file "/var/lib/bind/db.co.uz";
+    allow-query { any; };
+};
+
+zone "co.ve" {
+    type primary;
+    file "/var/lib/bind/db.co.ve";
+    allow-query { any; };
+};
+
+zone "co.vi" {
+    type primary;
+    file "/var/lib/bind/db.co.vi";
+    allow-query { any; };
+};
+
+zone "co.zm" {
+    type primary;
+    file "/var/lib/bind/db.co.zm";
+    allow-query { any; };
+};
+
+zone "co.zw" {
+    type primary;
+    file "/var/lib/bind/db.co.zw";
+    allow-query { any; };
+};
+
+zone "com.af" {
+    type primary;
+    file "/var/lib/bind/db.com.af";
+    allow-query { any; };
+};
+
+zone "com.ag" {
+    type primary;
+    file "/var/lib/bind/db.com.ag";
+    allow-query { any; };
+};
+
+zone "com.ai" {
+    type primary;
+    file "/var/lib/bind/db.com.ai";
+    allow-query { any; };
+};
+
+zone "com.ar" {
+    type primary;
+    file "/var/lib/bind/db.com.ar";
+    allow-query { any; };
+};
+
+zone "com.bh" {
+    type primary;
+    file "/var/lib/bind/db.com.bh";
+    allow-query { any; };
+};
+
+zone "com.bn" {
+    type primary;
+    file "/var/lib/bind/db.com.bn";
+    allow-query { any; };
+};
+
+zone "com.bo" {
+    type primary;
+    file "/var/lib/bind/db.com.bo";
+    allow-query { any; };
+};
+
+zone "com.bz" {
+    type primary;
+    file "/var/lib/bind/db.com.bz";
+    allow-query { any; };
+};
+
+zone "com.co" {
+    type primary;
+    file "/var/lib/bind/db.com.co";
+    allow-query { any; };
+};
+
+zone "com.cu" {
+    type primary;
+    file "/var/lib/bind/db.com.cu";
+    allow-query { any; };
+};
+
+zone "com.cy" {
+    type primary;
+    file "/var/lib/bind/db.com.cy";
+    allow-query { any; };
+};
+
+zone "com.do" {
+    type primary;
+    file "/var/lib/bind/db.com.do";
+    allow-query { any; };
+};
+
+zone "com.ec" {
+    type primary;
+    file "/var/lib/bind/db.com.ec";
+    allow-query { any; };
+};
+
+zone "com.eg" {
+    type primary;
+    file "/var/lib/bind/db.com.eg";
+    allow-query { any; };
+};
+
+zone "com.et" {
+    type primary;
+    file "/var/lib/bind/db.com.et";
+    allow-query { any; };
+};
+
+zone "com.fj" {
+    type primary;
+    file "/var/lib/bind/db.com.fj";
+    allow-query { any; };
+};
+
+zone "com.gh" {
+    type primary;
+    file "/var/lib/bind/db.com.gh";
+    allow-query { any; };
+};
+
+zone "com.gi" {
+    type primary;
+    file "/var/lib/bind/db.com.gi";
+    allow-query { any; };
+};
+
+zone "com.gt" {
+    type primary;
+    file "/var/lib/bind/db.com.gt";
+    allow-query { any; };
+};
+
+zone "com.hk" {
+    type primary;
+    file "/var/lib/bind/db.com.hk";
+    allow-query { any; };
+};
+
+zone "com.jm" {
+    type primary;
+    file "/var/lib/bind/db.com.jm";
+    allow-query { any; };
+};
+
+zone "com.kh" {
+    type primary;
+    file "/var/lib/bind/db.com.kh";
+    allow-query { any; };
+};
+
+zone "com.kw" {
+    type primary;
+    file "/var/lib/bind/db.com.kw";
+    allow-query { any; };
+};
+
+zone "com.lb" {
+    type primary;
+    file "/var/lib/bind/db.com.lb";
+    allow-query { any; };
+};
+
+zone "com.ly" {
+    type primary;
+    file "/var/lib/bind/db.com.ly";
+    allow-query { any; };
+};
+
+zone "com.mm" {
+    type primary;
+    file "/var/lib/bind/db.com.mm";
+    allow-query { any; };
+};
+
+zone "com.mt" {
+    type primary;
+    file "/var/lib/bind/db.com.mt";
+    allow-query { any; };
+};
+
+zone "com.my" {
+    type primary;
+    file "/var/lib/bind/db.com.my";
+    allow-query { any; };
+};
+
+zone "com.na" {
+    type primary;
+    file "/var/lib/bind/db.com.na";
+    allow-query { any; };
+};
+
+zone "com.nf" {
+    type primary;
+    file "/var/lib/bind/db.com.nf";
+    allow-query { any; };
+};
+
+zone "com.ng" {
+    type primary;
+    file "/var/lib/bind/db.com.ng";
+    allow-query { any; };
+};
+
+zone "com.ni" {
+    type primary;
+    file "/var/lib/bind/db.com.ni";
+    allow-query { any; };
+};
+
+zone "com.np" {
+    type primary;
+    file "/var/lib/bind/db.com.np";
+    allow-query { any; };
+};
+
+zone "com.om" {
+    type primary;
+    file "/var/lib/bind/db.com.om";
+    allow-query { any; };
+};
+
+zone "com.pa" {
+    type primary;
+    file "/var/lib/bind/db.com.pa";
+    allow-query { any; };
+};
+
+zone "com.pe" {
+    type primary;
+    file "/var/lib/bind/db.com.pe";
+    allow-query { any; };
+};
+
+zone "com.pg" {
+    type primary;
+    file "/var/lib/bind/db.com.pg";
+    allow-query { any; };
+};
+
+zone "com.pk" {
+    type primary;
+    file "/var/lib/bind/db.com.pk";
+    allow-query { any; };
+};
+
+zone "com.pr" {
+    type primary;
+    file "/var/lib/bind/db.com.pr";
+    allow-query { any; };
+};
+
+zone "com.py" {
+    type primary;
+    file "/var/lib/bind/db.com.py";
+    allow-query { any; };
+};
+
+zone "com.qa" {
+    type primary;
+    file "/var/lib/bind/db.com.qa";
+    allow-query { any; };
+};
+
+zone "com.sa" {
+    type primary;
+    file "/var/lib/bind/db.com.sa";
+    allow-query { any; };
+};
+
+zone "com.sb" {
+    type primary;
+    file "/var/lib/bind/db.com.sb";
+    allow-query { any; };
+};
+
+zone "com.sg" {
+    type primary;
+    file "/var/lib/bind/db.com.sg";
+    allow-query { any; };
+};
+
+zone "com.sl" {
+    type primary;
+    file "/var/lib/bind/db.com.sl";
+    allow-query { any; };
+};
+
+zone "com.sv" {
+    type primary;
+    file "/var/lib/bind/db.com.sv";
+    allow-query { any; };
+};
+
+zone "com.tj" {
+    type primary;
+    file "/var/lib/bind/db.com.tj";
+    allow-query { any; };
+};
+
+zone "com.tw" {
+    type primary;
+    file "/var/lib/bind/db.com.tw";
+    allow-query { any; };
+};
+
+zone "com.ua" {
+    type primary;
+    file "/var/lib/bind/db.com.ua";
+    allow-query { any; };
+};
+
+zone "com.uy" {
+    type primary;
+    file "/var/lib/bind/db.com.uy";
+    allow-query { any; };
+};
+
+zone "com.vc" {
+    type primary;
+    file "/var/lib/bind/db.com.vc";
+    allow-query { any; };
+};
+
+zone "com.vn" {
+    type primary;
+    file "/var/lib/bind/db.com.vn";
+    allow-query { any; };
+};
+
+zone "cv" {
+    type primary;
+    file "/var/lib/bind/db.cv";
+    allow-query { any; };
+};
+
+zone "dj" {
+    type primary;
+    file "/var/lib/bind/db.dj";
+    allow-query { any; };
+};
+
+zone "dk" {
+    type primary;
+    file "/var/lib/bind/db.dk";
+    allow-query { any; };
+};
+
+zone "dm" {
+    type primary;
+    file "/var/lib/bind/db.dm";
+    allow-query { any; };
+};
+
+zone "dz" {
+    type primary;
+    file "/var/lib/bind/db.dz";
+    allow-query { any; };
+};
+
+zone "ee" {
+    type primary;
+    file "/var/lib/bind/db.ee";
+    allow-query { any; };
+};
+
+zone "fi" {
+    type primary;
+    file "/var/lib/bind/db.fi";
+    allow-query { any; };
+};
+
+zone "ge" {
+    type primary;
+    file "/var/lib/bind/db.ge";
+    allow-query { any; };
+};
+
+zone "gm" {
+    type primary;
+    file "/var/lib/bind/db.gm";
+    allow-query { any; };
+};
+
+zone "gp" {
+    type primary;
+    file "/var/lib/bind/db.gp";
+    allow-query { any; };
+};
+
+zone "gr" {
+    type primary;
+    file "/var/lib/bind/db.gr";
+    allow-query { any; };
+};
+
+zone "gy" {
+    type primary;
+    file "/var/lib/bind/db.gy";
+    allow-query { any; };
+};
+
+zone "hn" {
+    type primary;
+    file "/var/lib/bind/db.hn";
+    allow-query { any; };
+};
+
+zone "hr" {
+    type primary;
+    file "/var/lib/bind/db.hr";
+    allow-query { any; };
+};
+
+zone "ht" {
+    type primary;
+    file "/var/lib/bind/db.ht";
+    allow-query { any; };
+};
+
+zone "hu" {
+    type primary;
+    file "/var/lib/bind/db.hu";
+    allow-query { any; };
+};
+
+zone "ie" {
+    type primary;
+    file "/var/lib/bind/db.ie";
+    allow-query { any; };
+};
+
+zone "iq" {
+    type primary;
+    file "/var/lib/bind/db.iq";
+    allow-query { any; };
+};
+
+zone "je" {
+    type primary;
+    file "/var/lib/bind/db.je";
+    allow-query { any; };
+};
+
+zone "jo" {
+    type primary;
+    file "/var/lib/bind/db.jo";
+    allow-query { any; };
+};
+
+zone "kg" {
+    type primary;
+    file "/var/lib/bind/db.kg";
+    allow-query { any; };
+};
+
+zone "ki" {
+    type primary;
+    file "/var/lib/bind/db.ki";
+    allow-query { any; };
+};
+
+zone "kz" {
+    type primary;
+    file "/var/lib/bind/db.kz";
+    allow-query { any; };
+};
+
+zone "lk" {
+    type primary;
+    file "/var/lib/bind/db.lk";
+    allow-query { any; };
+};
+
+zone "lt" {
+    type primary;
+    file "/var/lib/bind/db.lt";
+    allow-query { any; };
+};
+
+zone "lu" {
+    type primary;
+    file "/var/lib/bind/db.lu";
+    allow-query { any; };
+};
+
+zone "lv" {
+    type primary;
+    file "/var/lib/bind/db.lv";
+    allow-query { any; };
+};
+
+zone "md" {
+    type primary;
+    file "/var/lib/bind/db.md";
+    allow-query { any; };
+};
+
+zone "mg" {
+    type primary;
+    file "/var/lib/bind/db.mg";
+    allow-query { any; };
+};
+
+zone "mk" {
+    type primary;
+    file "/var/lib/bind/db.mk";
+    allow-query { any; };
+};
+
+zone "mn" {
+    type primary;
+    file "/var/lib/bind/db.mn";
+    allow-query { any; };
+};
+
+zone "mu" {
+    type primary;
+    file "/var/lib/bind/db.mu";
+    allow-query { any; };
+};
+
+zone "mv" {
+    type primary;
+    file "/var/lib/bind/db.mv";
+    allow-query { any; };
+};
+
+zone "mw" {
+    type primary;
+    file "/var/lib/bind/db.mw";
+    allow-query { any; };
+};
+
+zone "ne" {
+    type primary;
+    file "/var/lib/bind/db.ne";
+    allow-query { any; };
+};
+
+zone "nr" {
+    type primary;
+    file "/var/lib/bind/db.nr";
+    allow-query { any; };
+};
+
+zone "nu" {
+    type primary;
+    file "/var/lib/bind/db.nu";
+    allow-query { any; };
+};
+
+zone "pn" {
+    type primary;
+    file "/var/lib/bind/db.pn";
+    allow-query { any; };
+};
+
+zone "ps" {
+    type primary;
+    file "/var/lib/bind/db.ps";
+    allow-query { any; };
+};
+
+zone "pt" {
+    type primary;
+    file "/var/lib/bind/db.pt";
+    allow-query { any; };
+};
+
+zone "ro" {
+    type primary;
+    file "/var/lib/bind/db.ro";
+    allow-query { any; };
+};
+
+zone "rs" {
+    type primary;
+    file "/var/lib/bind/db.rs";
+    allow-query { any; };
+};
+
+zone "rw" {
+    type primary;
+    file "/var/lib/bind/db.rw";
+    allow-query { any; };
+};
+
+zone "sc" {
+    type primary;
+    file "/var/lib/bind/db.sc";
+    allow-query { any; };
+};
+
+zone "sm" {
+    type primary;
+    file "/var/lib/bind/db.sm";
+    allow-query { any; };
+};
+
+zone "sn" {
+    type primary;
+    file "/var/lib/bind/db.sn";
+    allow-query { any; };
+};
+
+zone "sr" {
+    type primary;
+    file "/var/lib/bind/db.sr";
+    allow-query { any; };
+};
+
+zone "td" {
+    type primary;
+    file "/var/lib/bind/db.td";
+    allow-query { any; };
+};
+
+zone "tg" {
+    type primary;
+    file "/var/lib/bind/db.tg";
+    allow-query { any; };
+};
+
+zone "tl" {
+    type primary;
+    file "/var/lib/bind/db.tl";
+    allow-query { any; };
+};
+
+zone "tm" {
+    type primary;
+    file "/var/lib/bind/db.tm";
+    allow-query { any; };
+};
+
+zone "tn" {
+    type primary;
+    file "/var/lib/bind/db.tn";
+    allow-query { any; };
+};
+
+zone "tt" {
+    type primary;
+    file "/var/lib/bind/db.tt";
+    allow-query { any; };
+};
+
+zone "vg" {
+    type primary;
+    file "/var/lib/bind/db.vg";
+    allow-query { any; };
+};
+
+zone "vu" {
+    type primary;
+    file "/var/lib/bind/db.vu";
+    allow-query { any; };
+};
+
+zone "nz" {
+    type primary;
+    file "/var/lib/bind/db.nz";
+    allow-query { any; };
+};
+
+zone "events" {
+    type primary;
+    file "/var/lib/bind/db.events";
+    allow-query { any; };
+};
+
+zone "health" {
+    type primary;
+    file "/var/lib/bind/db.health";
+    allow-query { any; };
+};
+
+zone "porn" {
+    type primary;
+    file "/var/lib/bind/db.porn";
+    allow-query { any; };
+};
+
+zone "net.il" {
+    type primary;
+    file "/var/lib/bind/db.net.il";
+    allow-query { any; };
+};
+
+zone "bz" {
+    type primary;
+    file "/var/lib/bind/db.bz";
+    allow-query { any; };
+};
+
+zone "design" {
+    type primary;
+    file "/var/lib/bind/db.design";
+    allow-query { any; };
+};
+
+zone "icu" {
+    type primary;
+    file "/var/lib/bind/db.icu";
+    allow-query { any; };
+};
+
+zone "ua" {
+    type primary;
+    file "/var/lib/bind/db.ua";
+    allow-query { any; };
+};
+
+zone "arpa" {
+    type primary;
+    file "/var/lib/bind/db.arpa";
+    allow-query { any; };
+};
+
+zone "org.br" {
+    type primary;
+    file "/var/lib/bind/db.org.br";
+    allow-query { any; };
+};
+
+zone "wtf" {
+    type primary;
+    file "/var/lib/bind/db.wtf";
+    allow-query { any; };
+};
+
+zone "mx" {
+    type primary;
+    file "/var/lib/bind/db.mx";
+    allow-query { any; };
+};
+
+zone "best" {
+    type primary;
+    file "/var/lib/bind/db.best";
+    allow-query { any; };
+};
+
+zone "plus" {
+    type primary;
+    file "/var/lib/bind/db.plus";
+    allow-query { any; };
+};
+
+zone "tw" {
+    type primary;
+    file "/var/lib/bind/db.tw";
+    allow-query { any; };
+};
+
+zone "lol" {
+    type primary;
+    file "/var/lib/bind/db.lol";
+    allow-query { any; };
+};
+
+zone "store" {
+    type primary;
+    file "/var/lib/bind/db.store";
+    allow-query { any; };
+};
+
+zone "stream" {
+    type primary;
+    file "/var/lib/bind/db.stream";
+    allow-query { any; };
+};
+
+zone "party" {
+    type primary;
+    file "/var/lib/bind/db.party";
+    allow-query { any; };
+};
+
+zone "casa" {
+    type primary;
+    file "/var/lib/bind/db.casa";
+    allow-query { any; };
+};
+
+zone "tr" {
+    type primary;
+    file "/var/lib/bind/db.tr";
+    allow-query { any; };
+};
+
+zone "trade" {
+    type primary;
+    file "/var/lib/bind/db.trade";
+    allow-query { any; };
+};
+
+zone "green" {
+    type primary;
+    file "/var/lib/bind/db.green";
+    allow-query { any; };
+};
+
+zone "gov.au" {
+    type primary;
+    file "/var/lib/bind/db.gov.au";
+    allow-query { any; };
+};
+
+zone "org.cn" {
+    type primary;
+    file "/var/lib/bind/db.org.cn";
+    allow-query { any; };
+};
+
+zone "energy" {
+    type primary;
+    file "/var/lib/bind/db.energy";
+    allow-query { any; };
+};
+
+zone "bid" {
+    type primary;
+    file "/var/lib/bind/db.bid";
+    allow-query { any; };
+};
+
+zone "one" {
+    type primary;
+    file "/var/lib/bind/db.one";
+    allow-query { any; };
+};
+
+zone "software" {
+    type primary;
+    file "/var/lib/bind/db.software";
+    allow-query { any; };
+};
+
+zone "cash" {
+    type primary;
+    file "/var/lib/bind/db.cash";
+    allow-query { any; };
+};
+
+zone "amazon" {
+    type primary;
+    file "/var/lib/bind/db.amazon";
+    allow-query { any; };
+};
+
+zone "uol" {
+    type primary;
+    file "/var/lib/bind/db.uol";
+    allow-query { any; };
+};
+
+zone "finance" {
+    type primary;
+    file "/var/lib/bind/db.finance";
+    allow-query { any; };
+};
+
+zone "community" {
+    type primary;
+    file "/var/lib/bind/db.community";
+    allow-query { any; };
+};
+
+zone "global" {
+    type primary;
+    file "/var/lib/bind/db.global";
+    allow-query { any; };
+};
+
+zone "direct" {
+    type primary;
+    file "/var/lib/bind/db.direct";
+    allow-query { any; };
+};
+
+zone "ax" {
+    type primary;
+    file "/var/lib/bind/db.ax";
+    allow-query { any; };
+};
+
+zone "email" {
+    type primary;
+    file "/var/lib/bind/db.email";
+    allow-query { any; };
+};
+
+zone "ec" {
+    type primary;
+    file "/var/lib/bind/db.ec";
+    allow-query { any; };
+};
+
+zone "school" {
+    type primary;
+    file "/var/lib/bind/db.school";
+    allow-query { any; };
+};
+
+zone "edu.pl" {
+    type primary;
+    file "/var/lib/bind/db.edu.pl";
+    allow-query { any; };
+};
+
+zone "pe" {
+    type primary;
+    file "/var/lib/bind/db.pe";
+    allow-query { any; };
+};
+
+zone "ph" {
+    type primary;
+    file "/var/lib/bind/db.ph";
+    allow-query { any; };
+};
+
+zone "net.br" {
+    type primary;
+    file "/var/lib/bind/db.net.br";
+    allow-query { any; };
+};
+
+zone "edu.cn" {
+    type primary;
+    file "/var/lib/bind/db.edu.cn";
+    allow-query { any; };
+};
+
+zone "guru" {
+    type primary;
+    file "/var/lib/bind/db.guru";
+    allow-query { any; };
+};
+
+zone "market" {
+    type primary;
+    file "/var/lib/bind/db.market";
+    allow-query { any; };
+};
+
+zone "ooo" {
+    type primary;
+    file "/var/lib/bind/db.ooo";
+    allow-query { any; };
+};
+
+zone "webcam" {
+    type primary;
+    file "/var/lib/bind/db.webcam";
+    allow-query { any; };
+};
+
+zone "ink" {
+    type primary;
+    file "/var/lib/bind/db.ink";
+    allow-query { any; };
+};
+
+zone "wf" {
+    type primary;
+    file "/var/lib/bind/db.wf";
+    allow-query { any; };
+};
+
+zone "website" {
+    type primary;
+    file "/var/lib/bind/db.website";
+    allow-query { any; };
+};
+
+zone "foundation" {
+    type primary;
+    file "/var/lib/bind/db.foundation";
+    allow-query { any; };
+};
+
+zone "cool" {
+    type primary;
+    file "/var/lib/bind/db.cool";
+    allow-query { any; };
+};
+
+zone "camera" {
+    type primary;
+    file "/var/lib/bind/db.camera";
+    allow-query { any; };
+};
+
+zone "desi" {
+    type primary;
+    file "/var/lib/bind/db.desi";
+    allow-query { any; };
+};
+
+zone "cam" {
+    type primary;
+    file "/var/lib/bind/db.cam";
+    allow-query { any; };
+};
+
+zone "xn--1ck2e1b" {
+    type primary;
+    file "/var/lib/bind/db.xn--1ck2e1b";
+    allow-query { any; };
+};
+
+zone "gold" {
+    type primary;
+    file "/var/lib/bind/db.gold";
+    allow-query { any; };
+};
+
+zone "do" {
+    type primary;
+    file "/var/lib/bind/db.do";
+    allow-query { any; };
+};
+

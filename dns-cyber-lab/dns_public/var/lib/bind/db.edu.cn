@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.edu.cn. admin.edu.cn. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.edu.cn.
+@   IN  NS  ns2.edu.cn.
+ns1.edu.cn. IN A 10.0.0.1
+ns2.edu.cn. IN A 10.0.0.2
+sjtu IN A 213.253.240.78
+tsinghua IN A 65.132.78.151

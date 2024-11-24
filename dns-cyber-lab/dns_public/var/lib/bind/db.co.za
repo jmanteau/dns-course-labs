@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.co.za. admin.co.za. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.co.za.
+@   IN  NS  ns2.co.za.
+ns1.co.za. IN A 10.0.0.1
+ns2.co.za. IN A 10.0.0.2
+entersect IN A 104.147.149.179
+google IN A 46.39.51.27
+royal-canin IN A 89.102.128.218
+royal-canin IN A 38.64.230.131
+royal-canin IN A 126.90.208.165

@@ -1,0 +1,19 @@
+$TTL 86400
+@   IN  SOA ns1.cz. admin.cz. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.cz.
+@   IN  NS  ns2.cz.
+ns1.cz. IN A 10.0.0.1
+ns2.cz. IN A 10.0.0.2
+acrobits IN A 167.161.142.35
+cra IN A 34.218.162.223
+google IN A 173.180.246.203
+sdn IN A 213.255.7.96
+sdn IN A 103.173.71.238
+seznam IN A 176.26.185.26
+seznam IN A 205.55.38.10

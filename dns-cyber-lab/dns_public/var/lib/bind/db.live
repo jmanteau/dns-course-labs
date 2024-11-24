@@ -1,0 +1,38 @@
+$TTL 86400
+@   IN  SOA ns1.live. admin.live. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.live.
+@   IN  NS  ns2.live.
+ns1.live. IN A 10.0.0.1
+ns2.live. IN A 10.0.0.2
+cdn IN A 217.117.33.117
+cdn IN A 44.130.82.237
+celebs IN A 76.124.9.89
+celebs IN A 41.226.91.7
+celebs IN A 208.81.248.243
+doppiocdn IN A 42.164.85.36
+dscgirls IN A 153.0.34.193
+gateio IN A 111.23.182.84
+jaco IN A 80.37.95.57
+jaco IN A 16.247.148.59
+jaco IN A 84.156.177.172
+lunamedia IN A 213.8.121.202
+lunamedia IN A 215.209.63.39
+lunamedia IN A 92.22.150.236
+lura IN A 108.38.189.152
+lura IN A 115.254.130.127
+shorttv IN A 42.192.25.234
+superchat IN A 165.6.40.121
+ti IN A 139.72.216.40
+ti IN A 38.102.12.52
+trovo IN A 105.210.157.162
+visitors IN A 56.98.112.182
+xham IN A 2.188.122.41
+xham IN A 191.51.126.219
+xham IN A 107.93.182.158
+yalla IN A 146.15.210.77

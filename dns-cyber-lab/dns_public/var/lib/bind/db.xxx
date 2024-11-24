@@ -1,0 +1,20 @@
+$TTL 86400
+@   IN  SOA ns1.xxx. admin.xxx. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.xxx.
+@   IN  NS  ns2.xxx.
+ns1.xxx. IN A 10.0.0.1
+ns2.xxx. IN A 10.0.0.2
+4kporn IN A 115.121.218.0
+4kporn IN A 20.117.210.211
+imhentai IN A 184.249.214.190
+imhentai IN A 149.195.165.143
+rule34 IN A 11.10.34.134
+rule34 IN A 18.207.101.90
+rule34 IN A 207.79.209.166
+sexvid IN A 76.145.77.33

@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.direct. admin.direct. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.direct.
+@   IN  NS  ns2.direct.
+ns1.direct. IN A 10.0.0.1
+ns2.direct. IN A 10.0.0.2
+plex IN A 107.34.180.132
+plex IN A 180.12.190.13
+plex IN A 65.184.76.105

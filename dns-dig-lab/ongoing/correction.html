@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Correction</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h2 {
+            margin-bottom: 10px;
+        }
+
+        .decoded-answer {
+            background-color: #f9f9f9;
+            padding: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        input[type="password"] {
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Lab Correction</h1>
+
+    <!-- Question 1 -->
+    <div class="question">
+        <h2>Question 1</h2>
+        <p>What is the IP of the <code>www.airbus.com</code> website?</p>
+        <label for="password1">Enter password to view the answer:</label>
+        <input type="password" id="password1">
+        <button onclick="decodeAnswer('ciphertext1', 'password1', 'decoded1', 'error1')">Decode Answer</button>
+        <div id="error1" class="error-message"></div>
+        <div id="decoded1" class="decoded-answer"></div>
+        <div id="ciphertext1" style="display:none;">
+            SBVNIBwAUwQGDB0XHRUfEVQKFVRIFgcGGwsUSiw8KUhbFgcGGwsUSlQWBxUAAABUAA0SAFQRGxFUFgYZVAoVVBUJH1QSCgEXERZTEQUQEhgHRR4VBxZTAB0IFgdUBBAXEQkWBhURGhsaS09bBFt5SAEJTX5URU8YHVs1GwYGFkhbCRpKfkVTSBgMTTkVFgBIWwkaSn5FU0gYDE01FwYWGBEXEgAdCh1IWwkaSn5ZXAEYWw==
+        </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question">
+        <h2>Question 2</h2>
+        <p>Is the <code>www.airbus.com</code> an A or CNAME record? Can you infer which protection is in place in front
+            of the <code>airbus.com</code> website?</p>
+        <label for="password2">Enter password to view the answer:</label>
+        <input type="password" id="password2">
+        <button onclick="decodeAnswer('ciphertext2', 'password2', 'decoded2', 'error2')">Decode Answer</button>
+        <div id="error2" class="error-message"></div>
+        <div id="decoded2" class="decoded-answer"></div>
+        <div id="ciphertext2" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question">
+        <h2>Question 3</h2>
+        <p>What are the nameservers of <code>amazon.com</code>? And of <code>aws.amazon.com</code>? What is the TTL of
+            the <code>amazon.com</code> NS?</p>
+        <label for="password3">Enter password to view the answer:</label>
+        <input type="password" id="password3">
+        <button onclick="decodeAnswer('ciphertext3', 'password3', 'decoded3', 'error3')">Decode Answer</button>
+        <div id="error3" class="error-message"></div>
+        <div id="decoded3" class="decoded-answer"></div>
+        <div id="ciphertext3" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question">
+        <h2>Question 4</h2>
+        <p>What is the name of <code>apple.com</code> mail servers? Which mail server is the primary and which are the
+            backups? Why might the priority levels differ?</p>
+        <label for="password4">Enter password to view the answer:</label>
+        <input type="password" id="password4">
+        <button onclick="decodeAnswer('ciphertext4', 'password4', 'decoded4', 'error4')">Decode Answer</button>
+        <div id="error4" class="error-message"></div>
+        <div id="decoded4" class="decoded-answer"></div>
+        <div id="ciphertext4" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question">
+        <h2>Question 5</h2>
+        <p>What is the A record of <code>dns-cheatsheet.com</code>?</p>
+        <label for="password5">Enter password to view the answer:</label>
+        <input type="password" id="password5">
+        <button onclick="decodeAnswer('ciphertext5', 'password5', 'decoded5', 'error5')">Decode Answer</button>
+        <div id="error5" class="error-message"></div>
+        <div id="decoded5" class="decoded-answer"></div>
+        <div id="ciphertext5" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question">
+        <h2>Question 6</h2>
+        <p>How many DNS requests are needed before first accessing to <code>www.linkedin.com</code>? Do you have a
+            hypothesis why? (hint: check TTL)</p>
+        <label for="password6">Enter password to view the answer:</label>
+        <input type="password" id="password6">
+        <button onclick="decodeAnswer('ciphertext6', 'password6', 'decoded6', 'error6')">Decode Answer</button>
+        <div id="error6" class="error-message"></div>
+        <div id="decoded6" class="decoded-answer"></div>
+        <div id="ciphertext6" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question">
+        <h2>Question 7</h2>
+        <p>What is the name linked to this IP: <code>160.92.124.66</code>? What is the usage of this server? What DNS
+            query can you do to confirm your hypothesis? Can you do a graph showing the links between all elements?</p>
+        <label for="password7">Enter password to view the answer:</label>
+        <input type="password" id="password7">
+        <button onclick="decodeAnswer('ciphertext7', 'password7', 'decoded7', 'error7')">Decode Answer</button>
+        <div id="error7" class="error-message"></div>
+        <div id="decoded7" class="decoded-answer"></div>
+        <div id="ciphertext7" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 8 -->
+    <div class="question">
+        <h2>Question 8</h2>
+        <p>List the <code>google.com</code> records that the following subnet will get:</p>
+        <table border="1">
+            <tr>
+                <th>Country</th>
+                <th>A subnet in the country</th>
+            </tr>
+            <tr>
+                <td>South Africa</td>
+                <td><code>102.128.136.0/24</code></td>
+            </tr>
+            <tr>
+                <td>China</td>
+                <td><code>1.0.1.0/24</code></td>
+            </tr>
+            <tr>
+                <td>Chile</td>
+                <td><code>138.186.8.0/24</code></td>
+            </tr>
+            <tr>
+                <td>Belgium</td>
+                <td><code>152.152.0.0/24</code></td>
+            </tr>
+            <tr>
+                <td>France</td>
+                <td><code>129.20.0.0/24</code></td>
+            </tr>
+        </table>
+        <label for="password8">Enter password to view the answer:</label>
+        <input type="password" id="password8">
+        <button onclick="decodeAnswer('ciphertext8', 'password8', 'decoded8', 'error8')">Decode Answer</button>
+        <div id="error8" class="error-message"></div>
+        <div id="decoded8" class="decoded-answer"></div>
+        <div id="ciphertext8" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 9 -->
+    <div class="question">
+        <h2>Question 9</h2>
+        <p>Which of the following media is using Slack: New York Times (<code>nytimes.com</code>), Le Monde
+            (<code>lemonde.fr</code>), or BBC (<code>bbc.com</code>)?</p>
+        <label for="password9">Enter password to view the answer:</label>
+        <input type="password" id="password9">
+        <button onclick="decodeAnswer('ciphertext9', 'password9', 'decoded9', 'error9')">Decode Answer</button>
+        <div id="error9" class="error-message"></div>
+        <div id="decoded9" class="decoded-answer"></div>
+        <div id="ciphertext9" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 10 -->
+    <div class="question">
+        <h2>Question 10</h2>
+        <p>Which certificate authority has the right to deliver certificates for <code>boursorama.com</code>?</p>
+        <label for="password10">Enter password to view the answer:</label>
+        <input type="password" id="password10">
+        <button onclick="decodeAnswer('ciphertext10', 'password10', 'decoded10', 'error10')">Decode Answer</button>
+        <div id="error10" class="error-message"></div>
+        <div id="decoded10" class="decoded-answer"></div>
+        <div id="ciphertext10" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 11 -->
+    <div class="question">
+        <h2>Question 11</h2>
+        <p>How many websites use Facebook Domain Verification in the <code>list100</code> file (to allow using Facebook
+            identity, comments, like, etc)? (hint: check for <code>facebook-domain-verification</code>)</p>
+        <label for="password11">Enter password to view the answer:</label>
+        <input type="password" id="password11">
+        <button onclick="decodeAnswer('ciphertext11', 'password11', 'decoded11', 'error11')">Decode Answer</button>
+        <div id="error11" class="error-message"></div>
+        <div id="decoded11" class="decoded-answer"></div>
+        <div id="ciphertext11" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 12 -->
+    <div class="question">
+        <h2>Question 12</h2>
+        <p>[Seldom used in real life] What is the city indicated on DNS <code>dyndns.com</code>?</p>
+        <label for="password12">Enter password to view the answer:</label>
+        <input type="password" id="password12">
+        <button onclick="decodeAnswer('ciphertext12', 'password12', 'decoded12', 'error12')">Decode Answer</button>
+        <div id="error12" class="error-message"></div>
+        <div id="decoded12" class="decoded-answer"></div>
+        <div id="ciphertext12" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <!-- Question 13 -->
+    <div class="question">
+        <h2>Question 13</h2>
+        <p>What is the IPv6 address (AAAA record) of <code>www.wikipedia.org</code>?</p>
+        <label for="password13">Enter password to view the answer:</label>
+        <input type="password" id="password13">
+        <button onclick="decodeAnswer('ciphertext13', 'password13', 'decoded13', 'error13')">Decode Answer</button>
+        <div id="error13" class="error-message"></div>
+        <div id="decoded13" class="decoded-answer"></div>
+        <div id="ciphertext13" style="display:none;">[Paste your Base64-encoded ciphertext here]</div>
+    </div>
+
+    <script>
+        function decodeAnswer(ciphertextId, passwordId, decodedId, errorId) {
+            const password = document.getElementById(passwordId).value;
+            const base64Ciphertext = document.getElementById(ciphertextId).textContent;
+
+            if (!password || !base64Ciphertext) {
+                document.getElementById(errorId).textContent = "Missing password or ciphertext.";
+                return;
+            }
+
+            try {
+                const encodedText = atob(base64Ciphertext);
+                const plaintext = xorCipher(encodedText, password);
+
+                if (!plaintext) throw 'Invalid password or corrupted data';
+
+                // Display the decrypted answer
+                document.getElementById(decodedId).innerHTML = plaintext;
+                document.getElementById(errorId).textContent = "";
+            } catch (error) {
+                document.getElementById(errorId).textContent = "Incorrect password.";
+            }
+        }
+
+        function xorCipher(text, key) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                result += String.fromCharCode(charCode);
+            }
+            return result;
+        }
+    </script>
+
+</body>
+
+</html>

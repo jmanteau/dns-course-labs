@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.com.mx. admin.com.mx. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.com.mx.
+@   IN  NS  ns2.com.mx.
+ns1.com.mx. IN A 10.0.0.1
+ns2.com.mx. IN A 10.0.0.2
+amazon IN A 65.118.165.93
+google IN A 88.175.226.119
+liverpool IN A 195.10.54.172
+liverpool IN A 210.13.207.10
+liverpool IN A 156.100.40.187
+mercadolibre IN A 133.32.213.34

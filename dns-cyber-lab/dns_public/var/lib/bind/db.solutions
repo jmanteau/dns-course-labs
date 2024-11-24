@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.solutions. admin.solutions. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.solutions.
+@   IN  NS  ns2.solutions.
+ns1.solutions. IN A 10.0.0.1
+ns2.solutions. IN A 10.0.0.2
+digital-services IN A 119.244.64.203
+digital-services IN A 206.84.102.252
+digital-services IN A 73.166.45.192
+rings IN A 31.230.222.164

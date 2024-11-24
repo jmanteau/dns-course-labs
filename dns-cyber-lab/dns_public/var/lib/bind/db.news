@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.news. admin.news. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.news.
+@   IN  NS  ns2.news.
+ns1.news. IN A 10.0.0.1
+ns2.news. IN A 10.0.0.2
+apple IN A 46.20.204.213
+apple IN A 43.143.192.17
+prt IN A 14.152.159.146
+scooper IN A 97.54.17.209

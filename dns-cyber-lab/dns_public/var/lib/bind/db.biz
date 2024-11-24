@@ -1,0 +1,35 @@
+$TTL 86400
+@   IN  SOA ns1.biz. admin.biz. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.biz.
+@   IN  NS  ns2.biz.
+ns1.biz. IN A 10.0.0.1
+ns2.biz. IN A 10.0.0.2
+beizi IN A 26.218.113.108
+bitkeep IN A 164.77.177.130
+bitkeep IN A 101.150.39.132
+bybit IN A 221.185.10.3
+dailyinnovation IN A 179.12.226.63
+diveinthebluesky IN A 134.152.240.5
+epson IN A 87.138.5.35
+frameo IN A 57.141.181.54
+frameo IN A 214.185.144.133
+frameo IN A 222.169.196.203
+kyocera IN A 84.229.65.203
+l-err IN A 29.76.205.107
+l-err IN A 121.217.139.177
+l-err IN A 48.248.178.155
+line IN A 73.94.211.41
+manumedia IN A 182.99.229.242
+overflow IN A 115.91.95.215
+report1 IN A 152.134.229.227
+report1 IN A 74.135.91.127
+s05a IN A 131.221.126.221
+ultradns IN A 22.201.246.110
+vcdn IN A 70.85.0.42
+vcdn IN A 21.89.70.105

@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.ee. admin.ee. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ee.
+@   IN  NS  ns2.ee.
+ns1.ee. IN A 10.0.0.1
+ns2.ee. IN A 10.0.0.2
+google IN A 147.224.193.237
+linktr IN A 21.42.106.22
+shope IN A 159.175.107.25
+shope IN A 168.29.103.123

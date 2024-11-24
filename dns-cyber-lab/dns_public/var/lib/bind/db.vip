@@ -1,0 +1,24 @@
+$TTL 86400
+@   IN  SOA ns1.vip. admin.vip. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.vip.
+@   IN  NS  ns2.vip.
+ns1.vip. IN A 10.0.0.1
+ns2.vip. IN A 10.0.0.2
+18comic IN A 31.210.67.142
+allseason IN A 193.79.13.116
+bitapi IN A 199.251.249.130
+bitapi IN A 114.77.229.239
+bitapi IN A 3.144.219.190
+hubstudio IN A 163.42.185.132
+minigame IN A 219.66.240.77
+mytokenpocket IN A 81.13.60.77
+p2bld IN A 36.92.57.54
+spaceplan IN A 3.37.181.58
+spaceplan IN A 147.238.211.60
+spaceplan IN A 192.149.152.155

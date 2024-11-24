@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.ooo. admin.ooo. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ooo.
+@   IN  NS  ns2.ooo.
+ns1.ooo. IN A 10.0.0.1
+ns2.ooo. IN A 10.0.0.2
+stripchat IN A 137.117.108.89

@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.show. admin.show. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.show.
+@   IN  NS  ns2.show.
+ns1.show. IN A 10.0.0.1
+ns2.show. IN A 10.0.0.2
+boyfriend IN A 95.58.159.159
+boyfriend IN A 165.254.28.172
+boyfriend IN A 156.28.181.130

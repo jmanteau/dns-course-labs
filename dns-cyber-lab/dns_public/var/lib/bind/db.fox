@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.fox. admin.fox. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.fox.
+@   IN  NS  ns2.fox.
+ns1.fox. IN A 10.0.0.1
+ns2.fox. IN A 10.0.0.2
+atp IN A 122.227.214.17
+dt IN A 13.177.46.39

@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.asia. admin.asia. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.asia.
+@   IN  NS  ns2.asia.
+ns1.asia. IN A 10.0.0.1
+ns2.asia. IN A 10.0.0.2
+ad-m IN A 190.15.79.154
+bitkeep IN A 188.80.210.185
+dbankcloud IN A 3.94.126.151
+edirect IN A 79.245.17.94
+selectmedia IN A 158.111.74.100

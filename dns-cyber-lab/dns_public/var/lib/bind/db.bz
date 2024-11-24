@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.bz. admin.bz. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.bz.
+@   IN  NS  ns2.bz.
+ns1.bz. IN A 10.0.0.1
+ns2.bz. IN A 10.0.0.2
+hubby IN A 201.251.4.178
+hubby IN A 27.190.143.172
+hubby IN A 45.24.48.236
+plex IN A 88.76.36.106
+plex IN A 110.15.81.51
+plex IN A 96.49.216.222

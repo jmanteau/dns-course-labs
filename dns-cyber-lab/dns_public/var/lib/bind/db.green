@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.green. admin.green. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.green.
+@   IN  NS  ns2.green.
+ns1.green. IN A 10.0.0.1
+ns2.green. IN A 10.0.0.2
+node-is IN A 181.109.107.90

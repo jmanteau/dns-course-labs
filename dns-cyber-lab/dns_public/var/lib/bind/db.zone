@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.zone. admin.zone. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.zone.
+@   IN  NS  ns2.zone.
+ns1.zone. IN A 10.0.0.1
+ns2.zone. IN A 10.0.0.2
+adjoe IN A 113.241.183.26
+monetate-prod IN A 18.14.133.117
+monetate-prod IN A 116.166.107.251
+plrm IN A 165.53.40.240

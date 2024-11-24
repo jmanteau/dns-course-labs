@@ -1,0 +1,476 @@
+;
+; Start view _default
+;
+;
+; Cache dump of view '_default' (cache _default)
+;
+; using a 0 second stale ttl
+$DATE 20241123200321
+; authanswer
+.			518308	IN NS	a.root-servers.net.
+			518308	IN NS	b.root-servers.net.
+			518308	IN NS	c.root-servers.net.
+			518308	IN NS	d.root-servers.net.
+			518308	IN NS	e.root-servers.net.
+			518308	IN NS	f.root-servers.net.
+			518308	IN NS	g.root-servers.net.
+			518308	IN NS	h.root-servers.net.
+			518308	IN NS	i.root-servers.net.
+			518308	IN NS	j.root-servers.net.
+			518308	IN NS	k.root-servers.net.
+			518308	IN NS	l.root-servers.net.
+			518308	IN NS	m.root-servers.net.
+; authanswer
+			518308	RRSIG	NS 8 0 518400 (
+					20241206170000 20241123160000 61050 .
+					H9bG63phaeribBppAQPr5FWpAifLf92EYszm
+					Qtc/+AhpU2Q7Sz47tbbwERfMdQk5U/XENSf0
+					9qky2+4PG8IUszsglW60UUSD1T9GaDZTCO2G
+					SwcmVd+LVImXLzTdNF22pUe4ChDVlU13+kIh
+					7e/KqPBoV940Sk4Vx8UhT0Ra+OhNHqWpofzS
+					RbgOYlqIDXRyQzv8/WHkkTBh8+CQ4tFOBGDc
+					E6gYUnhFqN5vkT7oCF/JmX1V/YPIXlbKq/Nd
+					LhOJe8mYDRAQDzHpqPwT7v7mW5dhUug22ZRG
+					PjB9PSjY5Uw0Qu312uIGOIagBa9P+vgfkqYZ
+					zB8YtwpW+ilqsuC46w== )
+; glue
+ac.			172723	NS	a0.nic.ac.
+			172723	NS	a2.nic.ac.
+			172723	NS	b0.nic.ac.
+			172723	NS	c0.nic.ac.
+; additional
+			86323	DS	42665 8 2 (
+					4B15F405C98F4BC3A370B19E54DBE75DF201
+					EDCD38577C51D277DC6559865D95 )
+; additional
+			86323	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					DpSzYXhJhw73LIQ8M5kvAwUGxoRB41YNyvbC
+					a9j9ITcE94YFkH04dn9fxjGun4pxRC05wQ1g
+					Fd8b+poxME4t6LvtNFOgDT/ASXzdJQSfpscR
+					atI0rf+6QDgh66m1Y/2YPH6eajaOAr+cXtoz
+					jUasHRz94Uf821cJjbOxKKNUYCwldLPIonEV
+					jcVj0g/3VMCtxhLDjj4oOsq9haEpkbBCR7x8
+					6A0rheTXhGR8g07WGiJj9wavsrfSOmDxTVZA
+					rJuXna2AVqyDIzcrbJUzYZv6yXCzhDajIIjs
+					zebpkZS+8xD6ENgc5svh4xhABzCoPkV0vj8/
+					uIZnOTnvZjBB68Jiog== )
+; authauthority
+ally.ac.		3524	NS	ns-238.awsdns-29.com.
+			3524	NS	ns-717.awsdns-25.net.
+			3524	NS	ns-1372.awsdns-43.org.
+			3524	NS	ns-1740.awsdns-25.co.uk.
+; glue
+a0.nic.ac.		172723	A	65.22.160.1
+; glue
+			172723	AAAA	2a01:8840:9e::1
+; glue
+a2.nic.ac.		172723	A	65.22.163.1
+; glue
+			172723	AAAA	2a01:8840:a1::1
+; glue
+b0.nic.ac.		172723	A	65.22.161.1
+; glue
+			172723	AAAA	2a01:8840:9f::1
+; glue
+c0.nic.ac.		172723	A	65.22.162.1
+; glue
+			172723	AAAA	2a01:8840:a0::1
+; glue
+ad.			172733	NS	ad.ns.nic.es.
+			172733	NS	ns3.nic.fr.
+			172733	NS	anycast9.irondns.net.
+			172733	NS	anycast23.irondns.net.
+; additional
+			86333	DS	6062 8 2 (
+					3C07A798097F38D173D98194F436A2ED2944
+					3ECC1DA0D9F8DA8ABFA29348D6CE )
+; additional
+			86333	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					zQdBC10s3uXGofm6jlxYwq0MZuxACDhYdoIc
+					lyO4a5/vU3P+bFvvW+LN4RYFQOP61p3dYLxF
+					gz+zJ9wxkTmu4EK14qK4A13BIbpTGqvEMVx4
+					uViGHP2gYpYHBqLBdZ+f0dtT5g0rTLqDyGqW
+					EjY04hDJF0o0t+5G2T/slufXXZc3p1buRome
+					FG1S/ssW9A6Xwso6D0kLRJ59Id9eoxP3IwaS
+					8LMa5du0LhqY610sGJOlcklxXGdKipd7UD9R
+					xnS1sZh5H9go1SLnevGkWB2HYMOztUnNVDmv
+					NOZw/z53q4UgFbh7Dwm4PCohVdgcLr93t/PG
+					76ky7CXVJEj9HwUSGA== )
+; glue
+google.ad.		86333	NS	ns1.google.com.
+			86333	NS	ns2.google.com.
+; glue
+cn.			172708	NS	a.dns.cn.
+			172708	NS	b.dns.cn.
+			172708	NS	c.dns.cn.
+			172708	NS	d.dns.cn.
+			172708	NS	e.dns.cn.
+			172708	NS	ns.cernet.net.
+; additional
+			86308	DS	57724 8 2 (
+					5D0423633EB24A499BE78AA22D1C0C9BA362
+					18FF49FD95A4CDF1A4AD97C67044 )
+; additional
+			86308	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					tXpjiTP3rY/dicRlSeYFBzVoKfpHDIPbzaM3
+					D6fBJ1neCVy8D9ICLWmZpRbv8P2O1kNkZi3X
+					cLwImgs8c0kTEKuU4ZU7DQqMd5a/bjzby8xY
+					4Zwsko2hZjIBGWV/JdL3ERxa6HUr+IuCun7J
+					5e6dpQct+VJlG/j65Hn0SP/YdYjy4pSF73Ni
+					weyM1n1Gqf+7m/IWKlun8DmqNNdxQmaXpHts
+					gCKtjes4SzdutynA3wEztWvbAnsXT0yEY3G/
+					Ka7X6ZnecbBQhxARlcbguEOSI20+WZMsxXKA
+					wuDPv5OPDsu6K70ZxxgRiQ0W4M3tslWE8bzV
+					gxzq5jJt0sCDhjBJwA== )
+; glue
+a.dns.cn.		172708	A	203.119.25.1
+; glue
+			172708	AAAA	2001:dc7::1
+; glue
+b.dns.cn.		172708	A	203.119.26.1
+; glue
+			172708	AAAA	2001:dc7:1::1
+; glue
+c.dns.cn.		172708	A	203.119.27.1
+; glue
+			172708	AAAA	2001:dc7:2::1
+; glue
+d.dns.cn.		172708	A	203.119.28.1
+; glue
+			172708	AAAA	2001:dc7:1000::1
+; glue
+e.dns.cn.		172708	A	203.119.29.1
+; glue
+			172708	AAAA	2001:dc7:3::1
+; glue
+soulapp.cn.		86308	NS	vip3.alidns.com.
+			86308	NS	vip4.alidns.com.
+; glue
+ad.ns.nic.es.		172733	A	194.69.254.15
+; glue
+			172733	AAAA	2001:67c:21cc:2000::64:47
+; glue
+ns3.nic.fr.		172733	A	192.134.0.49
+; glue
+			172733	AAAA	2001:660:3006:1::1:1
+; glue
+a0.org.afilias-nst.info. 172724	A	199.19.56.1
+; glue
+			172724	AAAA	2001:500:e::1
+; glue
+a2.org.afilias-nst.info. 172724	A	199.249.112.1
+; glue
+			172724	AAAA	2001:500:40::1
+; glue
+c0.org.afilias-nst.info. 172724	A	199.19.53.1
+; glue
+			172724	AAAA	2001:500:b::1
+; glue
+net.			172708	NS	a.gtld-servers.net.
+			172708	NS	b.gtld-servers.net.
+			172708	NS	c.gtld-servers.net.
+			172708	NS	d.gtld-servers.net.
+			172708	NS	e.gtld-servers.net.
+			172708	NS	f.gtld-servers.net.
+			172708	NS	g.gtld-servers.net.
+			172708	NS	h.gtld-servers.net.
+			172708	NS	i.gtld-servers.net.
+			172708	NS	j.gtld-servers.net.
+			172708	NS	k.gtld-servers.net.
+			172708	NS	l.gtld-servers.net.
+			172708	NS	m.gtld-servers.net.
+; additional
+			86308	DS	37331 13 2 (
+					2F0BEC2D6F79DFBD1D08FD21A3AF92D0E39A
+					4B9EF1E3F4111FFF282490DA453B )
+; additional
+			86308	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					UHgK8IkaAyr1ZP7bav/Yqce0+yOlTIOtsftQ
+					nKbqAk1PA4qzBJldV0a69TXaGWCbiYFBAqTv
+					yBPIq7cug6pfa7AkTak44HYoTUpmzHT6WYNT
+					PexRYGBDQdbIvFfZeYACsN5JZYuNGejmIFUr
+					aHzQiqkgzJljO2uAK+pEb8W6JWU9o+L51QDa
+					D7QGyi7pUqwHm4O7N7owvuxqreyqjeJfHkFG
+					V2tMHsa822Ybj9q839M6GPFo0MAvExj8XnHs
+					5103xjaeqqc9x1vC/CUotNt7MUjSU6j+ymal
+					T4+TL6GfJLEXvtTEi35PVIYA7AolV3qfin1K
+					Xbstd2l2Jkg7n37oNA== )
+; authauthority
+awsdns-25.net.		172724	NS	g-ns-474.awsdns-25.net.
+			172724	NS	g-ns-795.awsdns-25.net.
+			172724	NS	g-ns-1369.awsdns-25.net.
+			172724	NS	g-ns-1945.awsdns-25.net.
+; glue
+g-ns-1369.awsdns-25.net. 172724	A	205.251.197.89
+; glue
+			172724	AAAA	2600:9000:5305:5900::1
+; glue
+g-ns-1945.awsdns-25.net. 172724	A	205.251.199.153
+; glue
+			172724	AAAA	2600:9000:5307:9900::1
+; glue
+g-ns-474.awsdns-25.net.	172724	A	205.251.193.218
+; glue
+			172724	AAAA	2600:9000:5301:da00::1
+; glue
+g-ns-795.awsdns-25.net.	172724	A	205.251.195.27
+; glue
+			172724	AAAA	2600:9000:5303:1b00::1
+; authanswer
+ns-717.awsdns-25.net.	172724	A	205.251.194.205
+; authanswer
+			172724	AAAA	2600:9000:5302:cd00::1
+; glue
+ns.cernet.net.		172708	A	202.112.0.44
+; glue
+a.gtld-servers.net.	172708	A	192.5.6.30
+; glue
+			172708	AAAA	2001:503:a83e::2:30
+; glue
+b.gtld-servers.net.	172708	A	192.33.14.30
+; glue
+			172708	AAAA	2001:503:231d::2:30
+; glue
+c.gtld-servers.net.	172708	A	192.26.92.30
+; glue
+			172708	AAAA	2001:503:83eb::30
+; glue
+d.gtld-servers.net.	172708	A	192.31.80.30
+; glue
+			172708	AAAA	2001:500:856e::30
+; glue
+e.gtld-servers.net.	172708	A	192.12.94.30
+; glue
+			172708	AAAA	2001:502:1ca1::30
+; glue
+f.gtld-servers.net.	172708	A	192.35.51.30
+; glue
+			172708	AAAA	2001:503:d414::30
+; glue
+g.gtld-servers.net.	172708	A	192.42.93.30
+; glue
+			172708	AAAA	2001:503:eea3::30
+; glue
+h.gtld-servers.net.	172708	A	192.54.112.30
+; glue
+			172708	AAAA	2001:502:8cc::30
+; glue
+i.gtld-servers.net.	172708	A	192.43.172.30
+; glue
+			172708	AAAA	2001:503:39c1::30
+; glue
+j.gtld-servers.net.	172708	A	192.48.79.30
+; glue
+			172708	AAAA	2001:502:7094::30
+; glue
+k.gtld-servers.net.	172708	A	192.52.178.30
+; glue
+			172708	AAAA	2001:503:d2d::30
+; glue
+l.gtld-servers.net.	172708	A	192.41.162.30
+; glue
+			172708	AAAA	2001:500:d937::30
+; glue
+m.gtld-servers.net.	172708	A	192.55.83.30
+; glue
+			172708	AAAA	2001:501:b1f9::30
+; glue
+anycast23.irondns.net.	172733	A	195.253.65.11
+; glue
+			172733	AAAA	2a01:5b0:5::b
+; glue
+anycast9.irondns.net.	172733	A	195.253.64.11
+; glue
+			172733	AAAA	2a01:5b0:4::b
+; glue
+a.root-servers.net.	518308	A	198.41.0.4
+; glue
+			518308	AAAA	2001:503:ba3e::2:30
+; glue
+b.root-servers.net.	518308	A	170.247.170.2
+; glue
+			518308	AAAA	2801:1b8:10::b
+; glue
+c.root-servers.net.	518308	A	192.33.4.12
+; glue
+			518308	AAAA	2001:500:2::c
+; glue
+d.root-servers.net.	518308	A	199.7.91.13
+; glue
+			518308	AAAA	2001:500:2d::d
+; glue
+e.root-servers.net.	518308	A	192.203.230.10
+; glue
+			518308	AAAA	2001:500:a8::e
+; glue
+f.root-servers.net.	518308	A	192.5.5.241
+; glue
+			518308	AAAA	2001:500:2f::f
+; glue
+g.root-servers.net.	518308	A	192.112.36.4
+; glue
+			518308	AAAA	2001:500:12::d0d
+; glue
+h.root-servers.net.	518308	A	198.97.190.53
+; glue
+			518308	AAAA	2001:500:1::53
+; glue
+i.root-servers.net.	518308	A	192.36.148.17
+; glue
+			518308	AAAA	2001:7fe::53
+; glue
+j.root-servers.net.	518308	A	192.58.128.30
+; glue
+			518308	AAAA	2001:503:c27::2:30
+; glue
+k.root-servers.net.	518308	A	193.0.14.129
+; glue
+			518308	AAAA	2001:7fd::1
+; glue
+l.root-servers.net.	518308	A	199.7.83.42
+; glue
+			518308	AAAA	2001:500:9f::42
+; glue
+m.root-servers.net.	518308	A	202.12.27.33
+; glue
+			518308	AAAA	2001:dc3::35
+; glue
+org.			172724	NS	a0.org.afilias-nst.info.
+			172724	NS	a2.org.afilias-nst.info.
+			172724	NS	b0.org.afilias-nst.org.
+			172724	NS	b2.org.afilias-nst.org.
+			172724	NS	c0.org.afilias-nst.info.
+			172724	NS	d0.org.afilias-nst.org.
+; additional
+			86324	DS	26974 8 2 (
+					4FEDE294C53F438A158C41D39489CD78A86B
+					EB0D8A0AEAFF14745C0D16E1DE32 )
+; additional
+			86324	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					nC0/NYvbWxpmD/4GLF70o1YfV58xw6FXC+Cm
+					6896XVYDyCqSUhU9gQM9UMt9dwfbqfCX4Bh9
+					fPft3y4vVQFIQOW51MYxkHjHZOm8EgYAbGco
+					hQ6B55ISYmS577kvATjOZos+szOpfkD6Nc1a
+					9aZQAFdPpsn9NwME2ZWHDse9mOupdRNuxzoz
+					fiwXgJWGWxu20IjZw4bs4rzL4a3FDmla5QjV
+					g07/6p73ORkXs1yorTe3fWQO+4eiIvBxGvmA
+					CHzQwaYgWICJKn9HUkz5LfNvmgJvZ2HLCOig
+					NIo5QcFDqbV7pnEG8n7W2oq5c1Qm8HJ64gJD
+					crW4GWx9l0bQ/Jjotg== )
+; glue
+b0.org.afilias-nst.org.	172724	A	199.19.54.1
+; glue
+			172724	AAAA	2001:500:c::1
+; glue
+b2.org.afilias-nst.org.	172724	A	199.249.120.1
+; glue
+			172724	AAAA	2001:500:48::1
+; glue
+d0.org.afilias-nst.org.	172724	A	199.19.57.1
+; glue
+			172724	AAAA	2001:500:f::1
+; glue
+uk.			172724	NS	nsa.nic.uk.
+			172724	NS	nsb.nic.uk.
+			172724	NS	nsc.nic.uk.
+			172724	NS	nsd.nic.uk.
+			172724	NS	dns1.nic.uk.
+			172724	NS	dns2.nic.uk.
+			172724	NS	dns3.nic.uk.
+			172724	NS	dns4.nic.uk.
+; additional
+			86324	DS	43876 8 2 (
+					A107ED2AC1BD14D924173BC7E827A1153582
+					072394F9272BA37E2353BC659603 )
+; additional
+			86324	RRSIG	DS 8 1 86400 (
+					20241206170000 20241123160000 61050 .
+					mNC2wERVOKQIEhx1701r3Yn/g54Eq2Uxf+tw
+					4Wj0TVvjzlaiAIcWBnTQXCZq8di/3g9zo11m
+					MJMgzhCdAk5Vw4hum/wthKROxJwz53hXS0WT
+					x7NmXJHRD+yh8W+BLnNeSfkprYgbO2AHrt1G
+					72qFkfiKksJga1mjmQEgRSMoqxk43SjwnYsX
+					hdmfLZYOev3XVFMM0mifrfKrV12o/HfnkvJ+
+					vy3x1eAd0DCNEjmtCOnIQhxn8TJ11Sfm5N6/
+					hiRneWZgf/+30Az2R1osCRbxGQqb5qF++CZ0
+					W/sCJ8ceephG7tkHyOjEI+sH7JEtHcO3JSWL
+					SOmN7sckoIyzh8GoPg== )
+; glue
+dns1.nic.uk.		172724	A	213.248.216.1
+; glue
+			172724	AAAA	2a01:618:400::1
+; glue
+dns2.nic.uk.		172724	A	103.49.80.1
+; glue
+			172724	AAAA	2401:fd80:400::1
+; glue
+dns3.nic.uk.		172724	A	213.248.220.1
+; glue
+			172724	AAAA	2a01:618:404::1
+; glue
+dns4.nic.uk.		172724	A	43.230.48.1
+; glue
+			172724	AAAA	2401:fd80:404::1
+; glue
+nsa.nic.uk.		172724	A	156.154.100.3
+; glue
+			172724	AAAA	2001:502:ad09::3
+; glue
+nsb.nic.uk.		172724	A	156.154.101.3
+; glue
+			172724	AAAA	2001:502:2eda::3
+; glue
+nsc.nic.uk.		172724	A	156.154.102.3
+; glue
+			172724	AAAA	2610:a1:1009::3
+; glue
+nsd.nic.uk.		172724	A	156.154.103.3
+; glue
+			172724	AAAA	2610:a1:1010::3
+;
+; Address database dump
+;
+; [edns success/timeout]
+; [plain success/timeout]
+;
+; ns-717.awsdns-25.net. [v4 TTL 86324] [v6 TTL 86324] [v4 success] [v6 success]
+;	205.251.194.205 [srtt 9297] [flags 00000004] [edns 1/0] [plain 0/0] [udpsize 512] [ttl -16]
+;	2600:9000:5302:cd00::1 [srtt 97920] [flags 00000000] [edns 0/1] [plain 0/0] [ttl -16]
+;
+; Unassociated entries
+;
+;
+; Bad cache
+;
+;
+; SERVFAIL cache
+;
+;
+; Start view _bind
+;
+;
+; Cache dump of view '_bind' (cache _bind)
+;
+; using a 0 second stale ttl
+$DATE 20241123200321
+;
+; Address database dump
+;
+; [edns success/timeout]
+; [plain success/timeout]
+;
+;
+; Unassociated entries
+;
+;
+; Bad cache
+;
+;
+; SERVFAIL cache
+;
+; Dump complete

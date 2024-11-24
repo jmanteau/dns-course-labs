@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.one. admin.one. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.one.
+@   IN  NS  ns2.one.
+ns1.one. IN A 10.0.0.1
+ns2.one. IN A 10.0.0.2
+one IN A 141.17.2.113
+vigo IN A 89.7.97.215
+vigo IN A 66.188.96.181
+vigo IN A 219.88.93.41

@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.ro. admin.ro. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.ro.
+@   IN  NS  ns2.ro.
+ns1.ro. IN A 10.0.0.1
+ns2.ro. IN A 10.0.0.2
+google IN A 39.116.178.206
+google IN A 73.73.40.124
+superbet IN A 148.52.50.34
+superbet IN A 163.0.10.101

@@ -1,0 +1,39 @@
+$TTL 86400
+@   IN  SOA ns1.media. admin.media. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.media.
+@   IN  NS  ns2.media.
+ns1.media. IN A 10.0.0.1
+ns2.media. IN A 10.0.0.2
+adjs IN A 175.56.226.31
+andbeyond IN A 206.163.133.100
+appocean IN A 54.174.136.166
+cherrytv IN A 12.179.229.222
+dexerto IN A 201.235.6.247
+dexerto IN A 107.207.69.25
+discord IN A 61.187.131.107
+doppiocdn IN A 137.95.5.83
+doppiocdn IN A 42.213.137.135
+doppiocdn IN A 81.118.146.223
+gravitec IN A 15.31.190.26
+impactify IN A 189.20.214.166
+impactify IN A 112.41.226.171
+impactify IN A 145.49.174.122
+membrana-cdn IN A 119.169.119.24
+membrana IN A 42.245.129.50
+netpub IN A 154.197.122.158
+news24 IN A 6.199.137.228
+playstream IN A 52.48.78.109
+teleport IN A 167.134.160.230
+teleport IN A 61.179.39.38
+teleport IN A 158.184.244.198
+voicemaker IN A 181.154.201.183
+voicemaker IN A 213.231.244.122
+yoho IN A 83.30.165.72
+yoho IN A 63.58.123.16
+yoho IN A 217.45.194.163

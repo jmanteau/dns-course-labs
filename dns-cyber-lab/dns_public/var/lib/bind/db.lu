@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.lu. admin.lu. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.lu.
+@   IN  NS  ns2.lu.
+ns1.lu. IN A 10.0.0.1
+ns2.lu. IN A 10.0.0.2
+google IN A 36.26.40.111
+harry IN A 63.218.159.252
+harry IN A 149.173.198.75
+harry IN A 94.98.130.44
+mjt IN A 50.107.51.56

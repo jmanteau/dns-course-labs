@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.page. admin.page. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.page.
+@   IN  NS  ns2.page.
+ns1.page. IN A 10.0.0.1
+ns2.page. IN A 10.0.0.2
+ck IN A 73.184.206.25
+hlx IN A 117.164.172.69
+instant IN A 74.85.117.40
+plesk IN A 139.111.171.230

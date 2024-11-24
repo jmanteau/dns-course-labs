@@ -1,0 +1,25 @@
+$TTL 86400
+@   IN  SOA ns1.video. admin.video. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.video.
+@   IN  NS  ns2.video.
+ns1.video. IN A 10.0.0.1
+ns2.video. IN A 10.0.0.2
+elements IN A 181.47.92.139
+elements IN A 151.14.203.230
+like IN A 61.62.85.215
+like IN A 198.248.216.70
+like IN A 208.24.68.64
+likee IN A 67.97.40.212
+moe IN A 141.240.223.61
+nmcorp IN A 136.110.220.68
+nmcorp IN A 114.165.26.217
+nmcorp IN A 164.8.214.77
+pornhat IN A 51.131.210.35
+tubi IN A 223.103.149.183
+tubi IN A 182.146.231.217

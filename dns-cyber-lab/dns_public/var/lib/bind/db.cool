@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.cool. admin.cool. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.cool.
+@   IN  NS  ns2.cool.
+ns1.cool. IN A 10.0.0.1
+ns2.cool. IN A 10.0.0.2
+videochat IN A 174.29.231.179
+videochat IN A 169.156.163.88

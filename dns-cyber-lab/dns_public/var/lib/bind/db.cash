@@ -1,0 +1,15 @@
+$TTL 86400
+@   IN  SOA ns1.cash. admin.cash. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.cash.
+@   IN  NS  ns2.cash.
+ns1.cash. IN A 10.0.0.1
+ns2.cash. IN A 10.0.0.2
+ouxyi IN A 220.76.214.41
+ouxyi IN A 69.241.149.251
+ouxyi IN A 169.81.101.60

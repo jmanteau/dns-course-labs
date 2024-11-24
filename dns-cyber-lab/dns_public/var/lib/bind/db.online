@@ -1,0 +1,41 @@
+$TTL 86400
+@   IN  SOA ns1.online. admin.online. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.online.
+@   IN  NS  ns2.online.
+ns1.online. IN A 10.0.0.1
+ns2.online. IN A 10.0.0.2
+2kcoretech IN A 74.10.10.60
+adkld164sf IN A 75.212.149.196
+aj1907 IN A 207.222.48.5
+bsa12d1s7 IN A 121.44.96.69
+bsa12d1s7 IN A 52.247.240.207
+bsa12d1s7 IN A 9.80.219.19
+corpscorp IN A 114.228.43.213
+corpscorp IN A 27.47.53.62
+corpscorp IN A 124.247.174.251
+cyberprotector IN A 65.176.72.236
+luwip IN A 170.254.198.212
+myenergi IN A 50.119.95.197
+myenergi IN A 33.81.172.158
+myenergi IN A 38.138.244.110
+omniconnectivity IN A 44.230.240.93
+omniconnectivity IN A 4.86.168.70
+qqsdwelsfs IN A 145.214.15.23
+revservers IN A 113.46.158.107
+revservers IN A 68.118.31.158
+safevisit IN A 28.195.115.243
+safevisit IN A 8.31.252.59
+wboptim IN A 11.35.84.243
+wboptim IN A 76.34.4.231
+wboptim IN A 9.5.9.149
+wemuslim IN A 189.254.223.204
+wstracker IN A 161.61.25.30
+wstracker IN A 178.206.67.97
+wstracker IN A 162.21.207.118
+y6oseldsc IN A 189.190.198.30

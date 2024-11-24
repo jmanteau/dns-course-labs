@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.dj. admin.dj. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.dj.
+@   IN  NS  ns2.dj.
+ns1.dj. IN A 10.0.0.1
+ns2.dj. IN A 10.0.0.2
+google IN A 130.236.71.101
+google IN A 141.3.86.219

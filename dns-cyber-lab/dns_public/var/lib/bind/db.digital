@@ -1,0 +1,19 @@
+$TTL 86400
+@   IN  SOA ns1.digital. admin.digital. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.digital.
+@   IN  NS  ns2.digital.
+ns1.digital. IN A 10.0.0.1
+ns2.digital. IN A 10.0.0.2
+conde IN A 183.183.231.251
+conde IN A 35.21.32.223
+conde IN A 55.191.97.34
+delen IN A 214.162.51.106
+delen IN A 56.29.78.186
+delen IN A 99.236.101.248
+extreme IN A 172.29.239.250

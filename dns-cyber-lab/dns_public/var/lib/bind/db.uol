@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.uol. admin.uol. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.uol.
+@   IN  NS  ns2.uol.
+ns1.uol. IN A 10.0.0.1
+ns2.uol. IN A 10.0.0.2
+pagseguro IN A 7.61.68.241

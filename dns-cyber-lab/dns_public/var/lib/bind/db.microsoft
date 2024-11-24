@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.microsoft. admin.microsoft. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.microsoft.
+@   IN  NS  ns2.microsoft.
+ns1.microsoft. IN A 10.0.0.1
+ns2.microsoft. IN A 10.0.0.2
+cloud IN A 18.59.200.185
+static IN A 35.34.237.4
+usercontent IN A 31.163.74.191
+usercontent IN A 151.205.178.11

@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.events. admin.events. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.events.
+@   IN  NS  ns2.events.
+ns1.events. IN A 10.0.0.1
+ns2.events. IN A 10.0.0.2
+growplow IN A 160.240.190.85
+growplow IN A 149.31.192.252
+growplow IN A 163.152.194.177
+remerge IN A 127.49.142.238
+remerge IN A 128.254.112.236

@@ -1,0 +1,47 @@
+$TTL 86400
+@   IN  SOA ns1.fr. admin.fr. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.fr.
+@   IN  NS  ns2.fr.
+ns1.fr. IN A 10.0.0.1
+ns2.fr. IN A 10.0.0.2
+amazon IN A 153.231.84.189
+amazon IN A 149.97.247.109
+bbox IN A 146.239.234.95
+bbox IN A 219.74.185.210
+bbox IN A 220.229.226.74
+doctolib IN A 121.233.69.12
+doctolib IN A 191.142.187.118
+first-id IN A 164.62.227.108
+first-id IN A 93.80.241.141
+free IN A 199.40.219.152
+google IN A 206.214.92.85
+google IN A 55.228.235.86
+gouv IN A 189.193.158.133
+happn IN A 97.78.140.65
+leboncoin IN A 182.108.236.10
+lefigaro IN A 76.224.106.145
+lemonde IN A 186.16.237.101
+lemonde IN A 120.250.230.111
+lemonde IN A 50.202.51.22
+orange IN A 67.18.187.3
+orange IN A 188.240.243.33
+orange IN A 104.151.103.50
+poool IN A 30.65.250.153
+radiofrance IN A 74.115.36.222
+tf1 IN A 220.180.100.192
+themoneytizer IN A 149.151.50.6
+themoneytizer IN A 79.201.229.157
+vinted IN A 42.111.220.245
+vinted IN A 23.32.113.174
+wanadoo IN A 107.195.98.240
+wanadoo IN A 137.58.155.190
+wanadoo IN A 211.15.181.225
+weborama IN A 149.71.205.7
+weborama IN A 162.57.160.187
+ynh IN A 54.85.66.148

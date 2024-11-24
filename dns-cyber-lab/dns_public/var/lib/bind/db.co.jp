@@ -1,0 +1,28 @@
+$TTL 86400
+@   IN  SOA ns1.co.jp. admin.co.jp. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.co.jp.
+@   IN  NS  ns2.co.jp.
+ns1.co.jp. IN A 10.0.0.1
+ns2.co.jp. IN A 10.0.0.2
+amazon IN A 164.161.204.71
+amazon IN A 194.224.108.230
+amazon IN A 198.118.47.182
+brother IN A 42.133.165.48
+disney IN A 64.97.41.252
+dmm IN A 69.64.84.55
+google IN A 20.58.28.187
+google IN A 23.152.167.147
+google IN A 112.98.142.10
+i-mobile IN A 25.244.67.90
+i-mobile IN A 92.86.11.80
+logly IN A 91.216.21.98
+rakuten IN A 83.54.195.118
+trendmicro IN A 29.56.233.161
+trendmicro IN A 105.177.133.131
+yahoo IN A 77.28.214.62

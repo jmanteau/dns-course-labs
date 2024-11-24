@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.gold. admin.gold. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gold.
+@   IN  NS  ns2.gold.
+ns1.gold. IN A 10.0.0.1
+ns2.gold. IN A 10.0.0.2
+xnxx IN A 113.129.111.10
+xnxx IN A 62.187.92.89
+xnxx IN A 23.198.150.182
+yescoin IN A 128.54.212.196

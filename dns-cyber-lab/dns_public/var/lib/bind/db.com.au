@@ -1,0 +1,33 @@
+$TTL 86400
+@   IN  SOA ns1.com.au. admin.com.au. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.com.au.
+@   IN  NS  ns2.com.au.
+ns1.com.au. IN A 10.0.0.1
+ns2.com.au. IN A 10.0.0.2
+amazon IN A 14.8.68.185
+auspost IN A 125.72.0.189
+auspost IN A 98.125.31.236
+commbank IN A 48.46.43.139
+commbank IN A 28.158.233.183
+google IN A 220.99.60.71
+hipages IN A 135.121.6.29
+hipages IN A 124.181.131.241
+hipages IN A 79.78.138.163
+nab IN A 159.61.69.29
+news IN A 209.235.84.155
+news IN A 183.203.1.147
+nine IN A 178.83.152.24
+nine IN A 159.87.194.185
+nine IN A 210.11.127.9
+realestate IN A 184.29.70.56
+seek IN A 72.63.136.230
+telstra IN A 49.17.97.83
+telstra IN A 187.237.129.4
+theiconic IN A 178.202.190.161
+tpg IN A 219.172.158.1

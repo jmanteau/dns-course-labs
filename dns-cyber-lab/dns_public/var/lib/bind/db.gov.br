@@ -1,0 +1,36 @@
+$TTL 86400
+@   IN  SOA ns1.gov.br. admin.gov.br. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gov.br.
+@   IN  NS  ns2.gov.br.
+ns1.gov.br. IN A 10.0.0.1
+ns2.gov.br. IN A 10.0.0.2
+acesso IN A 132.97.57.233
+caixa IN A 98.222.118.176
+dataprev IN A 51.132.181.237
+dataprev IN A 80.214.128.233
+dataprev IN A 62.224.236.2
+df IN A 34.66.150.213
+df IN A 119.169.164.109
+df IN A 192.114.6.22
+fazenda IN A 200.186.148.146
+inss IN A 209.213.196.93
+inss IN A 149.83.248.114
+inss IN A 28.231.99.203
+mg IN A 32.73.103.82
+pr IN A 199.234.59.89
+previdencia IN A 206.222.118.95
+rj IN A 19.254.163.119
+rs IN A 74.75.107.155
+rs IN A 156.165.29.229
+saude IN A 44.127.67.40
+serpro IN A 158.60.193.96
+sp IN A 113.176.164.88
+sp IN A 18.97.205.171
+sp IN A 92.230.205.132
+vlibras IN A 128.113.181.137

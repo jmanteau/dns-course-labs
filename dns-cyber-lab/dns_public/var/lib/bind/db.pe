@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.pe. admin.pe. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.pe.
+@   IN  NS  ns2.pe.
+ns1.pe. IN A 10.0.0.1
+ns2.pe. IN A 10.0.0.2
+shop IN A 165.175.164.249
+shop IN A 182.114.194.60

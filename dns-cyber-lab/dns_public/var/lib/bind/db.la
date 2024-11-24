@@ -1,0 +1,18 @@
+$TTL 86400
+@   IN  SOA ns1.la. admin.la. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.la.
+@   IN  NS  ns2.la.
+ns1.la. IN A 10.0.0.1
+ns2.la. IN A 10.0.0.2
+51 IN A 72.91.144.213
+carambo IN A 193.24.139.98
+google IN A 32.96.136.126
+hitomi IN A 48.52.158.222
+myip IN A 18.172.52.193
+soom IN A 166.68.125.118

@@ -1,0 +1,40 @@
+$TTL 86400
+@   IN  SOA ns1.to. admin.to. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.to.
+@   IN  NS  ns2.to.
+ns1.to. IN A 10.0.0.1
+ns2.to. IN A 10.0.0.2
+1337x IN A 45.193.232.115
+amzn IN A 71.7.247.126
+bitsearch IN A 33.214.10.84
+bitsearch IN A 90.35.95.76
+chapmanganato IN A 24.92.202.43
+chapmanganato IN A 151.136.49.114
+cpx IN A 103.165.90.196
+dial IN A 6.95.216.14
+eztvx IN A 165.201.155.29
+google IN A 186.115.154.20
+google IN A 54.234.202.67
+hianime IN A 188.113.80.147
+hianime IN A 216.64.70.93
+hianime IN A 71.254.46.250
+kickasstorrents IN A 116.166.61.164
+lookmovie2 IN A 63.166.75.153
+lookmovie2 IN A 107.59.209.114
+lookmovie2 IN A 23.215.9.115
+pho IN A 94.136.184.177
+pixhost IN A 107.238.169.56
+pixhost IN A 146.123.250.210
+quickconnect IN A 193.144.6.134
+solidtorrents IN A 80.80.145.205
+stalker IN A 35.94.145.216
+stalker IN A 170.24.4.155
+tawk IN A 164.133.242.94
+therarbg IN A 96.184.207.66
+therarbg IN A 219.46.245.169

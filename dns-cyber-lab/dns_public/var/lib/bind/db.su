@@ -1,0 +1,17 @@
+$TTL 86400
+@   IN  SOA ns1.su. admin.su. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.su.
+@   IN  NS  ns2.su.
+ns1.su. IN A 10.0.0.1
+ns2.su. IN A 10.0.0.2
+coomer IN A 102.54.137.225
+jpg5 IN A 31.249.225.128
+jut IN A 36.123.66.167
+kemono IN A 51.8.188.219
+tanki IN A 210.3.117.44

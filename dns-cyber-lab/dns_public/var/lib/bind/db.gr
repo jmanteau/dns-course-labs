@@ -1,0 +1,16 @@
+$TTL 86400
+@   IN  SOA ns1.gr. admin.gr. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gr.
+@   IN  NS  ns2.gr.
+ns1.gr. IN A 10.0.0.1
+ns2.gr. IN A 10.0.0.2
+google IN A 52.122.192.132
+otenet IN A 117.77.187.148
+otenet IN A 183.58.144.163
+otenet IN A 126.187.7.149

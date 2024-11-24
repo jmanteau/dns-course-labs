@@ -1,0 +1,28 @@
+$TTL 86400
+@   IN  SOA ns1.shop. admin.shop. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.shop.
+@   IN  NS  ns2.shop.
+ns1.shop. IN A 10.0.0.1
+ns2.shop. IN A 10.0.0.2
+direct80ip IN A 203.211.186.7
+disburymixy IN A 29.153.145.83
+disburymixy IN A 9.95.1.21
+disburymixy IN A 215.50.205.27
+mongherblet IN A 221.118.180.145
+mongherblet IN A 50.239.61.242
+mymoyu IN A 13.182.32.154
+mymoyu IN A 125.103.197.141
+nichedruta IN A 113.104.141.105
+nichedruta IN A 172.12.19.210
+nichedruta IN A 164.78.6.90
+ocypetediplont IN A 81.228.24.247
+slimturpis IN A 185.23.89.8
+syndenizen IN A 84.137.200.235
+ziyemy IN A 68.76.99.0
+ziyemy IN A 107.183.126.243

@@ -1,0 +1,26 @@
+$TTL 86400
+@   IN  SOA ns1.goog. admin.goog. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.goog.
+@   IN  NS  ns2.goog.
+ns1.goog. IN A 10.0.0.1
+ns2.goog. IN A 10.0.0.2
+agnss IN A 108.235.25.91
+merchant-center-analytics IN A 72.97.56.36
+merchant-center-analytics IN A 135.159.254.249
+nel IN A 132.221.254.91
+pki IN A 36.102.63.203
+rbm IN A 70.227.255.248
+syndicatedsearch IN A 62.61.136.25
+syndicatedsearch IN A 51.23.106.184
+telephony IN A 176.248.173.37
+translate IN A 41.103.90.88
+turns IN A 57.99.88.179
+usercontent IN A 202.205.39.193
+usercontent IN A 30.48.254.184
+usercontent IN A 206.206.136.51

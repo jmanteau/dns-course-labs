@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA ns1.com.kw. admin.com.kw. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.com.kw.
+@   IN  NS  ns2.com.kw.
+ns1.com.kw. IN A 10.0.0.1
+ns2.com.kw. IN A 10.0.0.2
+google IN A 59.234.44.243
+google IN A 197.18.13.203

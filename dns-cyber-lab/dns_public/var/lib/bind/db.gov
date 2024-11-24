@@ -1,0 +1,39 @@
+$TTL 86400
+@   IN  SOA ns1.gov. admin.gov. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.gov.
+@   IN  NS  ns2.gov.
+ns1.gov. IN A 10.0.0.1
+ns2.gov. IN A 10.0.0.2
+aviationweather IN A 154.217.154.86
+aviationweather IN A 8.131.172.232
+aviationweather IN A 192.251.111.50
+bldrdoc IN A 185.157.97.207
+ca IN A 4.152.134.253
+cdc IN A 137.43.247.39
+dhs IN A 123.136.71.223
+digitalgov IN A 94.210.235.94
+fema IN A 164.54.101.137
+nasa IN A 77.118.147.210
+nasa IN A 209.132.42.42
+nih IN A 106.62.145.106
+nist IN A 210.51.137.104
+noaa IN A 21.5.80.101
+noaa IN A 181.190.132.127
+state IN A 135.230.211.61
+state IN A 48.198.237.42
+studentaid IN A 132.137.39.177
+time IN A 190.95.16.161
+usa IN A 46.182.165.152
+uscourts IN A 186.246.242.199
+uscourts IN A 120.191.167.108
+uscourts IN A 14.146.76.222
+usda IN A 204.158.113.143
+usgs IN A 75.90.67.222
+va IN A 201.214.223.96
+weather IN A 9.222.0.103

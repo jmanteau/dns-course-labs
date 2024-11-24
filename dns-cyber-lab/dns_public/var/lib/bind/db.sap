@@ -1,0 +1,13 @@
+$TTL 86400
+@   IN  SOA ns1.sap. admin.sap. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.sap.
+@   IN  NS  ns2.sap.
+ns1.sap. IN A 10.0.0.1
+ns2.sap. IN A 10.0.0.2
+cloud IN A 214.197.254.74

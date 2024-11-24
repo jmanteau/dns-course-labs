@@ -1,0 +1,42 @@
+$TTL 86400
+@   IN  SOA ns1.it. admin.it. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.it.
+@   IN  NS  ns2.it.
+ns1.it. IN A 10.0.0.1
+ns2.it. IN A 10.0.0.2
+actalis IN A 103.250.122.220
+actalis IN A 158.199.187.247
+amazon IN A 202.138.53.43
+amazon IN A 106.115.108.73
+amazon IN A 52.184.161.31
+aruba IN A 125.237.219.89
+corriere IN A 117.184.237.178
+fastwebnet IN A 211.12.118.1
+fastwebnet IN A 124.18.196.18
+google IN A 108.205.211.69
+google IN A 141.162.107.160
+google IN A 84.95.238.98
+istole IN A 48.64.134.217
+justeat IN A 51.52.189.153
+justeat IN A 54.227.133.39
+kahoot IN A 21.185.44.254
+knotch IN A 135.23.223.47
+libero IN A 197.155.18.154
+mediaset IN A 175.41.48.186
+nanosystems IN A 159.52.156.5
+pstmrk IN A 131.154.188.80
+redd IN A 168.112.16.246
+redd IN A 24.119.152.190
+redd IN A 110.242.87.154
+sky IN A 93.202.253.113
+sky IN A 136.68.182.109
+sky IN A 209.63.21.81
+telecomitalia IN A 145.142.49.232
+tiscali IN A 151.116.241.37
+vodafonedsl IN A 6.110.140.154

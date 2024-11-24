@@ -1,0 +1,22 @@
+$TTL 86400
+@   IN  SOA ns1.bid. admin.bid. (
+        2024010101 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+;
+@   IN  NS  ns1.bid.
+@   IN  NS  ns2.bid.
+ns1.bid. IN A 10.0.0.1
+ns2.bid. IN A 10.0.0.2
+ohmy IN A 34.42.199.107
+ohmy IN A 217.30.164.135
+ohmy IN A 177.38.59.163
+openweb IN A 189.55.136.182
+personaly IN A 128.98.109.84
+personaly IN A 114.17.161.14
+personaly IN A 23.68.215.142
+truffle IN A 206.216.185.80
+truffle IN A 122.152.238.36
+truffle IN A 12.59.228.169
