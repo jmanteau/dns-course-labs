@@ -3,7 +3,7 @@ A Dig Lab and a Cyber Lab for a DNS introduction to student
 
 
 
-The course slides are located here: [Domain Name System Fundamentals](Domain Name System Fundamentals.pdf)
+The course slides are located here: [Domain Name System Fundamentals](Domain%20Name%20System%20Fundamentals.pdf)
 
 You will find two labs to illustrate the course:
 
