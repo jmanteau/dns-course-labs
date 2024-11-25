@@ -6,6 +6,28 @@ Sliver C2 will be used as it is intended to show how a adversary can use C2 fram
 
 
 
+### Prequisites
+
+install Docker Destkop (use Hyper V hence untick the WSL2 box)
+
+Reboot
+
+Authorise the folder to contain malicious : powershell command
+
+Mobaxterm
+
+apt install make
+
+git clone
+
+lab -> Makefile doesn't work on Windows : use the command
+
+
+
+
+
+
+
 # Red Team
 
 ## Generation of the payload
