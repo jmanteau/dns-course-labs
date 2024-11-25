@@ -2,7 +2,45 @@
 
 echo "Starting of $(hostname)"
 
-apk add tcpdump fstrm-utils protobuf-c
+apk add tcpdump fstrm-utils protobuf-c python3 py3-pip vim
+
+pip install rich tldextract pyyaml  --break-system-packages
+tldextract --update
+
+# Remove existing vi symlink or binary
+rm -f /usr/bin/vi
+
+# Create symlink from vi to vim
+ln -s /usr/bin/vim /usr/bin/vi
+
+
+cat << 'EOF' > ~/.vimrc
+" Vim configuration for Python development
+syntax on
+filetype plugin indent on
+set number
+set autoindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set background=dark
+colorscheme desert
+EOF
+
+cat << 'EOF' > /root/.vimrc
+" Vim configuration for Python development
+syntax on
+filetype plugin indent on
+set number
+set autoindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set background=dark
+colorscheme desert
+EOF
+
+
 
 touch  /var/log/queries.log
 #chown bind:bind /var/log/queries.log

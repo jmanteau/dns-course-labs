@@ -1,0 +1,25 @@
+$TTL 2h
+@       IN      SOA     localhost. root.localhost. (
+                        2024112501 ; Serial YYYYMMDDXX
+                        1h         ; Refresh
+                        15m        ; Retry
+                        30d        ; Expire
+                        2h )       ; Negative caching TTL
+
+        IN      NS      localhost.
+
+; Block domains by returning NXDOMAIN
+badwebsite.com.rpz.             CNAME   *.
+
+; Block domains by returning an empty response
+maliciousdomain.net.rpz.        CNAME   .
+
+; Redirect domains to a walled garden or warning page
+phishingsite.org.rpz.           CNAME   safe-redirect.example.com.
+
+; Redirect specific domains to 127.0.0.1
+17track.net.rpz.             A       127.0.0.1
+*.17track.net.rpz.           A       127.0.0.1
+
+; Whitelist a domain (bypass RPZ policies)
+trustedsite.com.rpz.            CNAME   rpz-passthru.

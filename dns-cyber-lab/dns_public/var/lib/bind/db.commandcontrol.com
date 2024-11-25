@@ -10,8 +10,8 @@ $TTL 86400
 ; Nameservers
 @    IN    NS    ns1.commandcontrol.com.
 
-ns1.commandcontrol.com.  IN A 10.89.0.4
-s.commandcontrol.com.  IN NS 10.89.0.4
+ns1.commandcontrol.com.  IN A 10.89.1.4
+s.commandcontrol.com.  IN NS 10.89.1.4
 
 test.commandcontrol.com.  IN A  1.1.1.1
 

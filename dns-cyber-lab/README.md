@@ -12,15 +12,15 @@ install Docker Destkop (use Hyper V hence untick the WSL2 box)
 
 Reboot
 
-Authorise the folder to contain malicious : powershell command
+Authorise the folder to contain malicious : Powershell `Add-MpPreference -ExclusionPath "C: \Users\admin\AppData\Roaming \Mobaxterm`
 
-Mobaxterm
+In Mobaxterm:
 
-apt install make
+* apt install make
 
-git clone
+* git clone https://github.com/jmanteau/dns-course-labs.git
 
-lab -> Makefile doesn't work on Windows : use the command
+The Makefile alias doesn't work properly on Windows : use the command given back in the Makefile error to access the shell.
 
 
 
@@ -297,197 +297,258 @@ message:
 
 
 
+Now execute the python script analysis.py:
 
+```
+❯ python3 analysis.py
+[19:22:31] INFO     Parsing DNS logs from var/log/dnslog.txt                                                                                                                                                      analysis.py:313
+[19:22:49] INFO     Finished parsing DNS logs                                                                                                                                                                     analysis.py:342
+           INFO     Starting analysis of domains                                                                                                                                                                  analysis.py:422
+Analyzing domains... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+[19:22:50] INFO     Finished analysis of domains                                                                                                                                                                  analysis.py:443
+========================================
+SLD: public-trust.com.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - public-trust.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.5069 (3.0721)
+   non_letter_ratio: 0.0667 (0.0248)
+   hex_char_ratio: 0.2000 (0.3017)
+   vowel_ratio: 0.2667 (0.3348)*
+   n_gram_2: 7.1429 (20.9079)*
+   n_gram_3: 7.6923 (9.8561)
+   gini_index: 0.9067 (0.8627)*
+   classification_error: 0.8667 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 17.0000 (17.9644)
+------------------------------
+========================================
+SLD: 1024terabox.com.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - 1024terabox.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.6645 (3.0721)
+   non_letter_ratio: 0.2857 (0.0248)
+   hex_char_ratio: 0.2857 (0.3017)
+   vowel_ratio: 0.2857 (0.3348)*
+   n_gram_2: 7.6923 (20.9079)*
+   n_gram_3: 16.6667 (9.8561)
+   gini_index: 0.9184 (0.8627)*
+   classification_error: 0.8571 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 16.0000 (17.9644)
+------------------------------
+========================================
+SLD: 524131g7t.xyz.
+Score: 4.80 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - 524131g7t.xyz.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.4183 (3.0721)
+   non_letter_ratio: 0.5833 (0.0248)*
+   hex_char_ratio: 0.0000 (0.3017)
+   vowel_ratio: 0.0000 (0.3348)*
+   n_gram_2: 0.0000 (20.9079)*
+   n_gram_3: 0.0000 (9.8561)
+   gini_index: 0.9028 (0.8627)*
+   classification_error: 0.8333 (0.7978)
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 14.0000 (17.9644)
+------------------------------
+========================================
+SLD: choapuwtbvs.com.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - choapuwtbvs.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.5216 (3.0721)
+   non_letter_ratio: 0.0000 (0.0248)
+   hex_char_ratio: 0.2857 (0.3017)
+   vowel_ratio: 0.2857 (0.3348)*
+   n_gram_2: 7.6923 (20.9079)*
+   n_gram_3: 8.3333 (9.8561)
+   gini_index: 0.9082 (0.8627)*
+   classification_error: 0.8571 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 16.0000 (17.9644)
+------------------------------
+========================================
+SLD: site24x7.com.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - site24x7.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.4594 (3.0721)
+   non_letter_ratio: 0.2727 (0.0248)
+   hex_char_ratio: 0.1818 (0.3017)
+   vowel_ratio: 0.2727 (0.3348)*
+   n_gram_2: 0.0000 (20.9079)*
+   n_gram_3: 11.1111 (9.8561)
+   gini_index: 0.9091 (0.8627)*
+   classification_error: 0.9091 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 13.0000 (17.9644)
+------------------------------
+========================================
+SLD: terabox1024.com.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - terabox1024.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.6645 (3.0721)
+   non_letter_ratio: 0.2857 (0.0248)
+   hex_char_ratio: 0.2857 (0.3017)
+   vowel_ratio: 0.2857 (0.3348)*
+   n_gram_2: 7.6923 (20.9079)*
+   n_gram_3: 16.6667 (9.8561)
+   gini_index: 0.9184 (0.8627)*
+   classification_error: 0.8571 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 16.0000 (17.9644)
+------------------------------
+========================================
+SLD: commandcontrol.com.
+Score: 7.21 (Threshold: 4.5)
+Number of flagged domains: 73
+FQDNs under this SLD:
+   - baakbyx0wa88.s.commandcontrol.com.
+   - UYCkf2P1idG1KFkSoKVv.s.commandcontrol.com.
+   - 1cwuqmad342jxy1pea9tjy89.s.commandcontrol.com.
+   - 1cwuqmad342e9nbmfr8qq0h2.s.commandcontrol.com.
+   - 6Ngv85FEMSXAquHiyZzdRWb.s.commandcontrol.com.
+   - UYCkf2P1JLVniPmCmN6X.s.commandcontrol.com.
+   - 1cwuqmad342bc1ak0mmn3znr.s.commandcontrol.com.
+   - 3NNhTEvjhuigKuZWYu2Au1Gj835Y6LtwX5xQCVYFXetM7KokzUZbYRQhSXocvYF.DMHZoVWQpo5qQMCghT8km5ouFQDHekkVoLJriNC3NK9uQSLoUkEzGZNnAj5ycPW.Z5KJXga9rUhCZtU4Tio7jjU18Ya6WWQhMLh2iDgXKzy9Cc412zyFw5V1oLxMroc.9BXjoYykf1SzNoj9jMVysycKi2C7uqAdDaAPKuy.s.commandcontrol.com.
+   - UYCkf2P1iyxi9gALCzmZ.s.commandcontrol.com.
+   - 1cwuqmad342e7b5x1vnwh3yg.s.commandcontrol.com.
+   - UYCkf2P1JekrA3T2CZbz.s.commandcontrol.com.
+   - 3eHUAmw7uVKdY8RKWUdkBnwmVEayS3jUhJng2zycdFxSeegmB1rxMsQ9nta54mh.2FJPkqxdAg7nmkCF1kEfUyobMQB59aoffGjjQdcde4tPe24QxHETiG6eUEk65Hh.gH4GHNuFp5K3FBbe8MEPhNDqCCma3gr.s.commandcontrol.com.
+   - H2Ev7q29w8mdSGMxJ8agimd7y7NVGHUW5eBJ3aUAJZZDhRsVTyFwpSVHCR2BDHw.n8uHpZJcULTPA7HsJpUjUbwAHswBwAyGqKPSkN2G6FWT2qnBdrn1fUQCJX74v5b.HbhvCNjj9aEBGsFF56vXuDTTEmZhf28MvbGPmmJxa8kZMy5B8QY.s.commandcontrol.com.
+   - 6Ngv85FEMSXAiddKfXkobJV.s.commandcontrol.com.
+   - 6Ngv85FEMSXAoSNcTWU2Hsg.s.commandcontrol.com.
+   - 6Ngv85FEMSXb3qrgoubRJEv.s.commandcontrol.com.
+   - 6Ngv85FEMSXAm9k411KUYQp.s.commandcontrol.com.
+   - 1seJSpeF2h5ETxxgjj3AfkFjegAexPrN5zyLBPfG4d6RFtfczcdnYNY2bSFmKDA.WW1RqKCdZMqEN5MvYoiwUqbhHCtzNCx29UVr4uKYXqZoiLtRT1cbmEtt7wniTx8.j.s.commandcontrol.com.
+   - 1NudDmC46z1nMipQpF2GSFCZ1DvUxqSt4UfZjwb4ZJUdQZFsz5DnQiVgMvuGxDL.rPZF6aqD97CJggMgUWptzdvDPUZ5zzMGMFco9GnePVTnzK24A2rZhHJkBCaLdY7.ZzhXwe4mGNCx.s.commandcontrol.com.
+   - backbyhgt839ba8b.s.commandcontrol.com.
+   - 6Ngv85FEMSXAyEXVnVvcHgs.s.commandcontrol.com.
+   - 5Zetn7BHkeXJEzS1EkLXPtYXJbyaNNaS6FWc2yGViQARoW7xuiVnDLA2dpz9tYo.RiGD27u1LXUXo9gLq9ye57EnfimW7XD3yAKPiYFiyHyCh7rh79UG1d6nXNDAJ.s.commandcontrol.com.
+   - backbyhgt859avr.s.commandcontrol.com.
+   - backbyhgt879aw4.s.commandcontrol.com.
+   - 4kMdLCzyk4aEtHv6GgwhMJxUmQ9utKQ4pJtSUbmYYM5Bbt12WyRVBHhtdC2q7tr.94aXdCYWWZX6HLmwJhavkPhXGSFEnEzTtzGJqg5AiRFbd1EM5aHFMs6F7.s.commandcontrol.com.
+   - 4kMdLCzymkfon3zjXu86CfQ17RpJS4nLsgwdvaAXovBVv3KevADjmsAYM3F9Jgv.PQCWMNTs11d7oMFpMhesEgUtTbPcFwEX8eRy9kgzpdV9Qacih49Q6HenG.s.commandcontrol.com.
+   - 6Ngv85FEMSXb4xnq54rSqkT.s.commandcontrol.com.
+   - 6Ngv85FEMSXbg1uj8UjAxZB.s.commandcontrol.com.
+   - backbyhgt899aw4.s.commandcontrol.com.
+   - vu8NY269evX9FUZcsow748hyHGn8G5fzycJBvJixcj4F5UXTKL3pC5KKRSVifZx.KB3MdeHiPfdNYg9C2EAF7vhdRTKXzEWnovZwaBKwveg1gBGT3Tp98aEobyKNiTG.FHUkAxm.s.commandcontrol.com.
+   - LpghHHXDLApz22utCaQYJ7zt5iLtmn3BdNCStwkubVPDGYDDgGajFifgu2QffYX.EDjx5CME8rX4RT5daqwjrZq681kcf8aQKbGHrP1ieuKPCmXQN6MFwxc6gxjE4vr.mTXXZ26VVbYxMJPvGvHGR85z8.s.commandcontrol.com.
+   - 6Ngv85FEMSXb3MuE3hSdgc5.s.commandcontrol.com.
+   - GnuEgwSD3UC8p8zWdYUo9MCipt7JkxYGRxhih11YJL3vZvb5zs8m3hNfpcPwV8V.iuifB6Fxw7XPbN1kyF5CpQYJ4kR6TThChWkho5rWCAd3fxFeM9HZyYGDMvPQLvy.77nwqiAuQEjNn8XVL3.s.commandcontrol.com.
+   - 3NNhTEvjqRWxgJV72X6DqzVdSMLKkJdLD8XMSPUWY5cVzXP2gVLfPwFKwdu2BLi.igL8hHEU6wCzXziwFMoTiBJf5Pb9bJsJyWJv9bZxmYBA2ov42EjZD259EVFKKHL.UnxcijxhBuFV1pA1dRZxpMQkRF8mLAUaew5hhwZA3jtmEjK88UqVWjmNWsi5oUU.oo7AeXeYNrn6bvdedrJExbs2yPqSnqceMFH8vcH.s.commandcontrol.com.
+   - backbyhgt8p9aw4.s.commandcontrol.com.
+   - 6Ngv85FEMSXb11zqWjKRTfG.s.commandcontrol.com.
+   - 4kMdLCzyvFBAerQXLi5Uz8VSuaYjFh7ZKz7HkgW8RtaqDPTMpP3McVqTMbrySk2.JFrdst5PBAqjk4HhTadrywdAbCktsdYRkH3VyMaaSiif5Tc5FVHGPaBUf.s.commandcontrol.com.
+   - backbyhgt8u9aw4.s.commandcontrol.com.
+   - 4kMdLCzytYGRM5M7u7Qfdnqgde7Rjtbgipxoea7RTQo3imxTghf2jsSnrNpPb9n.6zNems81ChmnEuboHc2wjwP2tZ2kh6BbnyemHkf7c5fWSqCJxfSgMd5qa.s.commandcontrol.com.
+   - 6Ngv85FEMSXAwcsASaU5t8w.s.commandcontrol.com.
+   - backbyhgt8y9aw4.s.commandcontrol.com.
+   - 4kMdLCzywwGJ8CVHWRzuNzxr4VXd3ybj3QUecbz8spgr733o3Jm4yrZbAdGYUPj.7xS1iMRFL6bPUv9Yp26nFF8aaLmZqUmQzoVXb3ydyzBnc9Na5Kva8vADc.s.commandcontrol.com.
+   - 6Ngv85FEMSXb6L6gXYxKLZP.s.commandcontrol.com.
+   - 4kMdLCzyyEBt1NZvyeTkmVa45WQHP7FFMqnav9fvBJpPKXGvhpcZ3AHMDkBZsWm.D7pE9wSWP5KeWoBuR46EpesDEwBxfvuDG3q61DZw7mu1W93pxk9pQrSgE.s.commandcontrol.com.
+   - 6Ngv85FEMSXbjRxmguTxdqu.s.commandcontrol.com.
+   - backbyhgtk19aw4.s.commandcontrol.com.
+   - backbyhgtk39aw4.s.commandcontrol.com.
+   - HYN3PbtvJrNQaLKFv585TPgQ7rRegVpD3C4DPVbxxbRo4d6VeMGgfsUYXs7qwL6.KWb7p1dPcZXKiQjbbtpFEJdXx7ejMLAMhie2tPWnDx7R6Zb5v64T1arsG2.s.commandcontrol.com.
+   - 6Ngv85FEMSXb47pA3DiTJ9e.s.commandcontrol.com.
+   - dMd622Mo3rgmYHsgZSgtYPvQV3qxCAZVjd3riVG22wt9cAwEZyMRApGSmyEukk5.S88H8Rt3L97GLECnwj6xC9DMiyppUawxTDLBSZ1DnT9UPR9bpMUoHSjcNvQFmwT.kHH.s.commandcontrol.com.
+   - 4kMdLCzz2Lh1v8fa8N5xCUwnsyScieTGXaQ9MphHZwQSWEnMMSG7iYhqpH9dnTm.WjNRPzHAv6brYHYZygJqFQf8ba2g9UX8cq9hjR34HxkDrBoU94BHxxBcR.s.commandcontrol.com.
+   - 6Ngv85FEMSXAvGB9MX1ixDo.s.commandcontrol.com.
+   - backbyhgtk59aw4.s.commandcontrol.com.
+   - backbyhgtk79aw4.s.commandcontrol.com.
+   - 6Ngv85FEMSXAv256SNMu93H.s.commandcontrol.com.
+   - backbyhgtk99aw4.s.commandcontrol.com.
+   - 3NNhTEvK18sKTnDwDxySy5jLsKDHU88DuvZ2P5LpC7wMZFEXtfQ7jktmzqD9CSN.V3FjmF6Tjxi2yvqqjG1tMQ3Rxad3q8qSmwAHv6FybdddE5KYMPdg1BNYVrLrNqY.py2K82fVLQdgiFd6widVNHqevH4mZ2u9LrCVKThFJdBC3Q29SmwHqfMgCeRHq1c.4rCUUvvpXqdLmewmD3Mnv7NkvRX3juVSbrMGMkd.s.commandcontrol.com.
+   - 65u6Y3qKbvWCxkPbKDicVJbKQGPidvJ6PB2SwRD3z5mYKR3skVikGH2ZhqVU3BW.F5YN57q7ktzfad67WGxd36yUhDXYr5CLXJ8dgfjoxU3qu6FNiggikVRaQiz1agJ.c7GkSPEbt.s.commandcontrol.com.
+   - a2tMe8MDwxuajVZMT1AzcSFoeWmnVAG18Hg12tifJYBtD7gk43pMVzAzJwRzMK4.NS5AbBmu4D6LhtNpMPaA91nbGXypFGohydbqfd3KSEFbuSbpoeY33rc8ybModbq.wCQsD3j8nAtZtMKzY.s.commandcontrol.com.
+   - 6Ngv85FEMSXAzCB6ZPDDWJK.s.commandcontrol.com.
+   - 1WTEgnsvUH1oRpTWkcYPK6oEMgudVuhDpQC4UMJj3pjYEpe9QDvN8i5esitdWZn.f3Yg8jzjaRaYHwWKRJLCJtRD6m7RTd9U1gwXFta1eoRrLnXu3TZ5rdN68DYEM1e.1hd5BDHrcHiB1u4xdcWPtpKWncd.s.commandcontrol.com.
+   - 6Ngv85FEMSXAuasa9Xm7B45.s.commandcontrol.com.
+   - 1NudDmC4FxkBBfyonny9uyBjSuwBV7b9xvWfUuSWRuFZiCtgbhYG1oMPPWQMj8u.gmvCxvuJy72X5MchDyE8cKyJPVRf1wXAMSfFxe7Jz4dxLneqtb5Q1reengCwVNP.xnfgfCb6Woiw.s.commandcontrol.com.
+   - backbyhgtkp9awr.s.commandcontrol.com.
+   - 6Ngv85FEMSXAhKmgm1WYjPD.s.commandcontrol.com.
+   - 3NNhTEvK5RtJQAkJNbxQZparBLVZrv9cu2ZqANxP5mqqzTbL1KuMk5Jzrav5iK8.kZeBUti2dGvcuPBhzr1EDjMvfTygFeaX9vcDKQQ83HXx72YhdDnkas6cxMvLjDM.ZGFXy9XpR7LxLCXad878j8VzN9hQ4A7scGaVmH7JqHZcJLZcjw1mAxB5qJM9nvx.yDe4YrdLSmANP4jbHsNU4Ro7C4L28Q78vGS829K.s.commandcontrol.com.
+   - backbyhgtku9aw4.s.commandcontrol.com.
+   - 65u6Y3qKJMm1twx5haLqLKBErnY6b3AtgyKoQdsZ8E9d6L1HsHVW3cLeWGmU9gT.4ZHfJbrE24ZdXACnTSQdWMDGc8vivJVPhkswj5wFk2wgH7EWDQ7dn7GbimLogD8.iDphGsJoQ.s.commandcontrol.com.
+   - 1WTEgnsvX2ADPtSoWeejgvgkVBCajX96TPcCsUaNTcisn8L7amj9LouY5sukVPG.hqxhttU8xuRLTx9kWkEHXpvnqcnqsPKaEQ2SKzAREcTcdnFNqB5UK6Jz27BY5Vb.rTGUMiUrSnwzcBJcw7JHeppBU5e.s.commandcontrol.com.
+   - a2tMe8MeejkwkdiffA1gHD853TpbvHUKyEkGW7WzXzez7KaFYjJR4kPpBq4VSf2.tRn88TFGzym9i3HcQNReGLvUwLG57TmKrZQSEKTjno1YEz3hqqEX44d2ukXHBu6.eCGiTLePLctSYfJHA.s.commandcontrol.com.
+   - 6Ngv85FEMSXAyihNWDN5VbD.s.commandcontrol.com.
+   - 6Ngv85FEMSXAr18A5SamxMu.s.commandcontrol.com.
+   - 6Ngv85FEMSXb4ucFTqqEgdq.s.commandcontrol.com.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 4.8327 (3.0721)*
+   non_letter_ratio: 0.1229 (0.0248)
+   hex_char_ratio: 0.2478 (0.3017)
+   vowel_ratio: 0.1852 (0.3348)*
+   n_gram_2: 10.9626 (20.9079)
+   n_gram_3: 7.9124 (9.8561)
+   gini_index: 0.9555 (0.8627)*
+   classification_error: 0.9133 (0.7978)*
+   number_of_labels: 4.6986 (2.2024)*
+   average_interval: 0.0712 (1.5459)*
+   payload_size: 91.9863 (17.9644)*
+------------------------------
+========================================
+SLD: adblockplus.org.
+Score: 4.50 (Threshold: 4.5)
+Number of flagged domains: 1
+FQDNs under this SLD:
+   - adblockplus.org.
+Averaged indicators (* is flagged, average value (global average value) :
+   entropy: 3.5216 (3.0721)
+   non_letter_ratio: 0.0000 (0.0248)
+   hex_char_ratio: 0.2857 (0.3017)
+   vowel_ratio: 0.2857 (0.3348)*
+   n_gram_2: 0.0000 (20.9079)*
+   n_gram_3: 0.0000 (9.8561)
+   gini_index: 0.9082 (0.8627)*
+   classification_error: 0.8571 (0.7978)*
+   number_of_labels: 2.0000 (2.2024)
+   average_interval: 0.0000 (1.5459)*
+   payload_size: 16.0000 (17.9644)
+------------------------------
+```
+
+
+
+What is the domain used for the c2 server based on the logs ?
+
+Read the script and modify the weight / threshold to remove the false positive. What did you modify at the end ?
 
 
 
 ## RPZ 
 
+Add the domain into the RPZ (/etc/bind/rpz.zone)
 
+Reload (rndc reload)
 
-## IPtables rules 
+Retest the client implant. It should be blocked now if the configuration is done properly.
 
-You can use iptables to help detect and block DNS tunneling by monitoring and limiting DNS traffic patterns commonly associated with tunneling. While iptables alone won’t detect the high-entropy or encoded data directly, it can restrict traffic patterns typical of DNS tunneling.
 
-
-
-Here are some ways to configure iptables to help mitigate DNS tunneling:
-
-
-
-**1. Limit the Rate of DNS Queries**
-
-
-
-DNS tunneling often involves a high frequency of DNS requests. You can use iptables to rate-limit DNS requests per IP, which can reduce the effectiveness of tunneling attempts.
-
-
-
-\# Rate limit incoming DNS queries to 10 per second per source IP
-
-iptables -A INPUT -p udp --dport 53 -m limit --limit 10/sec --limit-burst 20 -j ACCEPT
-
-iptables -A INPUT -p udp --dport 53 -j DROP
-
-
-
-\# Optionally, apply the same rate limit for TCP DNS queries (some tunnels may use TCP)
-
-iptables -A INPUT -p tcp --dport 53 -m limit --limit 10/sec --limit-burst 20 -j ACCEPT
-
-iptables -A INPUT -p tcp --dport 53 -j DROP
-
-
-
-In this example:
-
-
-
-​	•	--limit 10/sec allows up to 10 DNS requests per second per IP.
-
-​	•	--limit-burst 20 allows a burst of up to 20 requests before applying the rate limit.
-
-​	•	Excess requests are dropped, potentially interrupting DNS tunneling attempts.
-
-
-
-**2. Block Large DNS Packets**
-
-
-
-DNS tunneling can involve large DNS packets, especially if the payload is being transferred via TXT records. You can use iptables to drop DNS packets above a certain size threshold.
-
-
-
-\# Drop UDP DNS packets larger than 512 bytes
-
-iptables -A INPUT -p udp --dport 53 -m length --length 512:65535 -j DROP
-
-
-
-\# Drop TCP DNS packets larger than 512 bytes (optional, for TCP DNS tunnels)
-
-iptables -A INPUT -p tcp --dport 53 -m length --length 512:65535 -j DROP
-
-
-
-This rule drops any DNS packets larger than 512 bytes, which are unusual for typical DNS traffic but common for DNS tunneling payloads. You can adjust the threshold depending on your traffic patterns.
-
-
-
-**3. Limit Specific DNS Query Types (e.g., TXT)**
-
-
-
-DNS tunneling frequently uses TXT records to transfer data. You can use iptables to block or limit the rate of TXT record queries.
-
-
-
-This requires using an IDS/IPS solution (like Snort or Suricata) or iptables with custom u32 matches to inspect DNS query types. However, here’s a more general approach using the string match to drop or limit requests containing specific keywords, such as “TXT”:
-
-
-
-\# Drop DNS queries with "TXT" in the payload (requires iptables-modules installed)
-
-iptables -A INPUT -p udp --dport 53 -m string --algo bm --string "TXT" -j DROP
-
-
-
-This approach isn’t foolproof and may generate false positives, as legitimate TXT queries would also be dropped.
-
-
-
-**4. Restrict Outbound DNS Traffic**
-
-
-
-If your environment allows it, you can restrict DNS queries to only trusted DNS servers, preventing clients from querying arbitrary external DNS servers, which can be used for tunneling.
-
-
-
-\# Allow DNS queries only to trusted DNS servers (e.g., 8.8.8.8 and 8.8.4.4)
-
-iptables -A OUTPUT -p udp --dport 53 -d 8.8.8.8 -j ACCEPT
-
-iptables -A OUTPUT -p udp --dport 53 -d 8.8.4.4 -j ACCEPT
-
-
-
-\# Drop all other outbound DNS requests
-
-iptables -A OUTPUT -p udp --dport 53 -j DROP
-
-
-
-This setup forces all DNS traffic to use only the specified DNS servers, reducing the likelihood of DNS tunneling via unapproved servers.
-
-
-
-**5. Monitor and Alert on Suspicious DNS Traffic Patterns**
-
-
-
-Using iptables logging, you can set up rules to log unusual DNS activity, such as high query rates or large DNS packets. This helps in identifying possible tunneling activity, which you can later block based on patterns observed.
-
-
-
-\# Log DNS queries exceeding a rate limit (for monitoring)
-
-iptables -A INPUT -p udp --dport 53 -m limit --limit 10/min --limit-burst 5 -j LOG --log-prefix "DNS-HighRate: "
-
-
-
-\# Log large DNS packets (for monitoring)
-
-iptables -A INPUT -p udp --dport 53 -m length --length 512:65535 -j LOG --log-prefix "DNS-LargePacket: "
-
-
-
-​	•	**High Rate Logging**: Logs DNS queries that exceed a specified rate, helping to identify sources of frequent DNS queries.
-
-​	•	**Large Packet Logging**: Logs DNS packets above a certain size, which could indicate tunneled data.
-
-
-
-**6. Block Non-Standard Ports for DNS**
-
-
-
-Ensure DNS queries are only allowed on standard ports (UDP/53 and TCP/53). Some tunneling techniques may attempt to use non-standard ports to evade detection.
-
-
-
-\# Drop DNS traffic on non-standard ports
-
-iptables -A INPUT -p udp ! --dport 53 -j DROP
-
-iptables -A INPUT -p tcp ! --dport 53 -j DROP
-
-
-
-This rule drops all DNS-like traffic that doesn’t use the standard DNS ports, making it harder to use alternative ports for tunneling.
-
-
-
-**Summary of iptables Techniques**
-
-
-
-​	1.	**Rate Limit** DNS requests per IP to limit the frequency of queries.
-
-​	2.	**Drop Large Packets** over a certain size threshold to prevent excessive data transfer via DNS.
-
-​	3.	**Limit Specific Query Types** like TXT to reduce the likelihood of data transfers via these records.
-
-​	4.	**Restrict DNS to Trusted Servers** to prevent clients from querying unknown external servers.
-
-​	5.	**Log Suspicious Patterns** to monitor for DNS tunneling and fine-tune rules.
-
-​	6.	**Enforce Standard DNS Ports** to block DNS-like traffic on non-standard ports.
-
-
-
-Combining these iptables rules can help mitigate DNS tunneling attempts, especially when paired with proper logging and monitoring for visibility into potentially suspicious DNS activity.
 
 
 

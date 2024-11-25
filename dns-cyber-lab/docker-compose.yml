@@ -54,6 +54,7 @@ services:
       - ./dns_internal/var/log:/var/log
       - ./dns_internal/start.sh:/start.sh
       - ./shared-data:/shared-data  
+      - ./dns_internal/analysis.py:/analysis.py
     tmpfs:
       - /run/named
     entrypoint: ["/bin/sh", "-c", "/start.sh"]

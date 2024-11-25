@@ -48,7 +48,7 @@ generate_shell_targets: ## Generate shell access targets for containers based on
 		echo "\n.PHONY: $${container}_shell" >> $(MAKEFILE_LIST); \
 		echo "## Access shell of the $${container} container" >> $(MAKEFILE_LIST); \
 		echo "$${container}_shell:" >> $(MAKEFILE_LIST); \
-		echo "	@docker exec -it $${container} /bin/sh" >> $(MAKEFILE_LIST); \
+		echo "	docker exec -it $${container} /bin/sh" >> $(MAKEFILE_LIST); \
 	done
 	@echo "\n# --- End of Auto-Generated Targets ---" >> $(MAKEFILE_LIST)
 	@echo "Shell access targets for containers have been appended to the Makefile."
@@ -56,31 +56,31 @@ generate_shell_targets: ## Generate shell access targets for containers based on
 ## Bring up all services with docker-compose up
 up:
 	@rm -f shared-data/dns_public_ip.txt
-	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
+	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
 	@echo "All services are up and running. Waiting 5s before showing the logs."
 	sleep 5
-	@docker-compose logs --since 1m
+	docker-compose logs --since 1m
 
 ## Stop all services with docker-compose stop
 stop:
-	@docker-compose -f $(DOCKER_COMPOSE_FILE) stop
+	docker-compose -f $(DOCKER_COMPOSE_FILE) stop
 	@echo "All services have been stopped."
 
 ## List all containers for the docker-compose project
 ls:
-	@docker-compose ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
+	docker-compose ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
 
 logs1:
-	@docker-compose logs --since 1m
+	docker-compose logs --since 1m
 
 logs5:
-	@docker-compose logs --since 5m
+	docker-compose logs --since 5m
 
 ## Restart all services with docker-compose
 restart:
 	@rm -f shared-data/dns_public_ip.txt
-	@docker-compose down
-	@docker-compose up -d
+	docker-compose down
+	docker-compose up -d
 	@echo "All services have been restarted."
 
 
@@ -97,31 +97,31 @@ destroy:
 .PHONY: client_shell
 ## Access shell of the client container
 client_shell:
-	@docker exec -it client /bin/sh
+	docker exec -it client /bin/sh
 
 .PHONY: dns_internal_shell
 ## Access shell of the dns_internal container
 dns_internal_shell:
-	@docker exec -it dns_internal /bin/sh
+	docker exec -it dns_internal /bin/sh
 
 .PHONY: dns_public_shell
 ## Access shell of the dns_public container
 dns_public_shell:
-	@docker exec -it dns_public /bin/sh
+	docker exec -it dns_public /bin/sh
 
 .PHONY: c2_server_shell
 ## Access shell of the c2_server container
 c2_server_shell:
-	@docker exec -it c2_server /bin/bash
+	docker exec -it c2_server /bin/bash
 
 .PHONY: webserver_shell
 ## Access shell of the webserver container
 webserver_shell:
-	@docker exec -it webserver /bin/sh
+	docker exec -it webserver /bin/sh
 
 .PHONY: firewall_shell
 ## Access shell of the firewall container
 firewall_shell:
-	@docker exec -it firewall /bin/sh
+	docker exec -it firewall /bin/sh
 
 # --- End of Auto-Generated Targets ---
