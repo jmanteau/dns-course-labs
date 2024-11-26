@@ -194,7 +194,7 @@ Reminder: Valid record type list can be found [here](https://en.wikipedia.org/wi
 
 
 * Which of the following media is using Slack : New York Times (nytimes.com), Le Monde (lemonde.fr) or BBC (bbc.com)?
-* Which certificate authority have the right to deliver certificate for boursorama.com ?
+* Which certificate authority(ies) have the right to deliver certificate for boursorama.com ?
 * How many website use Facebook Domain Verification in the list100 file (to allow using facebook identity, comments, like, etc) (hint: check for facebook-domain-verification)
 * [Seldom used in real life] What is the city indicated on DNS dyndns.com ?
 * What is the IPv6 address (AAAA record) of www.wikipedia.org ?
