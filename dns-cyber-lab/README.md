@@ -12,7 +12,9 @@ install Docker Destkop (use Hyper V hence untick the WSL2 box)
 
 Reboot
 
-Authorise the folder to contain malicious : in Powershell as admin do `Add-MpPreference -ExclusionPath "C:\Users\admin\AppData\Roaming \Mobaxterm`
+Authorise the folder to contain malicious : in Powershell as admin do :
+* If installated: `Add-MpPreference -ExclusionPath "C:\Users\admin\AppData\Roaming \Mobaxterm`
+* If portable: `Add-MpPreference -ExclusionPath "C:\Users\admin\AppData\Local\Temps\Mxt243` (this path is valid with current Mobaxterm version and my change in the future)
 
 In Mobaxterm:
 
