@@ -660,42 +660,38 @@ An RPZ allows you to define custom DNS response policies to block or redirect qu
    Open `/etc/bind/rpz.zone` and add the malicious domain:
 
    ```bind
-   $TTL 60
-   @ IN SOA localhost. root.localhost. (
-       2        ; Serial
-       60       ; Refresh
-       60       ; Retry
-       86400    ; Expire
-       60 )     ; Negative Cache TTL
-   
-   @       IN  NS  localhost.
-   
    ; Block domain by returning NXDOMAIN
-   s.commandcontrol.rpz.       CNAME   *.
+   s.commandcontrol.com.rpz.       CNAME   *.
+   *.s.commandcontrol.com.rpz.       CNAME   *.
    ```
-
+   
    - **Explanation:**
      - The `CNAME .` effectively blocks any queries to `s.commandcontrol.com` by providing a non-existent domain response.
 
-2. **Reload BIND Configuration:**
+2. **Check BIND RPZ Configuration:**
+
+   ```bash
+   named-checkzone rpz /etc/bind/rpz.zone
+   ```
+
+1. **Reload BIND Configuration:**
 
    ```bash
    rndc reload
    ```
-
-3. **Test the Configuration:**
+2. **Test the Configuration on the Client:**
 
    - **Attempt to Resolve the Malicious Domain:**
 
      ```bash
-     dig @localhost s.commandcontrol.com
+     dig xxx.s.commandcontrol.com
      ```
 
    - **Expected Output:**
 
      - The query should fail, indicating that the domain is blocked.
 
-4. **Retest the Implant:**
+3. **Retest the Implant:**
 
    - **On the Client Shell:**
 
