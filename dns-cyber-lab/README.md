@@ -632,7 +632,7 @@ The script might flag legitimate domains as false positives. To improve accuracy
    For example, you might:
 
    - Lower the weight of the `non_letter_ratio` if it's causing too many false positives.
-   - Increase the threshold from `4.5` to `5.0` to reduce sensitivity.
+   - Increase the threshold from the initial value of `4.5` to reduce sensitivity. Which value could make sense based on the current output ?
 
 3. **Re-run the Analysis:**
 
@@ -664,8 +664,8 @@ An RPZ allows you to define custom DNS response policies to block or redirect qu
    
    @       IN  NS  localhost.
    
-   ; Block the malicious domain
-   s.commandcontrol.com      CNAME   .
+   ; Block domain by returning NXDOMAIN
+   s.commandcontrol.rpz.       CNAME   *.
    ```
 
    - **Explanation:**
@@ -731,14 +731,31 @@ By understanding both offensive and defensive perspectives, we gain valuable ins
 
 # Additional Exercises
 
+- **Implement with Sliver a Canary Domain to Deactivate the Agent**:
+
+  DNS Canaries are unique per-binary domains that are optionally  inserted during the string obfuscation process. These domains are not  actually used by the implant code and are deliberately *not obfuscated* so that they show up if someone runs `strings` on the implant. If these domains are ever resolved (and you have a `dns` listener running) you'll get an alert telling which specific file was discovered by the blue team.
+
+  Example `generate` command with canaries, make sure to use the FQDN:
+
+  ```
+  sliver > generate --http foobar.com --canary 1.example.com.
+  ```
+
+  You can view previously generated canaries with the `canaries` command.
+
 - **Implement DNSStager:**
-  - Try transferring the payload over DNS using tools like [DNSStager](https://github.com/mhaskar/DNSStager).
+
+  Try transferring the payload over DNS using tools like [DNSStager](https://github.com/mhaskar/DNSStager).
 
 - **Explore Evasion Techniques:**
-  - Research methods attackers use to evade DNS-based detections and how defenders can counteract them.
+
+  Research methods attackers use to evade DNS-based detections and how defenders can counteract them.
 
 - **Automate RPZ Updates:**
-  - Develop a script that automatically updates the RPZ based on real-time threat intelligence feeds.
+
+  Develop a script that automatically updates the RPZ based on real-time threat intelligence feeds.
+
+  
 
 ---
 
