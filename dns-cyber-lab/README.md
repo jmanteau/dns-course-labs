@@ -61,7 +61,7 @@ Before we begin, ensure you have the following:
         make up
         ```
 
-     - **Note:** If you encounter issues with the `make` command on Windows, you may need to run the Docker commands directly as suggested in the error messages.
+     - **Note:** If you encounter issues with the `make` command on Windows when accessing the shells below, you can  run the Docker commands directly as printed on top in the error messages. **OR** you can prefix each make command by winpty to make them work as suggested (ie `make c2_server_shell` -> `winpty make c2_server_shell`)
      - **Note**: You may have to run sequentially the make up while authorizing the file sharing prompt from Docker Destkop.
 
 ---

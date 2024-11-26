@@ -1,22 +1,20 @@
+import logging
 import math
 from collections import Counter, defaultdict
-from typing import List, Dict
-import re
 from datetime import datetime, timedelta
-import yaml
+from typing import Dict, List
+
 import tldextract
-import logging
-from rich.progress import Progress
+import yaml
 from rich.logging import RichHandler
+from rich.progress import Progress
 
 # Configure Rich logging
 logging.basicConfig(
-    level="INFO",
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[RichHandler()]
+    level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
 )
 logger = logging.getLogger("rich")
+
 
 def calculate_entropy(domain: str) -> float:
     """
@@ -33,12 +31,13 @@ def calculate_entropy(domain: str) -> float:
     **Returns:**
         float: The entropy value of the domain name.
     """
-    domain = domain.replace('.', '')
+    domain = domain.replace(".", "")
     if not domain:
         return 0.0
     probabilities = [n / len(domain) for n in Counter(domain).values()]
     entropy = -sum(p * math.log2(p) for p in probabilities)
     return entropy
+
 
 def lexical_analysis(domain: str) -> Dict[str, float]:
     """
@@ -59,19 +58,20 @@ def lexical_analysis(domain: str) -> Dict[str, float]:
     **Returns:**
         Dict[str, float]: A dictionary with ratios of non-letter, hex, and vowel characters.
     """
-    domain_clean = domain.replace('.', '').lower()
+    domain_clean = domain.replace(".", "").lower()
     length = len(domain_clean)
     if length == 0:
-        return {'non_letter_ratio': 0.0, 'hex_char_ratio': 0.0, 'vowel_ratio': 0.0}
+        return {"non_letter_ratio": 0.0, "hex_char_ratio": 0.0, "vowel_ratio": 0.0}
     non_letters = sum(1 for c in domain_clean if not c.isalpha())
-    hex_chars = sum(1 for c in domain_clean if c in 'abcdef')
-    vowels = sum(1 for c in domain_clean if c in 'aeiou')
+    hex_chars = sum(1 for c in domain_clean if c in "abcdef")
+    vowels = sum(1 for c in domain_clean if c in "aeiou")
 
     return {
-        'non_letter_ratio': non_letters / length,
-        'hex_char_ratio': hex_chars / length,
-        'vowel_ratio': vowels / length
+        "non_letter_ratio": non_letters / length,
+        "hex_char_ratio": hex_chars / length,
+        "vowel_ratio": vowels / length,
     }
+
 
 def n_gram_analysis(domain: str, n: int = 2) -> float:
     """
@@ -90,64 +90,231 @@ def n_gram_analysis(domain: str, n: int = 2) -> float:
     **Returns:**
         float: The percentage of common n-grams in the domain.
     """
-    domain_clean = domain.replace('.', '').lower()
-    ngrams = [domain_clean[i:i+n] for i in range(len(domain_clean)-n+1)]
+    domain_clean = domain.replace(".", "").lower()
+    ngrams = [domain_clean[i : i + n] for i in range(len(domain_clean) - n + 1)]
     if not ngrams:
         return 0.0
 
     # Expanded set of common bigrams and trigrams from top 10 languages
     common_ngrams = {
         # English bigrams/trigrams
-        'th', 'he', 'in', 'er', 'an', 're', 'on', 'at', 'en', 'nd',
-        'the', 'and', 'ing', 'ion', 'tio', 'ent', 'for', 'her', 'ter',
-
+        "th",
+        "he",
+        "in",
+        "er",
+        "an",
+        "re",
+        "on",
+        "at",
+        "en",
+        "nd",
+        "the",
+        "and",
+        "ing",
+        "ion",
+        "tio",
+        "ent",
+        "for",
+        "her",
+        "ter",
         # Mandarin Chinese (pinyin bigrams)
-        'shi', 'bu', 'wo', 'ta', 'de', 'le', 'ma', 'yi', 'ren', 'zai',
-        'hen', 'you', 'mei', 'ai', 'ni', 'hao',
-
+        "shi",
+        "bu",
+        "wo",
+        "ta",
+        "de",
+        "le",
+        "ma",
+        "yi",
+        "ren",
+        "zai",
+        "hen",
+        "you",
+        "mei",
+        "ai",
+        "ni",
+        "hao",
         # Hindi bigrams/trigrams (Romanized)
-        'hai', 'nahi', 'mera', 'kya', 'haan', 'sab', 'tha', 'thi',
-        'kar', 'par', 'ke', 'se', 'ko', 'mein', 'tum', 'hum',
-
+        "hai",
+        "nahi",
+        "mera",
+        "kya",
+        "haan",
+        "sab",
+        "tha",
+        "thi",
+        "kar",
+        "par",
+        "ke",
+        "se",
+        "ko",
+        "mein",
+        "tum",
+        "hum",
         # Spanish bigrams/trigrams
-        'de', 'la', 'que', 'el', 'en', 'los', 'del', 'se', 'las',
-        'por', 'una', 'un', 'para', 'con', 'no', 'su', 'al',
-
+        "de",
+        "la",
+        "que",
+        "el",
+        "en",
+        "los",
+        "del",
+        "se",
+        "las",
+        "por",
+        "una",
+        "un",
+        "para",
+        "con",
+        "no",
+        "su",
+        "al",
         # Arabic bigrams/trigrams (transliterated)
-        'al', 'wa', 'la', 'fi', 'li', 'an', 'ma', 'min', 'ila', 'bi',
-        'ha', 'ya', 'allah', 'rasul', 'salam', 'rahman', 'rahim',
-
+        "al",
+        "wa",
+        "la",
+        "fi",
+        "li",
+        "an",
+        "ma",
+        "min",
+        "ila",
+        "bi",
+        "ha",
+        "ya",
+        "allah",
+        "rasul",
+        "salam",
+        "rahman",
+        "rahim",
         # French bigrams/trigrams
-        'de', 'la', 'le', 'et', 'les', 'des', 'en', 'un', 'une', 'est',
-        'dans', 'que', 'pour', 'qui', 'sur', 'par', 'au', 'il', 'se',
-
+        "de",
+        "la",
+        "le",
+        "et",
+        "les",
+        "des",
+        "en",
+        "un",
+        "une",
+        "est",
+        "dans",
+        "que",
+        "pour",
+        "qui",
+        "sur",
+        "par",
+        "au",
+        "il",
+        "se",
         # Bengali bigrams/trigrams (Romanized)
-        'ki', 'ami', 'tumi', 'she', 'ar', 'kintu', 'kothay', 'hoy',
-        'na', 'tai', 'boli', 'kar', 'amar', 'tomar',
-
+        "ki",
+        "ami",
+        "tumi",
+        "she",
+        "ar",
+        "kintu",
+        "kothay",
+        "hoy",
+        "na",
+        "tai",
+        "boli",
+        "kar",
+        "amar",
+        "tomar",
         # Portuguese bigrams/trigrams
-        'de', 'que', 'e', 'do', 'da', 'em', 'no', 'os', 'as',
-        'se', 'na', 'por', 'um', 'para', 'com', 'não', 'uma',
-
+        "de",
+        "que",
+        "e",
+        "do",
+        "da",
+        "em",
+        "no",
+        "os",
+        "as",
+        "se",
+        "na",
+        "por",
+        "um",
+        "para",
+        "com",
+        "não",
+        "uma",
         # Russian bigrams/trigrams (transliterated)
-        'na', 'i', 'v', 'ne', 's', 'o', 'k', 'po', 'za',
-        'da', 'ot', 'do', 'ya', 'u', 'ego', 'ona', 'kak',
-
+        "na",
+        "i",
+        "v",
+        "ne",
+        "s",
+        "o",
+        "k",
+        "po",
+        "za",
+        "da",
+        "ot",
+        "do",
+        "ya",
+        "u",
+        "ego",
+        "ona",
+        "kak",
         # Urdu bigrams/trigrams (Romanized)
-        'hai', 'mein', 'ko', 'se', 'ki', 'par', 'ke', 'ye', 'wo',
-        'ap', 'aur', 'nahi', 'tha', 'ka',
-
+        "hai",
+        "mein",
+        "ko",
+        "se",
+        "ki",
+        "par",
+        "ke",
+        "ye",
+        "wo",
+        "ap",
+        "aur",
+        "nahi",
+        "tha",
+        "ka",
         # Indonesian bigrams/trigrams
-        'di', 'dan', 'yang', 'dari', 'ke', 'untuk', 'dengan', 'ini', 'itu', 'pada',
-        'tidak', 'ada', 'oleh', 'saya', 'kami', 'kita',
-
+        "di",
+        "dan",
+        "yang",
+        "dari",
+        "ke",
+        "untuk",
+        "dengan",
+        "ini",
+        "itu",
+        "pada",
+        "tidak",
+        "ada",
+        "oleh",
+        "saya",
+        "kami",
+        "kita",
         # German bigrams/trigrams
-        'der', 'die', 'und', 'in', 'den', 'von', 'zu', 'mit', 'das', 'auf',
-        'ist', 'im', 'nicht', 'ein', 'ich', 'sie', 'als', 'auch', 'es',
+        "der",
+        "die",
+        "und",
+        "in",
+        "den",
+        "von",
+        "zu",
+        "mit",
+        "das",
+        "auf",
+        "ist",
+        "im",
+        "nicht",
+        "ein",
+        "ich",
+        "sie",
+        "als",
+        "auch",
+        "es",
     }
 
     common_count = sum(1 for gram in ngrams if gram in common_ngrams)
     return (common_count / len(ngrams)) * 100
+
 
 def gini_index(domain: str) -> float:
     """
@@ -164,14 +331,15 @@ def gini_index(domain: str) -> float:
     **Returns:**
         float: The Gini index value.
     """
-    domain_clean = domain.replace('.', '')
+    domain_clean = domain.replace(".", "")
     if not domain_clean:
         return 0.0
     freq = Counter(domain_clean)
     total = sum(freq.values())
     probs = [count / total for count in freq.values()]
-    gini = 1 - sum(p ** 2 for p in probs)
+    gini = 1 - sum(p**2 for p in probs)
     return gini
+
 
 def classification_error(domain: str) -> float:
     """
@@ -188,7 +356,7 @@ def classification_error(domain: str) -> float:
     **Returns:**
         float: The classification error rate.
     """
-    domain_clean = domain.replace('.', '')
+    domain_clean = domain.replace(".", "")
     if not domain_clean:
         return 0.0
     freq = Counter(domain_clean)
@@ -196,6 +364,7 @@ def classification_error(domain: str) -> float:
     max_prob = max(count / total for count in freq.values())
     error = 1 - max_prob
     return error
+
 
 def number_of_labels(domain: str) -> int:
     """
@@ -212,9 +381,12 @@ def number_of_labels(domain: str) -> int:
     **Returns:**
         int: The number of labels.
     """
-    return len(domain.strip('.').split('.'))
+    return len(domain.strip(".").split("."))
 
-def frequency_analysis(timestamps: List[datetime], interval: timedelta = timedelta(seconds=10)) -> float:
+
+def frequency_analysis(
+    timestamps: List[datetime], interval: timedelta = timedelta(seconds=10)
+) -> float:
     """
     Calculates the average interval between domain queries.
 
@@ -238,6 +410,7 @@ def frequency_analysis(timestamps: List[datetime], interval: timedelta = timedel
     avg_interval = sum(intervals) / len(intervals)
     return avg_interval
 
+
 def payload_size(domain: str) -> int:
     """
     Calculates the payload size of the domain name in bytes.
@@ -253,7 +426,8 @@ def payload_size(domain: str) -> int:
     **Returns:**
         int: The payload size in bytes.
     """
-    return len(domain.encode('utf-8'))
+    return len(domain.encode("utf-8"))
+
 
 def analyze_domain(domain: str, timestamps: List[datetime]) -> Dict[str, float]:
     """
@@ -267,19 +441,20 @@ def analyze_domain(domain: str, timestamps: List[datetime]) -> Dict[str, float]:
         Dict[str, float]: A dictionary containing calculated metrics.
     """
     analysis = {
-        'entropy': calculate_entropy(domain),
-        'non_letter_ratio': lexical_analysis(domain)['non_letter_ratio'],
-        'hex_char_ratio': lexical_analysis(domain)['hex_char_ratio'],
-        'vowel_ratio': lexical_analysis(domain)['vowel_ratio'],
-        'n_gram_2': n_gram_analysis(domain, n=2),
-        'n_gram_3': n_gram_analysis(domain, n=3),
-        'gini_index': gini_index(domain),
-        'classification_error': classification_error(domain),
-        'number_of_labels': number_of_labels(domain),
-        'average_interval': frequency_analysis(timestamps),
-        'payload_size': payload_size(domain)
+        "entropy": calculate_entropy(domain),
+        "non_letter_ratio": lexical_analysis(domain)["non_letter_ratio"],
+        "hex_char_ratio": lexical_analysis(domain)["hex_char_ratio"],
+        "vowel_ratio": lexical_analysis(domain)["vowel_ratio"],
+        "n_gram_2": n_gram_analysis(domain, n=2),
+        "n_gram_3": n_gram_analysis(domain, n=3),
+        "gini_index": gini_index(domain),
+        "classification_error": classification_error(domain),
+        "number_of_labels": number_of_labels(domain),
+        "average_interval": frequency_analysis(timestamps),
+        "payload_size": payload_size(domain),
     }
     return analysis
+
 
 def extract_sld(domain: str) -> str:
     """
@@ -298,6 +473,7 @@ def extract_sld(domain: str) -> str:
     else:
         return domain
 
+
 def parse_dns_logs(file_path: str) -> Dict[str, Dict[str, List[datetime]]]:
     """
     Parses the YAML-formatted DNS log file and extracts FQDNs and their query timestamps,
@@ -311,30 +487,30 @@ def parse_dns_logs(file_path: str) -> Dict[str, Dict[str, List[datetime]]]:
     """
     sld_domains = defaultdict(lambda: defaultdict(list))
     logger.info(f"Parsing DNS logs from {file_path}")
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         documents = yaml.safe_load_all(file)
         for doc in documents:
             if doc is None:
                 continue
-            message = doc.get('message', {})
-            message_type = message.get('type', '')
-            if message_type not in ('CLIENT_QUERY', 'CLIENT_RESPONSE'):
+            message = doc.get("message", {})
+            message_type = message.get("type", "")
+            if message_type not in ("CLIENT_QUERY", "CLIENT_RESPONSE"):
                 continue
-            if message_type == 'CLIENT_QUERY':
-                time_key = 'query_time'
-                message_data_key = 'query_message_data'
-            elif message_type == 'CLIENT_RESPONSE':
-                time_key = 'response_time'
-                message_data_key = 'response_message_data'
+            if message_type == "CLIENT_QUERY":
+                time_key = "query_time"
+                message_data_key = "query_message_data"
+            elif message_type == "CLIENT_RESPONSE":
+                time_key = "response_time"
+                message_data_key = "response_message_data"
             else:
                 continue
             time_str = message.get(time_key)
             if isinstance(time_str, datetime):
                 timestamp = time_str
             else:
-                timestamp = datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%SZ')
+                timestamp = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%SZ")
             message_data = message.get(message_data_key, {})
-            question_section = message_data.get('QUESTION_SECTION', [])
+            question_section = message_data.get("QUESTION_SECTION", [])
             for question in question_section:
                 domain = question.split()[0]
                 sld = extract_sld(domain)
@@ -342,7 +518,10 @@ def parse_dns_logs(file_path: str) -> Dict[str, Dict[str, List[datetime]]]:
     logger.info("Finished parsing DNS logs")
     return sld_domains
 
-def score_domain(metrics: Dict[str, float], thresholds: Dict[str, Dict], weights: Dict[str, float]) -> float:
+
+def score_domain(
+    metrics: Dict[str, float], thresholds: Dict[str, Dict], weights: Dict[str, float]
+) -> float:
     """
     Calculates a score for a domain based on its metrics and specified thresholds.
 
@@ -364,46 +543,47 @@ def score_domain(metrics: Dict[str, float], thresholds: Dict[str, Dict], weights
         value = metrics.get(key)
         if value is None:
             continue
-        threshold_value = threshold_info['value']
-        direction = threshold_info['direction']
+        threshold_value = threshold_info["value"]
+        direction = threshold_info["direction"]
         weight = weights.get(key, 1.0)
-        if direction == 'greater' and value > threshold_value:
+        if direction == "greater" and value > threshold_value:
             score += weight
-        elif direction == 'less' and value < threshold_value:
+        elif direction == "less" and value < threshold_value:
             score += weight
     return score
 
+
 if __name__ == "__main__":
     # Configuration
-    dns_log_file = 'var/log/dnslog.txt'
-    threshold_score = 0.5  # Adjust this threshold
+    dns_log_file = "var/log/dnslog.txt"
+    threshold_score = 4.5  # Adjust this threshold
 
     # Thresholds and directions for indicators
     thresholds = {
-        'entropy': {'value': 4.0, 'direction': 'greater'},
-        'non_letter_ratio': {'value': 0.3, 'direction': 'greater'},
-        'hex_char_ratio': {'value': 0.5, 'direction': 'greater'},
-        'vowel_ratio': {'value': 0.3, 'direction': 'less'},
-        'n_gram_2': {'value': 10.0, 'direction': 'less'},
-        'gini_index': {'value': 0.9, 'direction': 'greater'},
-        'classification_error': {'value': 0.85, 'direction': 'greater'},
-        'number_of_labels': {'value': 3, 'direction': 'greater'},
-        'average_interval': {'value': 5.0, 'direction': 'less'},
-        'payload_size': {'value': 50, 'direction': 'greater'}
+        "entropy": {"value": 4.0, "direction": "greater"},
+        "non_letter_ratio": {"value": 0.3, "direction": "greater"},
+        "hex_char_ratio": {"value": 0.5, "direction": "greater"},
+        "vowel_ratio": {"value": 0.3, "direction": "less"},
+        "n_gram_2": {"value": 10.0, "direction": "less"},
+        "gini_index": {"value": 0.9, "direction": "greater"},
+        "classification_error": {"value": 0.85, "direction": "greater"},
+        "number_of_labels": {"value": 3, "direction": "greater"},
+        "average_interval": {"value": 5.0, "direction": "less"},
+        "payload_size": {"value": 50, "direction": "greater"},
     }
 
     # Weights for each indicator in the scoring function
     weights = {
-        'entropy': 1.5,
-        'non_letter_ratio': 0.8,
-        'hex_char_ratio': 0.8,
-        'vowel_ratio': 1.0,
-        'n_gram_2': 0.9,
-        'gini_index': 1.0,
-        'classification_error': 0.5,
-        'number_of_labels': 1.1,
-        'average_interval': 1.1,
-        'payload_size': 2.0  
+        "entropy": 1.5,
+        "non_letter_ratio": 0.8,
+        "hex_char_ratio": 0.8,
+        "vowel_ratio": 1.0,
+        "n_gram_2": 0.9,
+        "gini_index": 1.0,
+        "classification_error": 0.5,
+        "number_of_labels": 1.1,
+        "average_interval": 1.1,
+        "payload_size": 2.0,
     }
 
     # Parse DNS logs
@@ -471,20 +651,24 @@ if __name__ == "__main__":
         metric_keys = sld_metrics[sld][0].keys()
         total_domains = len(sld_metrics[sld])
         for key in metric_keys:
-            sld_avg_metrics[key] = sum(metrics[key] for metrics in sld_metrics[sld]) / total_domains
+            sld_avg_metrics[key] = (
+                sum(metrics[key] for metrics in sld_metrics[sld]) / total_domains
+            )
         # Print average indicators with comparison to global averages and flag if exceeded thresholds
-        print("Averaged indicators (* is flagged, average value (global average value) :")
+        print(
+            "Averaged indicators (* is flagged, average value (global average value) :"
+        )
         for key in metric_keys:
             avg_value = sld_avg_metrics[key]
             global_avg = global_avg_metrics[key]
             threshold_info = thresholds.get(key)
-            flag = ''
+            flag = ""
             if threshold_info:
-                threshold_value = threshold_info['value']
-                direction = threshold_info['direction']
-                if direction == 'greater' and avg_value > threshold_value:
-                    flag = '*'
-                elif direction == 'less' and avg_value < threshold_value:
-                    flag = '*'
+                threshold_value = threshold_info["value"]
+                direction = threshold_info["direction"]
+                if direction == "greater" and avg_value > threshold_value:
+                    flag = "*"
+                elif direction == "less" and avg_value < threshold_value:
+                    flag = "*"
             print(f"   {key}: {avg_value:.4f} ({global_avg:.4f}){flag}")
         print("-" * 30)

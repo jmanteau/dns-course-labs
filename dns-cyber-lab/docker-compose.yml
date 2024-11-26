@@ -1,7 +1,12 @@
 
 services:
-
-
+  emulator:
+    image: tonistiigi/binfmt
+    container_name: emulator
+    privileged: true
+    command: --install all
+    network_mode: bridge
+    restart: "no"
 
   # Firewall
   firewall:
@@ -85,12 +90,13 @@ services:
     entrypoint: ["/bin/sh", "-c", "/start.sh"]
 
   c2_server:
-#    platform: linux/amd64
+    platform: linux/amd64
     build:
       context: .
       dockerfile: c2_server/Dockerfile
-#      args:
-#        - TARGETPLATFORM=linux/amd64
+      args:
+        - TARGETPLATFORM=linux/amd64
+        - PLATFORM=linux/amd64
     privileged: true
     container_name: c2_server
     networks:
