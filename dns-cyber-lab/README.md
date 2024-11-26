@@ -66,6 +66,12 @@ Before we begin, ensure you have the following:
 
 ---
 
+# Lab Overview
+
+
+
+# ![lab-overview](README.assets/lab-overview.png)
+
 # Red Team Activities
 
 In this section, we'll act as the attacker to understand how DNS can be used for covert communication.
