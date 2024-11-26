@@ -12,13 +12,15 @@ install Docker Destkop (use Hyper V hence untick the WSL2 box)
 
 Reboot
 
-Authorise the folder to contain malicious : Powershell `Add-MpPreference -ExclusionPath "C: \Users\admin\AppData\Roaming \Mobaxterm`
+Authorise the folder to contain malicious : in Powershell as admin do `Add-MpPreference -ExclusionPath "C:\Users\admin\AppData\Roaming \Mobaxterm`
 
 In Mobaxterm:
 
 * apt install make
 
 * git clone https://github.com/jmanteau/dns-course-labs.git
+* cd dns-course-labs/dns-cyber-lab
+* make up
 
 The Makefile alias doesn't work properly on Windows : use the command given back in the Makefile error to access the shell.
 
