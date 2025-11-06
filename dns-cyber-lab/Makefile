@@ -54,7 +54,7 @@ generate_shell_targets: ## Generate shell access targets for containers based on
 	@echo "\n# --- End of Auto-Generated Targets ---" >> $(MAKEFILE_LIST)
 	@echo "Shell access targets for containers have been appended to the Makefile."
 
-## Install prerequisites (git, Docker, Docker Compose) on AWS Linux 2023 and clone/refresh the repository
+## Install prerequisites (git, Docker/Moby, Docker Compose v2) on AWS Linux 2023 and clone/refresh the repository
 install:
 	@echo "=== Installing prerequisites on Amazon Linux 2023 ==="
 	@echo "Updating package manager..."
@@ -63,21 +63,70 @@ install:
 	@echo "Installing git..."
 	sudo dnf install -y git
 	@echo ""
-	@echo "Installing Docker..."
-	sudo dnf install -y docker
+	@echo "Installing Moby (Docker) and dependencies..."
+	sudo dnf install --allowerasing -y \
+		docker \
+		containerd \
+		runc \
+		container-selinux \
+		cni-plugins \
+		oci-add-hooks \
+		amazon-ecr-credential-helper \
+		udica
 	@echo ""
-	@echo "Starting and enabling Docker service..."
-	sudo systemctl start docker
-	sudo systemctl enable docker
+	@echo "Configuring Docker daemon..."
+	sudo mkdir -p /etc/docker
+	@if [ ! -f /etc/docker/daemon.json ]; then \
+		echo '{ \
+			"debug": false, \
+			"experimental": false, \
+			"exec-opts": ["native.cgroupdriver=systemd"], \
+			"userland-proxy": false, \
+			"live-restore": true, \
+			"log-level": "warn", \
+			"log-driver": "json-file", \
+			"log-opts": { \
+				"max-size": "100m", \
+				"max-file": "3" \
+			} \
+		}' | sudo tee /etc/docker/daemon.json > /dev/null; \
+		echo "Created /etc/docker/daemon.json"; \
+	else \
+		echo "/etc/docker/daemon.json already exists, skipping..."; \
+	fi
 	@echo ""
-	@echo "Installing Docker Compose..."
-	sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
+	@echo "Adding current user to docker group..."
+	sudo groupadd docker 2>/dev/null || true
+	sudo usermod -aG docker $$USER
+	@echo ""
+	@echo "Enabling and starting Docker and containerd services..."
+	sudo systemctl enable --now docker.service containerd.service
+	@echo ""
+	@echo "Installing Docker Compose v2 plugin..."
+	sudo mkdir -p /usr/local/lib/docker/cli-plugins
+	sudo curl -sL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$$(uname -m)" \
+		-o /usr/local/lib/docker/cli-plugins/docker-compose
+	sudo chown root:root /usr/local/lib/docker/cli-plugins/docker-compose
+	sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+	@echo ""
+	@echo "Installing Docker Buildx plugin (latest version)..."
+	@ARCH=$$(uname -m); \
+	if [ "$$ARCH" = "x86_64" ]; then ARCH="amd64"; fi; \
+	if [ "$$ARCH" = "aarch64" ]; then ARCH="arm64"; fi; \
+	sudo curl -sSfL "https://github.com/docker/buildx/releases/download/v0.17.1/buildx-v0.17.1.linux-$$ARCH" \
+		-o /usr/local/lib/docker/cli-plugins/docker-buildx
+	sudo chown root:root /usr/local/lib/docker/cli-plugins/docker-buildx
+	sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+	@mkdir -p "$${HOME}/.docker/cli-plugins"
+	@cp /usr/local/lib/docker/cli-plugins/docker-buildx "$${HOME}/.docker/cli-plugins/docker-buildx" 2>/dev/null || true
+	@docker buildx install 2>/dev/null || true
 	@echo ""
 	@echo "Verifying installations..."
 	@git --version
 	@docker --version
-	@docker-compose --version
+	@docker compose version
+	@docker buildx version
+	@sudo systemctl status docker containerd --no-pager || true
 	@echo ""
 	@echo "Cloning or refreshing the repository..."
 	@if [ -d "../dns-course-labs" ]; then \
@@ -89,49 +138,51 @@ install:
 	fi
 	@echo ""
 	@echo "=== Installation complete! ==="
-	@echo "Note: You may need to add your user to the docker group:"
-	@echo "  sudo usermod -aG docker \$$USER"
-	@echo "Then log out and back in for the changes to take effect."
+	@echo "IMPORTANT: Log out and back in (or run 'newgrp docker') for docker group changes to take effect."
 
 ## Build all services without starting them
 build:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) build
+	docker compose -f $(DOCKER_COMPOSE_FILE) build
 
-## Bring up all services with docker-compose up
+## Bring up all services with docker compose up
 up:
 	@rm -f shared-data/dns_public_ip.txt
-	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
+	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
 	@echo "All services are up and running. Waiting 5s before showing the logs."
 	sleep 5
-	docker-compose logs --since 1m
+	docker compose logs --since 1m
 
-## Stop all services with docker-compose stop
+## Stop all services with docker compose stop
 stop:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) stop
+	docker compose -f $(DOCKER_COMPOSE_FILE) stop
 	@echo "All services have been stopped."
 
-## List all containers for the docker-compose project
+## List all containers for the docker compose project
 ls:
-	docker-compose ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
+	docker compose ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
+
+## Show status of all containers including stopped ones
+ps:
+	docker compose ps -a
 
 logs1:
-	docker-compose logs --since 1m
+	docker compose logs --since 1m
 
 logs5:
-	docker-compose logs --since 5m
+	docker compose logs --since 5m
 
-## Restart all services with docker-compose
+## Restart all services with docker compose
 restart:
 	@rm -f shared-data/dns_public_ip.txt
-	docker-compose down
-	docker-compose up -d
+	docker compose down
+	docker compose up -d
 	@echo "All services have been restarted."
 
 
 ## Clean up stopped containers, unused networks, dangling images, and build cache
 destroy:
 	@echo "Cleaning up stopped containers, unused networks, and dangling images..."
-	docker-compose down -v --rmi all --volumes --remove-orphans
+	docker compose down -v --rmi all --volumes --remove-orphans
 	docker system prune -f --volumes
 	docker builder prune -f
 	docker network prune -f

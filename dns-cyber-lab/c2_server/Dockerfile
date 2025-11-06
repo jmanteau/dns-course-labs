@@ -2,7 +2,7 @@
 FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV SLIVER_RELEASE="v1.5.44"
+ENV SLIVER_RELEASE="v1.5.38"
 ENV SLIVER_GPG_KEY_ID="0ED3900D296CFA0283A4E4667DF912404449039C"
 
 # Install required packages
@@ -27,9 +27,17 @@ RUN curl -LO "https://github.com/BishopFox/sliver/releases/download/${SLIVER_REL
     mv sliver-client_linux /opt/sliver-client && \
     rm -f *.sig
 
-# Setup Sliver binaries (unpack and config will be done at container start)
+# Setup Sliver binaries and unpack server assets
 RUN chmod 755 /opt/sliver-server /opt/sliver-client && \
-    ln -s /opt/sliver-client /usr/local/bin/sliver
+    ln -s /opt/sliver-client /usr/local/bin/sliver && \
+    echo "Unpacking Sliver server assets..." && \
+    /opt/sliver-server unpack --force
+
+# Generate Sliver client operator config for root user
+RUN echo "Generating Sliver operator configs..." && \
+    mkdir -p /root/.sliver-client/configs && \
+    /opt/sliver-server operator --name root --lhost localhost --save /root/.sliver-client/configs && \
+    chown -R root:root /root/.sliver-client
 
 EXPOSE 8888 8443 31337 53
 

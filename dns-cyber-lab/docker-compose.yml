@@ -1,13 +1,5 @@
 
 services:
-  emulator:
-    image: tonistiigi/binfmt
-    container_name: emulator
-    privileged: true
-    command: --install all
-    network_mode: bridge
-    restart: "no"
-
   # Firewall
   firewall:
     platform: linux/amd64
@@ -53,6 +45,9 @@ services:
       - TZ=UTC
     cap_add:
       - NET_ADMIN
+      - CHOWN
+      - FOWNER
+      - DAC_OVERRIDE
     privileged: true 
     volumes:
       - ./dns_internal/etc/bind:/etc/bind
@@ -81,6 +76,10 @@ services:
       - TZ=UTC
     cap_add:
       - NET_ADMIN
+      - CHOWN
+      - FOWNER
+      - DAC_OVERRIDE
+    privileged: true
     volumes:
       - ./dns_public/etc/bind:/etc/bind
       - ./dns_public/var/cache/bind:/var/cache/bind
@@ -95,6 +94,7 @@ services:
   c2_server:
     platform: linux/amd64
     image: dns-cyber-lab-c2_server:latest
+    pull_policy: build
     build:
       context: .
       dockerfile: c2_server/Dockerfile
