@@ -94,7 +94,7 @@ services:
 
   c2_server:
     platform: linux/amd64
-    image: localhost/dns-cyber-lab-c2_server:latest
+    image: dns-cyber-lab-c2_server:latest
     build:
       context: .
       dockerfile: c2_server/Dockerfile

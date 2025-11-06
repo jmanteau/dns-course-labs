@@ -4,8 +4,6 @@
 # The path to your docker-compose file
 DOCKER_COMPOSE_FILE := docker-compose.yml
 
-# Disable BuildKit to avoid xattrs errors on macOS
-export DOCKER_BUILDKIT := 0
 
 ## -- Help Section --
 
