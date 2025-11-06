@@ -10,6 +10,7 @@ services:
 
   # Firewall
   firewall:
+    platform: linux/amd64
     image: alpine
     container_name: firewall
     networks:
@@ -40,6 +41,7 @@ services:
       - ./shared-data:/shared-data  
 
   dns_internal:
+    platform: linux/amd64
     image: internetsystemsconsortium/bind9:9.20
     container_name: dns_internal
     networks:
@@ -68,6 +70,7 @@ services:
 
   # Public Network
   dns_public:
+    platform: linux/amd64
     image: internetsystemsconsortium/bind9:9.20
     container_name: dns_public
     networks:
@@ -91,12 +94,10 @@ services:
 
   c2_server:
     platform: linux/amd64
+    image: localhost/dns-cyber-lab-c2_server:latest
     build:
       context: .
       dockerfile: c2_server/Dockerfile
-      args:
-        - TARGETPLATFORM=linux/amd64
-        - PLATFORM=linux/amd64
     privileged: true
     container_name: c2_server
     networks:
@@ -112,6 +113,7 @@ services:
 
 
   webserver:
+    platform: linux/amd64
     image: nginx
     container_name: webserver
     networks:

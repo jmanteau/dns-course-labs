@@ -4,6 +4,9 @@
 # The path to your docker-compose file
 DOCKER_COMPOSE_FILE := docker-compose.yml
 
+# Disable BuildKit to avoid xattrs errors on macOS
+export DOCKER_BUILDKIT := 0
+
 ## -- Help Section --
 
 ## This help message
@@ -52,6 +55,10 @@ generate_shell_targets: ## Generate shell access targets for containers based on
 	done
 	@echo "\n# --- End of Auto-Generated Targets ---" >> $(MAKEFILE_LIST)
 	@echo "Shell access targets for containers have been appended to the Makefile."
+
+## Build all services without starting them
+build:
+	docker-compose -f $(DOCKER_COMPOSE_FILE) build
 
 ## Bring up all services with docker-compose up
 up:

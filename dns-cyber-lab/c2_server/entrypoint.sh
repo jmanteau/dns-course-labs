@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "Starting Sliver server..."
-exec /root/sliver-server daemon
+echo "Starting Sliver server (assets will unpack on first use)..."
+# Sliver will auto-unpack assets on first daemon start
+# Pre-create config directory
+mkdir -p /root/.sliver-client/configs
 
-#exec /bin/sh -c "tail -f /dev/null"
+# Start server - it will unpack assets automatically on first run
+exec /opt/sliver-server daemon

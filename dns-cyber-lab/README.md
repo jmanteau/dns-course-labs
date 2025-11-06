@@ -761,6 +761,100 @@ By understanding both offensive and defensive perspectives, we gain valuable ins
 
 ---
 
+# Technical Notes (For Lab Maintainers)
+
+This section documents technical decisions and troubleshooting steps for maintaining this lab environment.
+
+## Architecture Decisions
+
+### x86-64 Architecture (linux/amd64)
+**All containers in this lab are forced to run on x86-64 architecture** (`platform: linux/amd64` in docker-compose.yml), even on ARM-based systems like Apple Silicon Macs. This decision was made for the following reasons:
+
+1. **Sliver v1.5.44 Compatibility**: Sliver v1.5.44 includes wireguard transport which depends on gvisor (Google's application kernel). gvisor's low-level components (`gvisor.dev/gvisor/pkg/gohacks`) contain x86-specific assembly code and are not available for ARM64 architecture.
+
+2. **Cross-Platform Consistency**: Students may run this lab on various architectures (x86 laptops, cloud VMs, etc.). Forcing all containers to x86 ensures consistent behavior regardless of host architecture.
+
+3. **Performance**: On ARM Macs, x86 emulation via QEMU is transparent and performance is acceptable for lab purposes. Students on x86 hardware will run natively without emulation overhead.
+
+### Docker BuildKit Disabled
+
+The Makefile exports `DOCKER_BUILDKIT=0` to disable BuildKit for all docker operations. This prevents the following error on macOS when using Podman or certain Docker setups:
+
+```
+failed to copy xattrs: failed to set xattr "security.selinux" on ...: operation not supported
+```
+
+**Reason**: BuildKit attempts to preserve SELinux extended attributes (xattrs) during COPY operations. macOS filesystems don't support these Linux-specific attributes, causing builds to fail. The legacy builder doesn't have this issue.
+
+## Sliver Version
+
+**Current Version**: v1.5.44 (Latest as of lab creation)
+
+**Update Instructions**: To update Sliver version:
+1. Edit `c2_server/Dockerfile`
+2. Change `ENV SLIVER_RELEASE="v1.5.44"` to desired version
+3. Rebuild: `make build`
+
+**Note**: Versions newer than v1.5.34 include gvisor dependencies requiring the x86 architecture constraint mentioned above.
+
+## Common Issues and Solutions
+
+### Issue: "no such image" error with Podman
+**Symptom**: Docker-compose reports "no such image: localhost/dns-cyber-lab-c2_server:latest: image not known" even after successful build.
+
+**Cause**: Podman (used as Docker backend on some systems) has image registry resolution quirks.
+
+**Solution**: Build and start services sequentially:
+```bash
+make build
+docker-compose up -d
+```
+
+### Issue: Containers exit immediately on ARM Macs
+**Symptom**: c2_server or other containers exit with code 139 or crash logs showing "runtime: lfstack.push invalid packing"
+
+**Cause**: Running x86 binaries requires QEMU emulation to be properly configured.
+
+**Solution**: The `emulator` service (tonistiigi/binfmt) should start first and install QEMU handlers. If issues persist:
+```bash
+docker run --rm --privileged tonistiigi/binfmt --install all
+make up
+```
+
+### Issue: Sliver server crashes during asset unpacking
+**Symptom**: c2_server exits with segfault or runtime errors during first boot
+
+**Cause**: Sliver's asset unpacking can be sensitive under emulation
+
+**Solution**: The entrypoint script has been modified to let Sliver unpack assets on first daemon start rather than during container initialization. If issues persist, try running `sliver-server unpack --force` manually inside the container.
+
+## Development Environment
+
+This lab was developed and tested on:
+- **Host OS**: macOS (Apple Silicon - ARM64)
+- **Docker Backend**: Podman 5.2.5 with Docker compatibility
+- **Container Platform**: linux/amd64 (emulated via QEMU)
+- **Sliver Version**: v1.5.44
+
+**For Students**: Lab works identically on x86 Linux, Windows with Docker Desktop, or ARM Macs. No architecture-specific setup required.
+
+## File Structure Notes
+
+- `c2_server/Dockerfile`: Downloads pre-built Sliver binaries for x86 (fast, no compilation needed)
+- `c2_server/entrypoint.sh`: Handles Sliver server initialization and operator config
+- `docker-compose.yml`: All services have `platform: linux/amd64` set explicitly
+- `Makefile`: Contains `DOCKER_BUILDKIT=0` export for macOS compatibility
+
+## Makefile Commands
+
+- `make build`: Build all images without starting containers
+- `make up`: Start all containers (will build if needed)
+- `make down` or `make stop`: Stop all containers
+- `make destroy`: Complete cleanup of containers, images, and volumes
+- `make <container>_shell`: Access shell of specific container (e.g., `make c2_server_shell`)
+
+---
+
 # References
 
 - [Sliver C2 Framework](https://github.com/BishopFox/sliver)
