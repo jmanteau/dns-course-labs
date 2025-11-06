@@ -56,6 +56,45 @@ generate_shell_targets: ## Generate shell access targets for containers based on
 	@echo "\n# --- End of Auto-Generated Targets ---" >> $(MAKEFILE_LIST)
 	@echo "Shell access targets for containers have been appended to the Makefile."
 
+## Install prerequisites (git, Docker, Docker Compose) on AWS Linux 2023 and clone/refresh the repository
+install:
+	@echo "=== Installing prerequisites on Amazon Linux 2023 ==="
+	@echo "Updating package manager..."
+	sudo dnf update -y
+	@echo ""
+	@echo "Installing git..."
+	sudo dnf install -y git
+	@echo ""
+	@echo "Installing Docker..."
+	sudo dnf install -y docker
+	@echo ""
+	@echo "Starting and enabling Docker service..."
+	sudo systemctl start docker
+	sudo systemctl enable docker
+	@echo ""
+	@echo "Installing Docker Compose..."
+	sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+	@echo ""
+	@echo "Verifying installations..."
+	@git --version
+	@docker --version
+	@docker-compose --version
+	@echo ""
+	@echo "Cloning or refreshing the repository..."
+	@if [ -d "../dns-course-labs" ]; then \
+		echo "Repository exists, pulling latest changes..."; \
+		cd ../dns-course-labs && git pull; \
+	else \
+		echo "Cloning repository..."; \
+		cd .. && git clone https://github.com/jmanteau/dns-course-labs.git; \
+	fi
+	@echo ""
+	@echo "=== Installation complete! ==="
+	@echo "Note: You may need to add your user to the docker group:"
+	@echo "  sudo usermod -aG docker \$$USER"
+	@echo "Then log out and back in for the changes to take effect."
+
 ## Build all services without starting them
 build:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) build
