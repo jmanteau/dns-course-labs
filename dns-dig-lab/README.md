@@ -188,7 +188,7 @@ Reminder: Valid record type list can be found [here](https://en.wikipedia.org/wi
 
 * What is the name linked to this IP : 160.92.124.66 ? What is the usage of this server ? What DNS query can you do to confirm your hypothesis ? Can you do a graph showing the links between all elements ?
 
-*  List the google.com records that the following subnet will get :
+*  List the google.com records that the following subnets will get. If you local DNS resolver is not supporting the +subnet option (EDNS CS), use a public one like 8.8.8.8 supporting it.
   
   | Country      | A subnet in the country |
   | ------------ | ----------------------- |
