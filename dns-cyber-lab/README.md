@@ -12,7 +12,7 @@ For personal experimentation, you can also use [iodine](https://github.com/yarri
 
 Before we begin, ensure you have the following:
 
-1. **Docker Desktop** installed on your machine.
+1. **Docker Desktop** installed on your machine. **Create an account on Docker Hub when asked (important or else you will not be able to download all the images)**
 
    - **Note:** During installation, choose **Hyper-V** and **untick** the **WSL2** option.
    - After installation, **reboot** your system to apply changes.
