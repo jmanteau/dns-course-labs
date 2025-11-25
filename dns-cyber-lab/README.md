@@ -40,7 +40,7 @@ Before we begin, ensure you have the following:
      1. **Install Make:**
 
         ```bash
-        apt install make
+        apt install make unzip git
         ```
 
      2. **Clone the Lab Repository:**
