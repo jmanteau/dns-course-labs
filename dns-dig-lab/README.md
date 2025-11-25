@@ -40,25 +40,28 @@ The **`dig`** command enables searching for a domain name. To perform a DNS look
 ```
 ❯ dig example.com
 
-; <<>> DiG 9.18.4 <<>> example.com
+; <<>> DiG 9.20.10 <<>> www.example.com
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25412
-;; flags: qr rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 17148
+;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: e2abe7f2209ce7a50100000069256f2728e9fc2ee34347a0 (good)
 ;; QUESTION SECTION:
-;example.com.			IN	A
+;www.example.com.		IN	A
 
 ;; ANSWER SECTION:
-example.com.		4502	IN	A	93.184.216.34
+www.example.com.	300	IN	CNAME	www.example.com-v4.edgesuite.net.
+www.example.com-v4.edgesuite.net. 21600	IN CNAME a1422.dscr.akamai.net.
+a1422.dscr.akamai.net.	20	IN	A	23.72.250.233
+a1422.dscr.akamai.net.	20	IN	A	23.72.250.203
 
-;; Query time: 53 msec
-;; SERVER: 172.20.10.1#53(172.20.10.1) (UDP)
-;; WHEN: Mon Jul 11 20:49:43 CEST 2022
-;; MSG SIZE  rcvd: 56
+;; Query time: 185 msec
+;; SERVER: 192.168.227.200#53(192.168.227.200) (UDP)
+;; WHEN: Tue Nov 25 09:56:07 CET 2025
+;; MSG SIZE  rcvd: 185
 ```
 
 
@@ -67,7 +70,10 @@ The following information can be returned:
 
 ```
 ;; ANSWER SECTION:
-example.com.		4502	IN	A	93.184.216.34
+www.example.com.	300	IN	CNAME	www.example.com-v4.edgesuite.net.
+www.example.com-v4.edgesuite.net. 21600	IN CNAME a1422.dscr.akamai.net.
+a1422.dscr.akamai.net.	20	IN	A	23.72.250.233
+a1422.dscr.akamai.net.	20	IN	A	23.72.250.203
 ```
 
 - **Answer section**: The most important section is the **ANSWER** section: The first column lists the name of the server that was queried. The second column is the **Time to Live**, a set timeframe after which the record is refreshed. The third column shows the class of query – in this case, “IN” stands for Internet. The fourth column displays the type of query – in this case, “A” stands for an A (address) record The final column displays the IP address associated with the domain name
@@ -84,9 +90,8 @@ Other lines can be translated as follows:
 
 ```
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25412
-;; flags: qr rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 17148
+;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
 ```
 
 - The **HEADER** section shows the information it received from the server. 
@@ -110,7 +115,8 @@ Other lines can be translated as follows:
     - AD = **A**uthenticated **D**ata, Name Server has validated the Signature (for DNSSEC only; indicates that the data was authenticated)
     - CD = **C**hecking **D**isabled, Client requested to not perform Validation (DNSSEC only; disables checking at the receiving server)
     - DO - Client requested to perform Validation (EDNS: **D**nssec **O**k)
-
+    - QR = **Query/Response**, is actually not a flag like others, it is a 1-bit subfield where if its value is 0, the message is of request type and if its value is 1, the message is of response type.
+      
 ```
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
