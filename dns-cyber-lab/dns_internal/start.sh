@@ -7,15 +7,6 @@ apk add tcpdump fstrm-utils protobuf-c python3 py3-pip vim
 pip install rich tldextract pyyaml  --break-system-packages
 tldextract --update
 
-# Fix permissions for BIND directories (BIND runs as user 'bind' UID 53, GID 53)
-chown -R 53:53 /var/cache/bind /var/lib/bind /var/log /etc/bind
-chmod -R 775 /var/cache/bind /var/lib/bind
-chmod 755 /var/log /etc/bind
-find /etc/bind -type f -exec chmod 644 {} \; 2>/dev/null || true
-# Ensure writable subdirectories
-mkdir -p /var/cache/bind /var/lib/bind
-chown 53:53 /var/cache/bind /var/lib/bind
-
 # Remove existing vi symlink or binary
 rm -f /usr/bin/vi
 
@@ -81,17 +72,14 @@ echo "Using dns_public IP: $DNS_PUBLIC_IP as forwarder"
 cp /etc/bind/named.conf.template /etc/bind/named.conf
 sed -i "s/127.0.0.2/$DNS_PUBLIC_IP/" /etc/bind/named.conf
 
-# Fix permissions after copying/modifying files
-chown 53:53 /etc/bind/named.conf
-chmod 644 /etc/bind/named.conf
+
 
 echo "Starting BIND9 service with dns_public as forwarder"
 
-# Start the BIND service in background as bind user
-named -u bind
+# Start the BIND service
+named
 
-# Wait a moment for named to start
-sleep 2
+fstrm_capture -t protobuf:dnstap.Dnstap -u /var/run/named/dnstap.sock -w /var/log/log.dnstap 
 
-# Start dnstap capture in foreground
-exec fstrm_capture -t protobuf:dnstap.Dnstap -u /var/run/named/dnstap.sock -w /var/log/log.dnstap
+# Keep the container running
+exec /bin/sh -c "tail -f /dev/null"
