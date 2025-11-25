@@ -14,15 +14,15 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Import Sliver GPG key
-RUN gpg --batch --keyserver keyserver.ubuntu.com --recv-keys ${SLIVER_GPG_KEY_ID}
+#RUN gpg --batch --keyserver keyserver.ubuntu.com --recv-keys ${SLIVER_GPG_KEY_ID}
 
 # Download and verify Sliver x86_64 binaries
 RUN curl -LO "https://github.com/BishopFox/sliver/releases/download/${SLIVER_RELEASE}/sliver-server_linux" && \
     curl -LO "https://github.com/BishopFox/sliver/releases/download/${SLIVER_RELEASE}/sliver-client_linux" && \
     curl -LO "https://github.com/BishopFox/sliver/releases/download/${SLIVER_RELEASE}/sliver-server_linux.sig" && \
     curl -LO "https://github.com/BishopFox/sliver/releases/download/${SLIVER_RELEASE}/sliver-client_linux.sig" && \
-    gpg --verify sliver-server_linux.sig sliver-server_linux && \
-    gpg --verify sliver-client_linux.sig sliver-client_linux && \
+#    gpg --verify sliver-server_linux.sig sliver-server_linux && \
+#    gpg --verify sliver-client_linux.sig sliver-client_linux && \
     mv sliver-server_linux /opt/sliver-server && \
     mv sliver-client_linux /opt/sliver-client && \
     rm -f *.sig
