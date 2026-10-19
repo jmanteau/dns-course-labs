@@ -35,10 +35,10 @@ Sharing with a request ready: https://www.digwebinterface.com/?hostnames=www.bor
 
 
 
-The **`dig`** command enables searching for a domain name. To perform a DNS lookup, open the terminal and type: `dig example.com` You should see something similar to the following:
+The **`dig`** command enables searching for a domain name. To perform a DNS lookup, open the terminal and type: `dig www.example.com` You should see something similar to the following:
 
 ```
-❯ dig example.com
+❯ dig www.example.com
 
 ; <<>> DiG 9.20.10 <<>> www.example.com
 ;; global options: +cmd
@@ -81,7 +81,7 @@ a1422.dscr.akamai.net.	20	IN	A	23.72.250.203
 Other lines can be translated as follows:
 
 ```
-; <<>> DiG 9.18.4 <<>> example.com
+; <<>> DiG 9.20.10 <<>> www.example.com
 ;; global options: +cmd
 ```
 
@@ -152,9 +152,9 @@ Other lines can be translated as follows:
 
 ## dig Commands
 
-| Command&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Description                                                  | Example&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |
+| Command| Description                                                  | Example|
 | ------------------------------------------------------------ | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| `dig [hostname]`&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Returns any A records found within the queried hostname's zone. | `dig wikipedia.org`                                          |
+| `dig [hostname]`| Returns the A record(s) of the queried hostname. | `dig wikipedia.org`                                          |
 | `dig [hostname] [record type]`                               | Returns the records of that [type](https://en.wikipedia.org/wiki/List_of_DNS_record_types) found within the queried hostname's zone. | `dig MX wikipedia.org`                                       |
 | `dig [hostname] +short`                                      | Provides a brief answer, usually just an IP address.         | `dig wikipedia.org +short`                                   |
 | `dig @[nameserver address] [hostname]`                       | Queries  a DNS resolver or the nameserver directly instead of the resolver configured in your local system. | `dig @1.1.1.1 wikipedia.org`                                 |
@@ -162,7 +162,7 @@ Other lines can be translated as follows:
 | `dig -x [IP address]`                                        | Reverse lookup for IP addresses.                             | `dig -x 108.59.161.1`                                        |
 | ` dig [hostname] +nocomments +noauthority +noadditional +nostats` | Remove the comment, authority, additional and stats section of the return | `dig wikipedia.org +nocomments +noauthority +noadditional +nostats` |
 | `dig [hostname] +noall +answer`                              | Remove all sections of the return and add only the answer one. This is the recommend short form for having the details (record type, TTL). | `dig wikipedia.org +noall +answer`                           |
-| `dig [record type] -f [textfile] `                           | Perform a number of DNS lookups for a list of domains instead of doing the same for each one individually. Can be combined with +noall +answer to do searches | `dig -f /tmp/dns.txt MX`                                     |
+| `dig -f [textfile] [record type]`                            | Perform a number of DNS lookups for a list of domains (one per line) instead of doing them one by one. Can be combined with +noall +answer | `dig -f list100.txt TXT +noall +answer`                                     |
 | `dig [hostname] +subnet=xxx`                                 | Perform a DNS lookup and add the EDNS Client Subnet option to the request for client geo answer. Need dig version >=9.10 | `dig @8.8.8.8 www.microsoft.com +subnet=8.7.6.0/24`          |
 | `dig +multiline +noall +answer SOA [domain]`                 | Pull the domain-wide TTL setting, which controls negative-TTLs (how long a server will cache an NX or ‘nothing there’  reply). This will also break out the [SOA](http://irbs.net/bog-4.9.5/bog41.html) into an easier to read format | `dig +multiline +noall +answer SOA wikipedia.org`            |
 | `dig +norecurse @[nameserver address] [hostname]`            | Allow to simulate a DNS Resolver query to an authoritative server | `dig www.example.com @192.41.162.30 +norecurse`              |
@@ -172,19 +172,23 @@ Other lines can be translated as follows:
 
 ## Questions
 
+A gamified version with score and leaderboard is in [game/](game/).
+
+If your local resolver times out or filters queries, add a public one, e.g. `dig @1.1.1.1 ...` or `dig @8.8.8.8 ...`. Answers on live domains change over time (IPs, TTLs, counts): reason on the structure, not the exact values.
+
 Reminder: Valid record type list can be found [here](https://en.wikipedia.org/wiki/List_of_DNS_record_types)
 
 * What is the IP of the www.airbus.com website ? 
 
 * Is the www.airbus.com a A or CNAME record ? Can you infer which protection is in place in front of airbus.com website ?
 
-* What are the nameservers of amazon.com ? And of aws.amazon.com ? What is the TTL of the amazon.com NS ?
+* What are the nameservers of amazon.com ? And of aws.amazon.com ? Which TTL do you get from your resolver, and which one from an authoritative nameserver (`dig NS amazon.com @<one of the NS>`)? Why do they differ?
 
 * What is the name of apple.com mail servers ? Which mail server is the primary and which are the backups? Why might the priority levels differ?
 
 * What is the A record of dns-cheatsheet.com ?
 
-* How many DNS requests are needed before first acceeding to www.linkedin.com ? Do you have an hypothesis why ? (hint: check TTL)
+* How many DNS requests are needed before first acceeding to www.linkedin.com ? Do you have an hypothesis why ? (hint: look at the CNAME chain and the TTLs)
 
 * What is the name linked to this IP : 160.92.124.66 ? What is the usage of this server ? What DNS query can you do to confirm your hypothesis ? Can you do a graph showing the links between all elements ?
 
@@ -201,12 +205,14 @@ Reminder: Valid record type list can be found [here](https://en.wikipedia.org/wi
 
 * Which of the following media is using Slack : New York Times (nytimes.com), Le Monde (lemonde.fr) or BBC (bbc.com)?
 * Which certificate authority(ies) have the right to deliver certificate for boursorama.com ?
-* How many website use Facebook Domain Verification in the list100 file (to allow using facebook identity, comments, like, etc) (hint: check for facebook-domain-verification)
-* [Seldom used in real life] What is the city indicated on DNS dyndns.com ?
+* How many website use Facebook Domain Verification in the list100.txt file (to allow using facebook identity, comments, like, etc) (hint: check for facebook-domain-verification)
+* [Seldom used in real life] What city do the coordinates in the LOC record of dyndns.com point to?
 * What is the IPv6 address (AAAA record) of www.wikipedia.org ?
 
 
 ### Tip: Use $HOME/.digrc File to Store Default dig Options
+
+Warning: these options apply to every `dig` call, so the full-output examples above will look different (remove the file to get them back).
 
 If you are always trying to view only the ANSWER section of the dig  output, you don’t have to keep typing “+noall +answer” on your every dig command. Instead, add your dig options to the .digrc file as shown  below.
 

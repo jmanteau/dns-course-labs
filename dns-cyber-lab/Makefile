@@ -1,6 +1,9 @@
 .DEFAULT_GOAL := help
 .PHONY: help generate_shell_targets
 
+# Auto-detect container CLI (podman or docker)
+CONTAINER_CLI := $(shell command -v podman 2>/dev/null || command -v docker 2>/dev/null)
+
 # The path to your docker-compose file
 DOCKER_COMPOSE_FILE := docker-compose.yml
 
@@ -140,13 +143,16 @@ install:
 	@echo "=== Installation complete! ==="
 	@echo "IMPORTANT: Log out and back in (or run 'newgrp docker') for docker group changes to take effect."
 
-## Build all services without starting them
+## Build all container images (BIND9 base + C2 server)
 build:
+	docker build -t dns-cyber-lab-bind9:latest -f dns_base/Dockerfile .
 	docker compose -f $(DOCKER_COMPOSE_FILE) build
 
 ## Bring up all services with docker compose up
 up:
 	@rm -f shared-data/dns_public_ip.txt
+	@docker image inspect dns-cyber-lab-bind9:latest >/dev/null 2>&1 || \
+		docker build -t dns-cyber-lab-bind9:latest -f dns_base/Dockerfile .
 	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
 	@echo "All services are up and running. Waiting 5s before showing the logs."
 	sleep 5
@@ -186,6 +192,46 @@ destroy:
 	docker system prune -f --volumes
 	docker builder prune -f
 	docker network prune -f
+
+## Show status, IPs, ports and networks for all lab containers
+.PHONY: info
+info:
+	@printf "\n\033[1m%-16s %-10s %-22s %-22s %s\033[0m\n" \
+		"CONTAINER" "STATUS" "INTERNAL (10.89.3.x)" "PUBLIC (10.89.4.x)" "PORTS"
+	@printf "%-16s %-10s %-22s %-22s %s\n" \
+		"────────────────" "──────────" "──────────────────────" "──────────────────────" "──────────────────────"
+	@for c in firewall client dns_internal dns_public c2_server webserver; do \
+		status=$$($(CONTAINER_CLI) inspect --format '{{.State.Status}}' $$c 2>/dev/null || echo "down"); \
+		internal=$$($(CONTAINER_CLI) inspect --format '{{range $$net, $$cfg := .NetworkSettings.Networks}}{{if eq $$net "dns-cyber-lab_internal_network"}}{{$$cfg.IPAddress}}{{end}}{{end}}' $$c 2>/dev/null || echo "-"); \
+		public=$$($(CONTAINER_CLI) inspect --format '{{range $$net, $$cfg := .NetworkSettings.Networks}}{{if eq $$net "dns-cyber-lab_public_network"}}{{$$cfg.IPAddress}}{{end}}{{end}}' $$c 2>/dev/null || echo "-"); \
+		ports=$$($(CONTAINER_CLI) inspect --format '{{range $$p, $$cfg := .NetworkSettings.Ports}}{{$$p}} {{end}}' $$c 2>/dev/null || echo "-"); \
+		[ -z "$$internal" ] && internal="-"; \
+		[ -z "$$public" ] && public="-"; \
+		[ -z "$$ports" ] && ports="-"; \
+		printf "%-16s %-10s %-22s %-22s %s\n" "$$c" "$$status" "$$internal" "$$public" "$$ports"; \
+	done
+	@echo ""
+	@printf "\033[1mNetworks:\033[0m\n"
+	@$(CONTAINER_CLI) network inspect dns-cyber-lab_internal_network -f json 2>/dev/null | \
+		python3 -c "import sys,json; d=json.load(sys.stdin); \
+		s=d[0].get('subnets',[{}])[0].get('subnet','') if isinstance(d,list) else (d.get('IPAM',{}).get('Config',[{}])[0].get('Subnet','')); \
+		print(f'  internal: {s}')" 2>/dev/null || true
+	@$(CONTAINER_CLI) network inspect dns-cyber-lab_public_network -f json 2>/dev/null | \
+		python3 -c "import sys,json; d=json.load(sys.stdin); \
+		s=d[0].get('subnets',[{}])[0].get('subnet','') if isinstance(d,list) else (d.get('IPAM',{}).get('Config',[{}])[0].get('Subnet','')); \
+		print(f'  public:   {s}')" 2>/dev/null || true
+	@echo ""
+
+## Validate that the lab environment is working (DNS resolution smoke test)
+.PHONY: validate
+validate:
+	@echo "Validating DNS resolution from client..."
+	@docker compose exec -T client dig +short google.com || \
+		(echo "FAIL: DNS resolution not working. Check containers with 'make ps'" && exit 1)
+	@echo "Validating C2 zone delegation..."
+	@docker compose exec -T client dig +short test.commandcontrol.com || \
+		(echo "FAIL: commandcontrol.com zone not resolving. Check dns_public logs." && exit 1)
+	@echo "All checks passed."
 
 # --- Auto-Generated Container Shell Access Targets ---
 

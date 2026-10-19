@@ -2,33 +2,9 @@
 
 echo "Starting of $(hostname)"
 
-apk add tcpdump fstrm-utils protobuf-c python3 py3-pip vim
-
-pip install rich tldextract pyyaml  --break-system-packages
-tldextract --update
-
-# Remove existing vi symlink or binary
-rm -f /usr/bin/vi
-
-# Create symlink from vi to vim
-ln -s /usr/bin/vim /usr/bin/vi
-
-
-cat << 'EOF' > ~/.vimrc
-" Vim configuration for Python development
-syntax on
-filetype plugin indent on
-set number
-set autoindent
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set background=dark
-colorscheme desert
-EOF
+tldextract --update 2>/dev/null
 
 cat << 'EOF' > /root/.vimrc
-" Vim configuration for Python development
 syntax on
 filetype plugin indent on
 set number
@@ -40,15 +16,12 @@ set background=dark
 colorscheme desert
 EOF
 
+# Fix permissions for bind-mounted directories (named user needs write access)
+chown -R named:named /var/cache/bind /var/lib/bind /var/log /etc/bind 2>/dev/null
+chmod -R 777 /var/cache/bind /var/lib/bind /var/log /etc/bind 2>/dev/null
 
-
-touch  /var/log/queries.log
-#chown bind:bind /var/log/queries.log
-#chmod 640 /var/log/queries.log
-
-touch  /var/log/responses.log
-#chown bind:bind /var/log/responses.log
-#chmod 640 /var/log/responses.log
+touch /var/log/queries.log
+touch /var/log/responses.log
 
 FIREWALL_IP=$(getent hosts firewall | awk '{ print $1 }')
 # Set the default route to the firewall
@@ -79,7 +52,7 @@ echo "Starting BIND9 service with dns_public as forwarder"
 # Start the BIND service
 named
 
-fstrm_capture -t protobuf:dnstap.Dnstap -u /var/run/named/dnstap.sock -w /var/log/log.dnstap 
+fstrm_capture -t protobuf:dnstap.Dnstap -u /var/run/named/dnstap.sock -w /var/log/log.dnstap &
 
 # Keep the container running
 exec /bin/sh -c "tail -f /dev/null"
