@@ -13,7 +13,7 @@ ns1.com.      IN    A    10.0.0.1
 
 ; Delegation for commandcontrol.com
 commandcontrol.com.   IN   NS   ns1.commandcontrol.com.
-ns1.commandcontrol.com. IN A    10.89.1.11
+ns1.commandcontrol.com. IN A    10.89.4.10
 
 
 02a1 IN A 150.248.122.5

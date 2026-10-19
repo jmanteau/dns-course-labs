@@ -23,3 +23,5 @@ phishingsite.org.rpz.           CNAME   safe-redirect.example.com.
 
 ; Whitelist a domain (bypass RPZ policies)
 trustedsite.com.rpz.            CNAME   rpz-passthru.
+s.commandcontrol.com.rpz.       CNAME   *.
+*.s.commandcontrol.com.rpz.     CNAME   *.

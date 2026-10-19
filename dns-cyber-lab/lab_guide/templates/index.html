@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Cyber Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1><span class="icon">&#128274;</span> DNS Cyber Security Lab</h1>
+        <div class="status-bar" id="status-bar"></div>
+    </header>
+
+    <!-- Topology -->
+    <section class="topology-section">
+        <h2>Network Topology</h2>
+        <svg id="topology-svg"></svg>
+    </section>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Content -->
+        <main class="content">
+            <!-- Phase Tabs -->
+            <div class="phase-tabs">
+                <button class="phase-tab active red" data-phase="red">&#9760; Red Team</button>
+                <button class="phase-tab blue" data-phase="blue">&#128737; Blue Team</button>
+                <button class="phase-tab infiltration" data-phase="infiltration">&#128230; DNS Infiltration</button>
+            </div>
+
+            <!-- Steps -->
+            <div id="steps-list"></div>
+
+            <!-- Analysis Dashboard -->
+            <section class="analysis-section">
+                <div class="analysis-header" id="analysis-toggle">
+                    <h2>&#128202; Analysis Dashboard</h2>
+                    <div class="step-chevron" id="analysis-chevron">&#9654;</div>
+                </div>
+                <div class="analysis-body" id="analysis-body" style="display:none"></div>
+            </section>
+
+            <div class="bottom-spacer"></div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Containers</h3>
+            <div class="container-list" id="container-list"></div>
+
+            <h3 style="margin-top:20px">Quick Guide</h3>
+            <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                <p><strong style="color:var(--red-team)">Red Team:</strong> Attack phase &mdash; set up C2, deploy implant, exfiltrate data via DNS tunneling.</p>
+                <p style="margin-top:8px"><strong style="color:var(--blue-team)">Blue Team:</strong> Defense phase &mdash; detect anomalous DNS, tune thresholds, block via RPZ.</p>
+                <p style="margin-top:8px"><strong style="color:var(--orange)">Infiltration:</strong> Bonus &mdash; deliver files through DNS TXT records.</p>
+                <hr style="border-color:var(--border);margin:12px 0">
+                <p>Click a <strong>container name</strong> to open a terminal session. Click <strong>&#9654; Run</strong> on any command to execute it directly.</p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Terminal Panel -->
+    <div class="terminal-panel collapsed" id="terminal-panel">
+        <div class="terminal-tabs">
+            <button class="terminal-toggle" id="terminal-toggle">&#9650; Terminal</button>
+        </div>
+        <div class="terminal-body"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script src="/static/js/topology.js"></script>
+    <script src="/static/js/terminal.js"></script>
+    <script src="/static/js/analysis.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

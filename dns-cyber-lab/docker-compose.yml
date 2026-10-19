@@ -2,8 +2,7 @@
 services:
   # Firewall
   firewall:
-    platform: linux/amd64
-    image: alpine
+    image: alpine:3.20
     container_name: firewall
     networks:
       - internal_network
@@ -18,8 +17,7 @@ services:
 
   # Internal Network
   client:
-    platform: linux/amd64
-    image: alpine
+    image: alpine:3.20
     container_name: client
     networks:
       - internal_network
@@ -33,8 +31,8 @@ services:
       - ./shared-data:/shared-data  
 
   dns_internal:
-    platform: linux/amd64
-    image: internetsystemsconsortium/bind9:9.20
+    image: dns-cyber-lab-bind9:latest
+    pull_policy: never
     container_name: dns_internal
     networks:
       - internal_network
@@ -45,17 +43,14 @@ services:
       - TZ=UTC
     cap_add:
       - NET_ADMIN
-      - CHOWN
-      - FOWNER
-      - DAC_OVERRIDE
-    privileged: true 
+    privileged: true
     volumes:
       - ./dns_internal/etc/bind:/etc/bind
       - ./dns_internal/var/cache/bind:/var/cache/bind
       - ./dns_internal/var/lib/bind:/var/lib/bind
       - ./dns_internal/var/log:/var/log
       - ./dns_internal/start.sh:/start.sh
-      - ./shared-data:/shared-data  
+      - ./shared-data:/shared-data
       - ./dns_internal/analysis.py:/analysis.py
     tmpfs:
       - /run/named
@@ -65,8 +60,8 @@ services:
 
   # Public Network
   dns_public:
-    platform: linux/amd64
-    image: internetsystemsconsortium/bind9:9.20
+    image: dns-cyber-lab-bind9:latest
+    pull_policy: never
     container_name: dns_public
     networks:
       - public_network
@@ -76,9 +71,6 @@ services:
       - TZ=UTC
     cap_add:
       - NET_ADMIN
-      - CHOWN
-      - FOWNER
-      - DAC_OVERRIDE
     privileged: true
     volumes:
       - ./dns_public/etc/bind:/etc/bind
@@ -86,13 +78,12 @@ services:
       - ./dns_public/var/lib/bind:/var/lib/bind
       - ./dns_public/var/log:/var/log
       - ./dns_public/start.sh:/start.sh
-      - ./shared-data:/shared-data  
+      - ./shared-data:/shared-data
     tmpfs:
       - /run/named
     entrypoint: ["/bin/sh", "-c", "/start.sh"]
 
   c2_server:
-    platform: linux/amd64
     image: dns-cyber-lab-c2_server:latest
     pull_policy: build
     build:
@@ -113,14 +104,33 @@ services:
 
 
   webserver:
-    platform: linux/amd64
-    image: nginx
+    image: nginx:1.27-alpine
     container_name: webserver
+    ports:
+      - "8090:80"
     networks:
       - public_network
     volumes:
       - ./web_content:/usr/share/nginx/html
 
+  lab_guide:
+    build:
+      context: ./lab_guide
+      dockerfile: Dockerfile
+    container_name: lab_guide
+    ports:
+      - "8085:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dns_internal/var/log:/app/dns_logs:ro
+      - ./dns_internal/etc/bind:/app/dns_config:ro
+    security_opt:
+      - label=disable
+    networks:
+      - internal_network
+      - public_network
+    depends_on:
+      - dns_internal
 
 
 networks:

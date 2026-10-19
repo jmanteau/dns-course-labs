@@ -1,0 +1,16 @@
+# Runtime artifacts from BIND
+*.jnl
+named_dump.db
+
+# Backup files
+*.bkp
+
+# Shared data (runtime-generated)
+shared-data/dns_public_ip.txt
+
+# Log directories
+dns_internal/var/log/
+dns_public/var/log/
+
+# macOS
+.DS_Store

@@ -1,11 +1,12 @@
 import base64
 import os
 import socket
+import struct
 import sys
 import threading
 from typing import List
 
-from dnslib import RR, TXT, DNSHeader, DNSRecord
+from dnslib import QTYPE, RR, TXT, DNSHeader, DNSRecord
 
 
 def read_and_split_file(file_path: str, chunk_size: int = 220) -> List[str]:
@@ -27,7 +28,7 @@ def read_and_split_file(file_path: str, chunk_size: int = 220) -> List[str]:
     ]
 
 
-def handle_request(data, addr, sock, chunks, subdomain):
+def handle_request(data, addr, sock, chunks, subdomain, is_tcp=False):
     """
     Handle an incoming DNS query.
     """
@@ -48,13 +49,13 @@ def handle_request(data, addr, sock, chunks, subdomain):
             reply = DNSRecord(
                 DNSHeader(id=request.header.id, qr=1, aa=1, ra=1), q=request.q
             )
-            reply.add_answer(RR(qname, rdata=TXT(chunk_data), ttl=60))
+            reply.add_answer(RR(qname, rtype=QTYPE.TXT, rdata=TXT(chunk_data), ttl=60))
             response = reply.pack()
 
-            # Send the response, truncating if necessary
-            if len(response) > 512 and isinstance(sock, socket.socket):
-                print("Response too large for UDP, sending TCP response instead.")
-                sock.sendall(response)
+            # Send the response using the appropriate transport
+            if is_tcp:
+                # TCP DNS requires a 2-byte length prefix (RFC 1035 §4.2.2)
+                sock.sendall(struct.pack("!H", len(response)) + response)
             else:
                 sock.sendto(response, addr)
 
@@ -76,7 +77,7 @@ def udp_server(chunks: List[str], subdomain: str):
     while True:
         data, addr = sock.recvfrom(4096)
         threading.Thread(
-            target=handle_request, args=(data, addr, sock, chunks, subdomain)
+            target=handle_request, args=(data, addr, sock, chunks, subdomain, False)
         ).start()
 
 
@@ -85,118 +86,36 @@ def tcp_server(chunks: List[str], subdomain: str):
     Start a TCP DNS server.
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(("0.0.0.0", 53))
     sock.listen(5)
     print("TCP DNS server started, listening for incoming connections...")
 
     while True:
         conn, addr = sock.accept()
-        data = conn.recv(4096)
-        threading.Thread(
-            target=handle_request, args=(data, addr, conn, chunks, subdomain)
-        ).start()
-
-
-def start_dns_server(chunks: List[str], subdomain: str) -> None:
-    """
-    Starts a DNS server that responds with base64-encoded file chunks in TXT records.
-
-    Args:
-        chunks (List[str]): A list of base64-encoded file chunks to serve.
-        subdomain (str): The subdomain pattern to respond to (e.g., "example.com").
-    """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(("0.0.0.0", 53))
-    print("DNS server started, listening for incoming queries...")
-
-    while True:
-        data, addr = sock.recvfrom(512)
-        request = DNSRecord.parse(data)
-        qname = str(request.q.qname).strip(".")
-
-        # Check if the query matches our subdomain pattern
-        if qname.endswith(subdomain):
-            prefix = qname.split(".")[0]  # Get the prefix (e.g., "1", "2", etc.)
-            if prefix.isdigit():
-                index = int(prefix)
-                if index < len(chunks):
-                    chunk_data = chunks[index]
-                else:
-                    chunk_data = "EOF"  # Send EOF for the last record
-
-                # Prepare DNS response with the chunk data as TXT
-                reply = DNSRecord(
-                    DNSHeader(id=request.header.id, qr=1, aa=1, ra=1), q=request.q
-                )
-                reply.add_answer(RR(qname, rdata=TXT(chunk_data), ttl=60))
-                sock.sendto(reply.pack(), addr)
-                print(
-                    f"Sent chunk {index} to {addr}: {chunk_data[:50]}..."
-                )  # Display only the beginning
-            else:
-                print(f"Invalid prefix {prefix} in query: {qname}")
-        else:
-            print(f"Unknown query: {qname}")
-
-
-def start_dns_server_tcp(chunks: List[str], subdomain: str) -> None:
-    """
-    Starts a DNS server using TCP that responds with base64-encoded file chunks in TXT records.
-
-    Args:
-        chunks (List[str]): A list of base64-encoded file chunks to serve.
-        subdomain (str): The subdomain pattern to respond to (e.g., "example.com").
-    """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(("0.0.0.0", 53))
-    sock.listen(5)
-    print("DNS TCP server started, listening for incoming connections...")
-
-    while True:
-        conn, addr = sock.accept()
-        print(f"Received connection from {addr}")
-        data = conn.recv(4096)
-        if not data:
+        try:
+            # TCP DNS messages are prefixed with a 2-byte length (RFC 1035 §4.2.2)
+            length_data = conn.recv(2)
+            if len(length_data) < 2:
+                conn.close()
+                continue
+            msg_len = struct.unpack("!H", length_data)[0]
+            data = conn.recv(msg_len)
+            if not data:
+                conn.close()
+                continue
+            threading.Thread(
+                target=handle_request,
+                args=(data, addr, conn, chunks, subdomain, True),
+            ).start()
+        except Exception as e:
+            print(f"TCP error from {addr}: {e}")
             conn.close()
-            continue
-
-        request = DNSRecord.parse(data)
-        qname = str(request.q.qname).strip(".")
-
-        # Check if the query matches our subdomain pattern
-        if qname.endswith(subdomain):
-            prefix = qname.split(".")[0]  # Get the prefix (e.g., "1", "2", etc.)
-            if prefix.isdigit():
-                index = int(prefix)
-                if index < len(chunks):
-                    chunk_data = chunks[index]
-                else:
-                    chunk_data = "EOF"  # Send EOF for the last record
-
-                # Prepare DNS response with the chunk data as TXT
-                reply = DNSRecord(
-                    DNSHeader(id=request.header.id, qr=1, aa=1, ra=1), q=request.q
-                )
-                reply.add_answer(RR(qname, rdata=TXT(chunk_data), ttl=60))
-
-                # Send the DNS response over TCP
-                response_data = reply.pack()
-                conn.sendall(response_data)
-
-                print(
-                    f"Sent chunk {index} to {addr}: {chunk_data[:50]}... (length: {len(chunk_data)})"
-                )
-            else:
-                print(f"Invalid prefix {prefix} in query: {qname}")
-        else:
-            print(f"Unknown query: {qname}")
-
-        conn.close()
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python dns_server.py <file_path> <subdomain>")
+        print("Usage: python infiltration_dns_server.py <file_path> <subdomain>")
         sys.exit(1)
 
     file_path = sys.argv[1]
@@ -206,8 +125,8 @@ if __name__ == "__main__":
         print(f"File not found: {file_path}")
         sys.exit(1)
 
-    MAX_CHUNK_SIZE = 62000
+    MAX_CHUNK_SIZE = 220
     chunks = read_and_split_file(file_path, MAX_CHUNK_SIZE)
-    # start_dns_server_tcp(chunks, subdomain)
+    print(f"File split into {len(chunks)} chunks of up to {MAX_CHUNK_SIZE} bytes each")
     threading.Thread(target=udp_server, args=(chunks, subdomain)).start()
     threading.Thread(target=tcp_server, args=(chunks, subdomain)).start()
