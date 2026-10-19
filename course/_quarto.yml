@@ -1,0 +1,23 @@
+project:
+  type: default
+  output-dir: _site
+
+format:
+  revealjs:
+    theme: [default, theme/dns.scss]
+    width: 1280
+    height: 720
+    margin: 0
+    center: false
+    slide-number: c
+    hash: true
+    transition: none
+    controls: true
+    menu: false
+    progress: true
+    code-copy: false
+    highlight-style: github
+    pdf-separate-fragments: false
+    smaller: false
+    link-external-newwindow: true
+    include-in-header: theme/fonts.html
