@@ -3,3 +3,9 @@ dns-cyber-lab/toplist/dns_config/
 dns-cyber-lab/shared-data/*
 !dns-cyber-lab/shared-data/dnslist.txt
 dns-cyber-lab/dns_internal/var/log/
+dns-dig-lab/correction/
+dns-dig-lab/game/build/
+dns-dig-lab/game/.venv/
+dns-dig-lab/game/infra/cdk.out/
+__pycache__/
+.pytest_cache/

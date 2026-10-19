@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dig Quest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <form id="login" class="login">
+    <h1>Dig Quest</h1>
+    <p class="sub">Hunt the answers with <code>dig</code>. Hints cost points. First to clear a mission gets a bonus.</p>
+    <label>Class code<input type="text" id="session" autocomplete="off" required maxlength="24"></label>
+    <label>Nickname<input type="text" id="nick" autocomplete="off" required maxlength="16" placeholder="2-16 letters, digits, - _"></label>
+    <button type="submit">Start</button>
+    <p class="err" id="loginErr" role="alert"></p>
+  </form>
+
+  <section id="game" class="hidden">
+    <div class="hud">
+      <div class="hud-row"><h1 id="who">Dig Quest</h1><div class="score"><span id="score">0</span> pts</div></div>
+      <div class="hud-row"><span class="sub" id="progress"></span><button class="ghost" id="leave">Leave</button></div>
+      <div class="bar"><i id="barFill"></i></div>
+    </div>
+    <div id="debrief" class="debrief hidden"></div>
+    <div id="missions"></div>
+  </section>
+</main>
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

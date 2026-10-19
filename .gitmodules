@@ -1,0 +1,3 @@
+[submodule "dns-dig-lab/game/secret"]
+	path = dns-dig-lab/game/secret
+	url = https://github.com/jmanteau/dns-dig-lab-game.git
