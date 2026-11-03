@@ -856,11 +856,7 @@ This section documents technical decisions and troubleshooting steps for maintai
 ### x86-64 Architecture (linux/amd64)
 **All containers in this lab are forced to run on x86-64 architecture** (`platform: linux/amd64` in docker-compose.yml), even on ARM-based systems like Apple Silicon Macs. This decision was made for the following reasons:
 
-1. **Sliver v1.5.44 Compatibility**: Sliver v1.5.44 includes wireguard transport which depends on gvisor (Google's application kernel). gvisor's low-level components (`gvisor.dev/gvisor/pkg/gohacks`) contain x86-specific assembly code and are not available for ARM64 architecture.
-
-2. **Cross-Platform Consistency**: Students may run this lab on various architectures (x86 laptops, cloud VMs, etc.). Forcing all containers to x86 ensures consistent behavior regardless of host architecture.
-
-3. **Performance**: On ARM Macs, x86 emulation via QEMU is transparent and performance is acceptable for lab purposes. Students on x86 hardware will run natively without emulation overhead.
+1. **Sliver v1.5.38 Compatibility**: Sliver v1.5.44 includes wireguard transport which depends on gvisor (Google's application kernel). gvisor's low-level components (`gvisor.dev/gvisor/pkg/gohacks`) contain x86-specific assembly code and are not available for ARM64 architecture.
 
 ### Docker BuildKit Disabled
 

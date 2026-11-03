@@ -7,6 +7,17 @@ CONTAINER_CLI := $(shell command -v podman 2>/dev/null || command -v docker 2>/d
 # The path to your docker-compose file
 DOCKER_COMPOSE_FILE := docker-compose.yml
 
+# Auto-detect docker compose command (plugin vs standalone)
+DOCKER_COMPOSE := $(shell \
+	if docker compose version >/dev/null 2>&1; then \
+		echo "docker compose"; \
+	elif docker-compose --version >/dev/null 2>&1; then \
+		echo "docker-compose"; \
+	else \
+		echo "docker compose"; \
+	fi)
+COMPOSE_CMD = $(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE)
+
 
 ## -- Help Section --
 
@@ -146,49 +157,49 @@ install:
 ## Build all container images (BIND9 base + C2 server)
 build:
 	docker build -t dns-cyber-lab-bind9:latest -f dns_base/Dockerfile .
-	docker compose -f $(DOCKER_COMPOSE_FILE) build
+	$(COMPOSE_CMD) build
 
 ## Bring up all services with docker compose up
 up:
 	@rm -f shared-data/dns_public_ip.txt
 	@docker image inspect dns-cyber-lab-bind9:latest >/dev/null 2>&1 || \
 		docker build -t dns-cyber-lab-bind9:latest -f dns_base/Dockerfile .
-	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
+	$(COMPOSE_CMD) up -d
 	@echo "All services are up and running. Waiting 5s before showing the logs."
 	sleep 5
-	docker compose logs --since 1m
+	$(DOCKER_COMPOSE) logs --since 1m
 
 ## Stop all services with docker compose stop
 stop:
-	docker compose -f $(DOCKER_COMPOSE_FILE) stop
+	$(COMPOSE_CMD) stop
 	@echo "All services have been stopped."
 
 ## List all containers for the docker compose project
 ls:
-	docker compose ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
+	$(DOCKER_COMPOSE) ps --format "table {{.Names}}\t{{.Image}}\t{{.State}}"
 
 ## Show status of all containers including stopped ones
 ps:
-	docker compose ps -a
+	$(DOCKER_COMPOSE) ps -a
 
 logs1:
-	docker compose logs --since 1m
+	$(DOCKER_COMPOSE) logs --since 1m
 
 logs5:
-	docker compose logs --since 5m
+	$(DOCKER_COMPOSE) logs --since 5m
 
 ## Restart all services with docker compose
 restart:
 	@rm -f shared-data/dns_public_ip.txt
-	docker compose down
-	docker compose up -d
+	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) up -d
 	@echo "All services have been restarted."
 
 
 ## Clean up stopped containers, unused networks, dangling images, and build cache
 destroy:
 	@echo "Cleaning up stopped containers, unused networks, and dangling images..."
-	docker compose down -v --rmi all --volumes --remove-orphans
+	$(DOCKER_COMPOSE) down -v --rmi all --volumes --remove-orphans
 	docker system prune -f --volumes
 	docker builder prune -f
 	docker network prune -f
