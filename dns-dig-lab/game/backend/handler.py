@@ -119,7 +119,7 @@ def public_questions(player, session):
                 "id": p["id"], "label": p["label"], "points": p["points"], "type": "mcq" if p["type"] == "mcq" else "text",
                 "hintsTotal": len(p.get("hints", [])), "hintsBought": bought,
                 "hints": p.get("hints", [])[:bought],
-                "nextHintCost": scoring.hint_cost(p["points"], bought + 1) if bought < len(p.get("hints", [])) else None,
+                "nextHintCost": scoring.hint_cost(p["points"], bought + 1, stage) if bought < len(p.get("hints", [])) else None,
                 "solved": player["solved"].get(key),
             }
             if p["type"] == "mcq":
@@ -251,7 +251,7 @@ def answer(body, headers, query):
         store.record_wrong(code, player["nick"], key, recent + 1, now)
         return {"correct": False, "attemptsLeft": WRONG_LIMIT - recent - 1}
     wrong_mcq = wrong["c"] if part["type"] == "mcq" else 0
-    points = scoring.part_points(part["points"], int(player["hints"].get(key, 0)), wrong_mcq)
+    points = scoring.part_points(part["points"], int(player["hints"].get(key, 0)), wrong_mcq, stage_of(q))
     field = "advScore" if stage_of(q) == "advanced" else "score"
     try:
         store.record_solve(code, player["nick"], key, points, now, field)
@@ -280,7 +280,7 @@ def hint(body, headers, query):
         store.record_hint(code, player["nick"], key, bought + 1)
     except store.Conflict:
         raise HttpError(409, "hint already revealed, reload")
-    return {"n": bought + 1, "text": part["hints"][bought], "cost": scoring.hint_cost(part["points"], bought + 1)}
+    return {"n": bought + 1, "text": part["hints"][bought], "cost": scoring.hint_cost(part["points"], bought + 1, stage_of(q))}
 
 
 def leaderboard(body, headers, query):

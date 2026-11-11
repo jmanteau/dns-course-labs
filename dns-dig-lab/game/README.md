@@ -39,7 +39,7 @@ The game runs at **https://dns.jmanteau.fr**. Below, `<GameUrl>` stands for that
 **Scoring:**
 
 - Data questions are graded with a live DNS lookup, so the answers never go stale.
-- A hint costs 25% of the part, then 50%. A wrong multiple-choice guess costs 25%.
+- Hints cost part of the points, cumulatively. Warm-up and main missions: 25%, then 50%. Advanced missions have 3 hints: 15%, 35%, then 60% for the last one, which gives the full command. A wrong multiple-choice guess costs 25%.
 - The first player to clear a mission gets +50, the second +25, the third +10. The warm-up gives no such bonus.
 - Advanced points go to a **separate leaderboard**, shown beside the main one, so the main ranking stays fair.
 
@@ -281,6 +281,7 @@ Edit `secret/questions.json`.
 
 - **Stage.** `"stage"` is `warmup`, `main` (the default) or `advanced`. Main questions stay locked until every warm-up part is solved, and advanced ones until 80% of the warm-up and main parts are solved (`ADV_SHARE`). The debrief of the missions still needs all of them.
 - **Part types.** `live` (checked against real DNS), `static` (regex `patterns`) and `mcq` (`options`, and the `answer` index).
+- **Advanced hints.** The mission text and labels say what to find and give the names and servers, never the `dig` command. Each part has 3 hints: the concept (what to look for, which slide), the ingredients (name, type, class, server, option), then the full command. `pytest -m live -k advanced_hints` checks this.
 
 Live check kinds:
 
