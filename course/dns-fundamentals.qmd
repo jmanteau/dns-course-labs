@@ -116,9 +116,9 @@ First part: how DNS is organized.
 **DNS is a distributed, hierarchical system that translates names into the data needed to reach a service.**
 :::
 
-<div class="rec" style="left:44px;top:232px;width:380px"><div class="code" style="--c:var(--teal)">A<br>AAAA</div><div class="d">Name → IP address<br>(the main use)</div></div>
-<div class="rec" style="left:450px;top:232px;width:380px"><div class="code" style="--c:var(--red)">PTR</div><div class="d">IP address → name</div></div>
-<div class="rec" style="left:856px;top:232px;width:380px"><div class="code" style="--c:var(--amber)">MX<br>TXT</div><div class="d">Name → resources: mail servers, domain verification</div></div>
+<div class="rec plain" style="left:44px;top:232px;width:380px"><div class="code" style="--c:var(--teal)">Website</div><div class="d"><span>Where is www.example.com?<br>→ its IP address</span></div></div>
+<div class="rec plain" style="left:450px;top:232px;width:380px"><div class="code" style="--c:var(--amber)">E-mail</div><div class="d"><span>Where do I deliver e-mail for example.com?<br>→ its mail servers</span></div></div>
+<div class="rec plain" style="left:856px;top:232px;width:380px"><div class="code" style="--c:var(--red)">Address</div><div class="d"><span>Which name is behind this IP address?<br>→ a name</span></div></div>
 
 ![](images/name-to-ip.png){.absolute left=190 top=372 width=900}
 
@@ -128,6 +128,8 @@ First part: how DNS is organized.
 
 ::: notes
 "DNS" can mean the system (Domain Name System) or the infrastructure running it (Domain Name Servers). Both meanings are used in this course.
+
+The three cards are the three everyday uses, in plain words. Their record types (A/AAAA, MX, PTR) come later, on "Types of DNS Record": no need to name them yet.
 
 A recent example of "critical": in October 2025, a race condition in AWS's own DNS automation left the DynamoDB endpoint in us-east-1 with an empty DNS record. Services depending on it failed for hours. It was a software fault, not an attack.
 :::

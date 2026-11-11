@@ -221,6 +221,10 @@ $mono: $font-family-monospace;
 .reveal .rec { position: absolute; display: flex; width: 581px; height: 100px; background: $surface; border-radius: 10px; box-shadow: $shadow; overflow: hidden; }
 .reveal .rec .code { width: 150px; flex: none; display: flex; align-items: center; justify-content: center; background: var(--c); color: #fff; font-family: $mono; font-weight: 700; font-size: 30px; text-align: center; line-height: 1.1; }
 .reveal .rec .d { padding: 6px 18px 6px 22px; font-size: 22px; line-height: 1.25; display: flex; align-items: center; }
+/* plain words instead of record types (intro slides, before records are taught) */
+.reveal .rec.plain { height: 112px; }
+.reveal .rec.plain .code { width: 112px; font-family: var(--r-main-font); font-size: 21px; }
+.reveal .rec.plain .d { padding: 6px 14px 6px 16px; font-size: 20px; }
 
 /* detection families */
 .reveal .vcard { position: absolute; width: 370px; height: 470px; color: #fff; text-align: center; border-radius: 14px; box-shadow: $shadow; }
