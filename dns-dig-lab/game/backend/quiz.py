@@ -9,6 +9,9 @@ The questions live in secret/quiz.json, apart from the missions (questions.json)
 Types: mcq (one option), multi (tick all that apply, answer is a list), static (short text), open (free text,
 not graded, shown with upvotes) and poll (one option, no right answer).
 
+A multi answer earns partial credit: (right ticks - wrong ticks) / number of right options, never below 0.
+So 4 of 6 right options plus 1 wrong one score half the points, and ticking every option scores nothing.
+
 A static answer is right if it matches one of its regex `patterns`, or is close to one of its `accept`
 phrases. Close means: after lowercasing, removing accents and punctuation, the phrase is inside the answer,
 or some run of the answer's words is at least 85% similar to it. So "fully qualified domaine name" or
@@ -92,6 +95,15 @@ def grade(q, value):
     return None
 
 
+def credit(q, value):
+    """Share of the points an answer earns, from 0 to 1: partial for multi, all or nothing otherwise."""
+    if q["type"] == "multi":
+        right = set(q["answer"])
+        hits, wrong = len(right & set(value)), len(set(value) - right)
+        return max(0, hits - wrong) / len(right)
+    return 1 if grade(q, value) else 0
+
+
 def normalise(text):
     """Lowercase, no accents, words separated by single spaces."""
     text = unicodedata.normalize("NFKD", str(text)).encode("ascii", "ignore").decode().lower()
@@ -114,11 +126,12 @@ def close_enough(answer, phrase):
     return False
 
 
-def points(correct, opened_at, at):
-    if not correct:
+def points(credit, opened_at, at):
+    """The full points (100 plus the speed bonus) times the credit: True counts as 1, False as 0."""
+    if not credit:
         return 0
     elapsed = max(0, at - opened_at)
-    return POINTS + round(SPEED_BONUS * max(0, SPEED_WINDOW - elapsed) / SPEED_WINDOW)
+    return round(credit * (POINTS + SPEED_BONUS * max(0, SPEED_WINDOW - elapsed) / SPEED_WINDOW))
 
 
 def counts(q, answers):

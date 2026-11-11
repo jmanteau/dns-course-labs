@@ -424,7 +424,7 @@ def quiz_answer(body, headers, query):
         raise HttpError(400, str(exc))
     at = now_ms()
     correct = quiz.grade(q, value)
-    item = {"value": value, "at": at, "points": quiz.points(correct, live["openedAt"] / 1000, at / 1000)}
+    item = {"value": value, "at": at, "points": quiz.points(quiz.credit(q, value), live["openedAt"] / 1000, at / 1000)}
     if correct is not None:
         item["correct"] = correct
     try:

@@ -81,6 +81,26 @@ def test_speed_bonus():
     assert quiz.points(True, 100, 110) == 125
     assert quiz.points(True, 100, 160) == 100
     assert quiz.points(False, 100, 100) == 0
+    assert quiz.points(0.5, 100, 100) == 75 and quiz.points(0.5, 100, 160) == 50
+
+
+def test_multi_partial_credit():
+    q = {"type": "multi", "options": [str(k) for k in range(20)], "answer": [0, 1, 2, 3, 4, 5]}
+    assert quiz.credit(q, [0, 1, 2, 3, 4, 5]) == 1
+    assert quiz.credit(q, [0, 1, 2, 3, 9]) == 0.5  # 4 right, 1 wrong, out of 6
+    assert quiz.credit(q, list(range(20))) == 0  # ticking everything scores nothing
+    assert quiz.credit(q, [7, 8]) == 0
+    assert quiz.credit({"type": "mcq", "answer": 1}, 1) == 1 and quiz.credit({"type": "mcq", "answer": 1}, 0) == 0
+
+
+def test_partial_answer_scores_at_reveal(session):
+    alice = join("alice")
+    admin("open", qid="k2")
+    call("POST", "/quiz/answer", {"qid": "k2", "value": [0]}, alice)  # 1 of 2 right options
+    admin("reveal")
+    mine = call("GET", "/quiz", token=alice)[1]["live"]["mine"]
+    assert mine["correct"] is False and 50 <= mine["points"] <= 75
+    assert call("GET", "/state", token=alice)[1]["quizScore"] == mine["points"]
 
 
 def test_open_answers_votes_and_hide(session):
