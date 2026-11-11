@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Zones and delegation">
+    <mxGraphModel dx="400" dy="578" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="400" pageHeight="578" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="z_root" value="root zone" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fontSize=20;fontStyle=1;fontFamily=Source Sans 3;align=left;verticalAlign=top;spacingLeft=12;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#2c5aa0;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="400" height="96" as="geometry" />
+</mxCell>
+<mxCell id="z_fr" value="fr zone" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fontSize=20;fontStyle=1;fontFamily=Source Sans 3;align=left;verticalAlign=top;spacingLeft=12;fillColor=#e6f3ed;strokeColor=#2f9e6b;strokeWidth=2;fontColor=#24805a;" vertex="1" parent="1">
+  <mxGeometry x="0" y="144" width="400" height="172" as="geometry" />
+</mxCell>
+<mxCell id="z_impots" value="impots.gouv.fr zone" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fontSize=20;fontStyle=1;fontFamily=Source Sans 3;align=left;verticalAlign=bottom;spacingLeft=12;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#b5602a;" vertex="1" parent="1">
+  <mxGeometry x="0" y="364" width="400" height="214" as="geometry" />
+</mxCell>
+<mxCell id="n_root" value="." style="ellipse;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="z_root">
+  <mxGeometry x="126" y="26" width="148" height="56" as="geometry" />
+</mxCell>
+<mxCell id="n_fr" value="fr" style="ellipse;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="z_fr">
+  <mxGeometry x="126" y="24" width="148" height="56" as="geometry" />
+</mxCell>
+<mxCell id="n_gouv" value="gouv" style="ellipse;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="z_fr">
+  <mxGeometry x="126" y="104" width="148" height="56" as="geometry" />
+</mxCell>
+<mxCell id="n_impots" value="impots" style="ellipse;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="z_impots">
+  <mxGeometry x="126" y="28" width="148" height="56" as="geometry" />
+</mxCell>
+<mxCell id="n_www" value="www" style="ellipse;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="z_impots">
+  <mxGeometry x="126" y="118" width="148" height="56" as="geometry" />
+</mxCell>
+<mxCell id="d1" value="delegation (NS)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;fontStyle=2;" edge="1" parent="1" source="n_root" target="n_fr">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="d2" value="delegation (NS)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;fontStyle=2;" edge="1" parent="1" source="n_gouv" target="n_impots">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="l1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;endArrow=none;" edge="1" parent="1" source="n_fr" target="n_gouv">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="l2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;endArrow=none;" edge="1" parent="1" source="n_impots" target="n_www">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

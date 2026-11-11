@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="TTL and the resolver cache">
+    <mxGraphModel dx="940" dy="180" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="940" pageHeight="180" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="client0" value="&lt;b&gt;Client&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="130" height="50" as="geometry" />
+</mxCell>
+<mxCell id="client1" value="&lt;b&gt;Client&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0" y="65" width="130" height="50" as="geometry" />
+</mxCell>
+<mxCell id="client2" value="&lt;b&gt;Client&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0" y="130" width="130" height="50" as="geometry" />
+</mxCell>
+<mxCell id="resolver" value="&lt;b&gt;Resolver&lt;/b&gt;&lt;br&gt;with cache" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="360" y="0" width="170" height="180" as="geometry" />
+</mxCell>
+<mxCell id="auth" value="&lt;b&gt;Authoritative&lt;/b&gt;&lt;br&gt;name server" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="750" y="35" width="190" height="110" as="geometry" />
+</mxCell>
+<mxCell id="q0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.1389;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="client0" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="q1" value="answered from the cache" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="client1" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="q2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8611;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="client2" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="refresh" value="TTL = 1 hour" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;dashed=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="resolver" target="auth">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

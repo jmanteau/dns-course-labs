@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Cache poisoning">
+    <mxGraphModel dx="1110" dy="340" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1110" pageHeight="340" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="attacker" value="&lt;b&gt;Attacker&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=64;fontSize=18;fontFamily=Source Sans 3;strokeWidth=2;fontColor=#1f2a44;fillColor=#fbe9e6;strokeColor=#d64933;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="170" height="340" as="geometry" />
+</mxCell>
+<mxCell id="resolver" value="&lt;b&gt;Recursive resolver&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=64;fontSize=18;fontFamily=Source Sans 3;strokeWidth=2;fontColor=#1f2a44;fillColor=#f4f6f8;strokeColor=#3b4660;" vertex="1" parent="1">
+  <mxGeometry x="470" y="0" width="180" height="340" as="geometry" />
+</mxCell>
+<mxCell id="auth" value="bank.com&lt;br&gt;&lt;b&gt;Authoritative&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=64;fontSize=18;fontFamily=Source Sans 3;strokeWidth=2;fontColor=#1f2a44;fillColor=#fbefe7;strokeColor=#e07b39;" vertex="1" parent="1">
+  <mxGeometry x="940" y="0" width="170" height="340" as="geometry" />
+</mxCell>
+<mxCell id="m0" value="1. x42.bank.com ?" style="rounded=0;html=1;exitX=0.5;exitY=0.2706;exitDx=0;exitDy=0;entryX=0.5;entryY=0.2706;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#d64933;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="attacker" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="m1" value="2. Query x42.bank.com, ID 0x5b1e" style="rounded=0;html=1;exitX=0.5;exitY=0.3765;exitDx=0;exitDy=0;entryX=0.5;entryY=0.3765;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="resolver" target="auth">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="f1" value="3. Forged answer, ID 0x0001" style="rounded=0;html=1;exitX=0.5;exitY=0.4882;exitDx=0;exitDy=0;entryX=0.5;entryY=0.4882;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#d64933;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="attacker" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="f2" value="" style="rounded=0;html=1;exitX=0.5;exitY=0.5471;exitDx=0;exitDy=0;entryX=0.5;entryY=0.5471;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#d64933;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="attacker" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="f3" value="ID 0x5b1e + NS bank.com → ns.evil.com" style="rounded=0;html=1;exitX=0.5;exitY=0.6176;exitDx=0;exitDy=0;entryX=0.5;entryY=0.6176;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#d64933;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="attacker" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="hit" value="&lt;b&gt;ID matches:&lt;/b&gt; forged data cached for its TTL" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#fbe9e6;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="380" y="236" width="360" height="40" as="geometry" />
+</mxCell>
+<mxCell id="real" value="4. Real answer arrives: too late, dropped" style="rounded=0;html=1;exitX=0.5;exitY=0.9;exitDx=0;exitDy=0;entryX=0.5;entryY=0.9;entryDx=0;entryDy=0;strokeColor=#8796ab;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#8796ab;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="auth" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Primary, secondary and zone transfer">
+    <mxGraphModel dx="681" dy="510" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="681" pageHeight="510" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="zf3" value="" style="shape=note;size=26;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="90" y="10" width="110" height="130" as="geometry" />
+</mxCell>
+<mxCell id="zf2" value="" style="shape=note;size=26;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="105" y="25" width="110" height="130" as="geometry" />
+</mxCell>
+<mxCell id="zf1" value="Zone&lt;br&gt;file(s)" style="shape=note;size=26;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="120" y="40" width="110" height="130" as="geometry" />
+</mxCell>
+<mxCell id="primary" value="&lt;b&gt;DNS primary&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="85" y="220" width="180" height="160" as="geometry" />
+</mxCell>
+<mxCell id="sec3" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="470" y="205" width="175" height="160" as="geometry" />
+</mxCell>
+<mxCell id="sec2" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="485" y="220" width="175" height="160" as="geometry" />
+</mxCell>
+<mxCell id="sec1" value="&lt;b&gt;DNS secondary&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="500" y="235" width="175" height="160" as="geometry" />
+</mxCell>
+<mxCell id="client" value="&lt;b&gt;Client&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="522" y="450" width="130" height="60" as="geometry" />
+</mxCell>
+<mxCell id="edit" value="1. Edit zone files" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="zf1" target="primary">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="notify" value="2. NOTIFY" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.0938;exitDx=0;exitDy=0;entryX=0;entryY=0.1875;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="primary" target="sec3">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="soa_q" value="3. SOA query" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.375;exitDx=0;exitDy=0;entryX=1;entryY=0.2812;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="sec3" target="primary">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="soa_a" value="4. SOA answer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.4688;exitDx=0;exitDy=0;entryX=0;entryY=0.5625;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="primary" target="sec3">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="axfr" value="5. AXFR / IXFR" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.6562;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="sec3" target="primary">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="xfer" value="6. Records transfer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.8438;exitDx=0;exitDy=0;entryX=0;entryY=0.9375;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="primary" target="sec3">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="query" value="Query" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="client" target="sec1">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

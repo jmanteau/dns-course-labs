@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Full DNS query sequence">
+    <mxGraphModel dx="1170" dy="535" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1170" pageHeight="535" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="client" value="&lt;b&gt;Client&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=70;fontSize=18;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0.0" y="0" width="130" height="535" as="geometry" />
+</mxCell>
+<mxCell id="resolver" value="&lt;b&gt;Recursive resolver&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=70;fontSize=18;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="360.0" y="0" width="180" height="535" as="geometry" />
+</mxCell>
+<mxCell id="root" value="&lt;b&gt;Root&lt;/b&gt;&lt;br&gt;name servers" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=70;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="670.0" y="0" width="140" height="535" as="geometry" />
+</mxCell>
+<mxCell id="tld" value=".com &lt;b&gt;TLD&lt;/b&gt;&lt;br&gt;name servers" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=70;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6f3ed;strokeColor=#2f9e6b;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="850.0" y="0" width="140" height="535" as="geometry" />
+</mxCell>
+<mxCell id="auth" value="example.com&lt;br&gt;&lt;b&gt;Authoritative&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=70;fontSize=18;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="1008.0" y="0" width="160" height="535" as="geometry" />
+</mxCell>
+<mxCell id="s0" value="www.example.com ?" style="rounded=0;html=1;exitX=0.5;exitY=0.1869;exitDx=0;exitDy=0;entryX=0.5;entryY=0.1869;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="client" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="start" value="Start of the recursive query" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="280" y="130" width="340" height="36" as="geometry" />
+</mxCell>
+<mxCell id="s1" value="1st query: www.example.com" style="rounded=0;html=1;exitX=0.5;exitY=0.3645;exitDx=0;exitDy=0;entryX=0.5;entryY=0.3645;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="resolver" target="root">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="s2" value="Referral to .com NS" style="rounded=0;html=1;exitX=0.5;exitY=0.4486;exitDx=0;exitDy=0;entryX=0.5;entryY=0.4486;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="root" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="s3" value="2nd query: www.example.com" style="rounded=0;html=1;exitX=0.5;exitY=0.5327;exitDx=0;exitDy=0;entryX=0.5;entryY=0.5327;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="resolver" target="tld">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="s4" value="Referral to example.com NS" style="rounded=0;html=1;exitX=0.5;exitY=0.6168;exitDx=0;exitDy=0;entryX=0.5;entryY=0.6168;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="tld" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="s5" value="3rd query: www.example.com" style="rounded=0;html=1;exitX=0.5;exitY=0.7009;exitDx=0;exitDy=0;entryX=0.5;entryY=0.7009;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="resolver" target="auth">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="s6" value="Answer: A www.example.com 167.98.23.23" style="rounded=0;html=1;exitX=0.5;exitY=0.785;exitDx=0;exitDy=0;entryX=0.5;entryY=0.785;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="auth" target="resolver">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="end" value="End of the recursive query" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="280" y="448" width="340" height="36" as="geometry" />
+</mxCell>
+<mxCell id="s7" value="Answer: A www.example.com 167.98.23.23" style="rounded=0;html=1;exitX=0.5;exitY=0.957;exitDx=0;exitDy=0;entryX=0.5;entryY=0.957;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="resolver" target="client">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

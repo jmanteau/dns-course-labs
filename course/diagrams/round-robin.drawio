@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="DNS round robin">
+    <mxGraphModel dx="1100" dy="270" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1100" pageHeight="270" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="dns" value="&lt;b&gt;Authoritative name server&lt;/b&gt;&lt;br&gt;www.example.com&lt;br&gt;A 1.1.1.1&lt;br&gt;A 2.2.2.2&lt;br&gt;A 3.3.3.3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="220" height="270" as="geometry" />
+</mxCell>
+<mxCell id="client1" value="&lt;b&gt;Client 1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="520" y="0" width="130" height="76" as="geometry" />
+</mxCell>
+<mxCell id="web1" value="&lt;b&gt;Web server 1&lt;/b&gt;&lt;br&gt;1.1.1.1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="860" y="0" width="240" height="76" as="geometry" />
+</mxCell>
+<mxCell id="ans1" value="Answer 1&lt;br&gt;&lt;b&gt;1.1.1.1&lt;/b&gt;, 2.2.2.2, 3.3.3.3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.1407;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="dns" target="client1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="use1" value="uses first IP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="client1" target="web1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="client2" value="&lt;b&gt;Client 2&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="520" y="97" width="130" height="76" as="geometry" />
+</mxCell>
+<mxCell id="web2" value="&lt;b&gt;Web server 2&lt;/b&gt;&lt;br&gt;2.2.2.2" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="860" y="97" width="240" height="76" as="geometry" />
+</mxCell>
+<mxCell id="ans2" value="Answer 2&lt;br&gt;&lt;b&gt;2.2.2.2&lt;/b&gt;, 3.3.3.3, 1.1.1.1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="dns" target="client2">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="use2" value="uses first IP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="client2" target="web2">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="client3" value="&lt;b&gt;Client 3&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="520" y="194" width="130" height="76" as="geometry" />
+</mxCell>
+<mxCell id="web3" value="&lt;b&gt;Web server 3&lt;/b&gt;&lt;br&gt;3.3.3.3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="860" y="194" width="240" height="76" as="geometry" />
+</mxCell>
+<mxCell id="ans3" value="Answer 3&lt;br&gt;&lt;b&gt;3.3.3.3&lt;/b&gt;, 1.1.1.1, 2.2.2.2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.8593;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="dns" target="client3">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="use3" value="uses first IP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="client3" target="web3">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

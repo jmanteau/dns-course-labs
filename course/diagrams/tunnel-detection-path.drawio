@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Where tunnels pass">
+    <mxGraphModel dx="325" dy="560" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="325" pageHeight="560" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="internet" value="INTERNET" style="swimlane;startSize=34;html=1;fontSize=18;fontStyle=1;fontFamily=Source Sans 3;align=left;spacingLeft=10;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="325" height="140" as="geometry" />
+</mxCell>
+<mxCell id="enterprise" value="ENTERPRISE" style="swimlane;startSize=34;html=1;fontSize=18;fontStyle=1;fontFamily=Source Sans 3;align=left;spacingLeft=10;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="240" width="325" height="320" as="geometry" />
+</mxCell>
+<mxCell id="top" value="&lt;b&gt;Tunnel endpoint&lt;/b&gt;&lt;br&gt;Attacker’s server" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internet">
+  <mxGeometry x="20" y="46" width="285" height="80" as="geometry" />
+</mxCell>
+<mxCell id="firewall" value="&lt;b&gt;Firewall&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="82.5" y="165" width="160" height="50" as="geometry" />
+</mxCell>
+<mxCell id="dns" value="&lt;b&gt;DNS server&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="20" y="46" width="285" height="66" as="geometry" />
+</mxCell>
+<mxCell id="endpoint" value="&lt;b&gt;Client-side&lt;/b&gt;&lt;br&gt;&lt;b&gt;tunnel program&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="20" y="232" width="285" height="72" as="geometry" />
+</mxCell>
+<mxCell id="q1" value="DNS queries" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=13;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="endpoint" target="dns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="q2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="dns" target="firewall">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="q3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="firewall" target="top">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
