@@ -12,6 +12,7 @@ FIGURES  := $(patsubst diagrams/%.drawio,images/%.png,$(DIAGRAMS))
 STEPS    := $(foreach n,0 1 2 3 4 5 6 7 8,images/full-dns-sequence-step$(n).png)
 
 REPO      := https://github.com/jmanteau/dns-course-labs
+SITE      := https://jmanteau.github.io/dns-course-labs
 CHEATSHEET := ../dns-dig-lab/cheatsheet
 
 .PHONY: all build figures qr cheatsheet preview serve single pdf site clean help
@@ -45,9 +46,9 @@ images/full-dns-sequence-step8.png: diagrams/full-dns-sequence.drawio diagrams/s
 $(filter-out images/full-dns-sequence-step8.png,$(STEPS)): images/full-dns-sequence-step8.png
 
 qr:
-	uvx -q segno "$(REPO)/tree/main/dns-dig-lab" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-dig-lab.svg
-	uvx -q segno "$(REPO)/blob/main/dns-dig-lab/cheatsheet.pdf" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cheatsheet.svg
-	uvx -q segno "$(REPO)/tree/main/dns-cyber-lab" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cyber-lab.svg
+	uvx -q segno "$(SITE)/" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-dig-lab.svg
+	uvx -q segno "$(SITE)/dig-cheatsheet.pdf" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cheatsheet.svg
+	uvx -q segno "$(SITE)/" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cyber-lab.svg
 
 cheatsheet: $(CHEATSHEET).pdf
 
