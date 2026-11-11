@@ -1,5 +1,6 @@
 # Use Debian Slim as base image — multi-arch (amd64 + arm64)
-FROM debian:bookworm-slim
+# Docker Hub (rate-limited per IP): FROM debian:bookworm-slim
+FROM public.ecr.aws/docker/library/debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SLIVER_RELEASE="v1.7.8"

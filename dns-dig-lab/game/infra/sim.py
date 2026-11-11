@@ -14,7 +14,8 @@ import game_zone
 SUBNET = "10.53.0.0/24"
 RESOLVER, ZONE, SERVER, RUNNER = "10.53.0.2", "10.53.0.10", "10.53.0.53", "10.53.0.100"
 
-RUNNER_DOCKERFILE = """FROM python:3.13-slim
+RUNNER_DOCKERFILE = """# Docker Hub (rate-limited per IP): FROM python:3.13-slim
+FROM public.ecr.aws/docker/library/python:3.13-slim
 RUN pip install --no-cache-dir dnspython "moto[server]" pytest boto3 websockets
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /repo/dns-dig-lab/game

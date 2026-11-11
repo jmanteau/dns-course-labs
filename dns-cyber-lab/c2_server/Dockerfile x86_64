@@ -1,5 +1,6 @@
 # Use Debian Slim as the base image
-FROM debian:bullseye-slim
+# Docker Hub (rate-limited per IP): FROM debian:bullseye-slim
+FROM public.ecr.aws/docker/library/debian:bullseye-slim
 
 # Environment variables
 ENV SLIVER_GPG_KEY_ID="4449039C"

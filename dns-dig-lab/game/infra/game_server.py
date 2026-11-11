@@ -20,7 +20,8 @@ import game_zone
 
 CONF_DIR, WORK_DIR = "/etc/quest", "/var/lib/quest"  # in the container: read-only config, writable zones
 
-DOCKERFILE = """FROM debian:trixie-slim
+DOCKERFILE = """# Docker Hub (rate-limited per IP): FROM debian:trixie-slim
+FROM public.ecr.aws/docker/library/debian:trixie-slim
 RUN apt-get update && apt-get install -y --no-install-recommends bind9 && rm -rf /var/lib/apt/lists/*
 COPY quest/ /etc/quest/
 COPY start.sh /usr/local/bin/start
