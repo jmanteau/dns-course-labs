@@ -2,6 +2,9 @@
 -- The part changes at each chapter divider (a level-2 heading with class "divider").
 -- Dividers and the closing xkcd slide get no footer.
 function Pandoc(doc)
+  if not FORMAT:match("revealjs") then
+    return nil  -- slides only: the home page is plain HTML
+  end
   local part = doc.meta["footer-title"] and pandoc.utils.stringify(doc.meta["footer-title"]) or "DNS Fundamentals"
   local count = 0
   local blocks = pandoc.List()

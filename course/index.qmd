@@ -1,0 +1,90 @@
+---
+title: "DNS course · IUT Blagnac"
+pagetitle: "DNS course"
+description: "Slides, labs and game of the DNS course"
+format:
+  html:
+    theme: none
+    minimal: true
+    css: theme/home.css
+    include-in-header: theme/fonts.html
+    page-layout: custom
+    toc: false
+---
+
+::: {.home}
+
+::: {.intro}
+<p class="kicker">IUT Blagnac</p>
+
+# DNS course
+
+Everything for the Domain Name System (DNS) course: the slides, the two labs and the Dig Quest game. Follow the cards in order: slides first, then the labs.
+:::
+
+::: {.cards}
+
+::: {.card}
+<p class="step">Step 1 · Course</p>
+
+## DNS Fundamentals
+
+The course slides: how names are organised, how a resolver finds an answer, caching, records, security.
+
+- [Open the slides](dns-fundamentals.html){.button}
+- [Download the slides as PDF](Domain-Name-System-Fundamentals.pdf)
+:::
+
+::: {.card}
+<p class="step">Step 2 · Lab</p>
+
+## Dig lab
+
+Query real DNS servers with `dig` and read what they answer. Keep the cheat sheet open while you work.
+
+- [Open the dig lab on GitHub](https://github.com/jmanteau/dns-course-labs/tree/main/dns-dig-lab){.button}
+- [Download the dig cheat sheet (PDF)](dig-cheatsheet.pdf)
+:::
+
+::: {.card}
+<p class="step">Step 3 · Game</p>
+
+## Dig Quest
+
+The dig lab as a game, with a score and a class leaderboard. Your teacher gives you the link and the session code in class.
+
+When every mission is solved, the advanced missions open. Read these slides first:
+
+- [Open the DNS Beyond the Basics slides](dns-advanced.html){.button}
+:::
+
+::: {.card}
+<p class="step">Step 4 · Lab</p>
+
+## Cyber lab
+
+Act as an attacker who hides traffic inside DNS, then as the defender who finds and blocks it. Needs Docker on your computer.
+
+- [Open the cyber lab on GitHub](https://github.com/jmanteau/dns-course-labs/tree/main/dns-cyber-lab){.button}
+:::
+
+:::
+
+## Using the slides
+
+| Key | What it does |
+|-----|--------------|
+| <kbd>→</kbd> / <kbd>←</kbd> | Next or previous slide |
+| <kbd>F</kbd> | Full screen |
+| <kbd>S</kbd> | Speaker notes, in a new window |
+| <kbd>B</kbd> | Blank board to draw on (<kbd>Del</kbd> clears it) |
+| <kbd>C</kbd> | Draw on the current slide |
+| <kbd>Esc</kbd> | Overview of all slides |
+
+To print a deck, add `?print-pdf` to its address, open it in Chrome, then print to PDF.
+
+::: {.footer}
+[Source of the course and labs on GitHub](https://github.com/jmanteau/dns-course-labs) · Julien Manteau
+:::
+
+:::

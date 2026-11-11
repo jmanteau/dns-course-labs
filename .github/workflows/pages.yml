@@ -1,0 +1,47 @@
+# Publish the course site on GitHub Pages: home page, both slide decks, the course PDF and the dig cheat sheet.
+# https://jmanteau.github.io/dns-course-labs/
+name: Publish the course site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "course/**"
+      - "dns-dig-lab/cheatsheet.pdf"
+      - "Domain Name System Fundamentals.pdf"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # no submodules: the private game answers are not needed for the slides
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.10.20
+      # the draw.io diagrams are exported to images/ and committed: quarto alone builds the site
+      - run: make -C course site QUARTO=quarto
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: course/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
