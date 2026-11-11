@@ -1,0 +1,10 @@
+{
+  "rounds": [{"id": 1, "title": "Round 1"}, {"id": 2, "title": "Exit"}],
+  "questions": [
+    {"id": "k1", "round": 1, "type": "mcq", "text": "Port?", "options": ["UDP/53", "TCP/80"], "answer": 0, "explain": "UDP/53."},
+    {"id": "k2", "round": 1, "type": "multi", "text": "DNS means", "options": ["System", "Servers", "Service"], "answer": [0, 1]},
+    {"id": "k3", "round": 1, "type": "static", "text": "Root names?", "patterns": ["^\\s*13\\s*$"]},
+    {"id": "k4", "round": 1, "type": "open", "text": "What is an FQDN?"},
+    {"id": "k5", "round": 2, "type": "poll", "text": "Least sure?", "options": ["TTL", "RPZ"]}
+  ]
+}

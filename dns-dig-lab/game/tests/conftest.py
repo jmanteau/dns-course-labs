@@ -15,6 +15,9 @@ os.environ.update(
 
 @pytest.fixture
 def db():
+    import store
+
+    store._table = None  # the cached handle belongs to the previous test's mock
     with mock_aws():
         boto3.client("dynamodb").create_table(
             TableName="quest", BillingMode="PAY_PER_REQUEST",

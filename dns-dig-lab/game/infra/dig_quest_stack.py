@@ -13,6 +13,8 @@ from aws_cdk import (
     aws_cloudfront_origins as origins,
     aws_dynamodb as dynamodb,
     aws_lambda as lambda_,
+    aws_route53 as route53,
+    aws_route53_targets as targets,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
     aws_secretsmanager as secretsmanager,
@@ -54,7 +56,10 @@ def assemble_deck():
 
 
 class DigQuestStack(Stack):
-    def __init__(self, scope: Construct, construct_id: str, game_server: str = None, **kwargs):
+    def __init__(self, scope: Construct, construct_id: str, game_server: str = None, domain: str = None,
+                 zone_name: str = None, certificate=None, **kwargs):
+        """`domain` (a name in the Route 53 zone `zone_name`) + `certificate` (us-east-1, from CertStack):
+        the site also answers on https://<domain>."""
         super().__init__(scope, construct_id, **kwargs)
 
         table = dynamodb.TableV2(
@@ -78,7 +83,7 @@ class DigQuestStack(Stack):
             architecture=lambda_.Architecture.ARM_64,
             handler="handler.lambda_handler",
             code=lambda_.Code.from_asset(assemble_lambda()),
-            memory_size=512,
+            memory_size=1024,  # twice the CPU: faster imports, JSON and cold starts
             timeout=Duration.seconds(29),
             environment={"TABLE": table.table_name, "ADMIN_SECRET_ARN": admin_secret.secret_arn,
                          **({"GAME_SERVER": game_server} if game_server else {})},
@@ -100,13 +105,22 @@ class DigQuestStack(Stack):
                 origin=origins.S3BucketOrigin.with_origin_access_control(bucket),
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             ),
+            **({"domain_names": [domain], "certificate": certificate} if domain else {}),
         )
-        site_url = f"https://{dist.distribution_domain_name}"
+        origins_allowed = [f"https://{dist.distribution_domain_name}"]
+        if domain:
+            # the game's own address, kept out of the puzzle zone
+            zone = route53.HostedZone.from_lookup(self, "SiteZone", domain_name=zone_name)
+            target = route53.RecordTarget.from_alias(targets.CloudFrontTarget(dist))
+            route53.ARecord(self, "SiteAlias", zone=zone, record_name=domain, target=target)
+            route53.AaaaRecord(self, "SiteAlias6", zone=zone, record_name=domain, target=target)
+            origins_allowed.append(f"https://{domain}")
+        site_url = origins_allowed[-1]
 
         api = apigw.HttpApi(
             self, "HttpApi",
             cors_preflight=apigw.CorsPreflightOptions(
-                allow_origins=[site_url],
+                allow_origins=origins_allowed,
                 allow_methods=[apigw.CorsHttpMethod.GET, apigw.CorsHttpMethod.POST],
                 allow_headers=["content-type", "x-token", "x-admin-token"],
                 max_age=Duration.hours(1),
@@ -116,6 +130,18 @@ class DigQuestStack(Stack):
         stage = api.default_stage.node.default_child
         stage.default_route_settings = apigw.CfnStage.RouteSettingsProperty(throttling_burst_limit=100, throttling_rate_limit=50)
 
+        # WebSocket doorbell: the teacher's actions ring every open page at once (backend/push.py)
+        ws_integration = integrations.WebSocketLambdaIntegration("WsIntegration", fn)
+        ws_api = apigw.WebSocketApi(
+            self, "WsApi",
+            connect_route_options=apigw.WebSocketRouteOptions(integration=ws_integration),
+            disconnect_route_options=apigw.WebSocketRouteOptions(integration=ws_integration),
+            default_route_options=apigw.WebSocketRouteOptions(integration=ws_integration),
+        )
+        ws_stage = apigw.WebSocketStage(self, "WsStage", web_socket_api=ws_api, stage_name="prod", auto_deploy=True)
+        ws_api.grant_manage_connections(fn)
+        fn.add_environment("WS_CALLBACK", ws_stage.callback_url)
+
         deck = assemble_deck()
         s3deploy.BucketDeployment(
             self, "DeploySite",
@@ -124,11 +150,13 @@ class DigQuestStack(Stack):
             sources=[
                 s3deploy.Source.asset(os.path.join(GAME, "frontend")),
                 # later sources win: this replaces the local-dev config.js
-                s3deploy.Source.data("config.js", cdk.Fn.join("", ["window.QUEST_API = \"", api.api_endpoint, "\";"])),
+                s3deploy.Source.data("config.js", cdk.Fn.join("", [
+                    "window.QUEST_API = \"", api.api_endpoint, "\";\nwindow.QUEST_WS = \"", ws_stage.url, "\";"])),
             ] + ([s3deploy.Source.asset(deck)] if deck else []),
         )
 
         cdk.CfnOutput(self, "GameUrl", value=site_url)
         cdk.CfnOutput(self, "BoardUrl", value=f"{site_url}/board.html?session=CODE")
         cdk.CfnOutput(self, "ApiUrl", value=api.api_endpoint)
+        cdk.CfnOutput(self, "WsUrl", value=ws_stage.url)
         cdk.CfnOutput(self, "AdminSecretArn", value=admin_secret.secret_arn)
