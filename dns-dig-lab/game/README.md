@@ -34,7 +34,7 @@ The game runs at **https://dns.jmanteau.fr**. Below, `<GameUrl>` stands for that
 |-------|------------------|--------------|
 | Warm-up | Five short questions answered with `dig` on their own computer: `dig -v`, their resolver's IP, a first lookup, NXDOMAIN and flags, writing a command | At once |
 | Main | The missions of the dig lab, with the dig console | Every warm-up part is solved |
-| Advanced | 25 missions on concepts the course does not teach: anycast and CHAOS, NSID, whoami resolvers, SOA, extended errors, the DNSSEC chain, mail records, IPv6 reverse, IDN, truncation, SRV and NAPTR, AXFR and NSEC walking, and puzzles on the game zone and the game server | Every main part is solved |
+| Advanced | 25 missions on concepts the course does not teach: anycast and CHAOS, NSID, whoami resolvers, SOA, extended errors, the DNSSEC chain, mail records, IPv6 reverse, IDN, truncation, SRV and NAPTR, AXFR and NSEC walking, and puzzles on the game zone and the game server | 80% of the warm-up and main parts are solved (`ADV_SHARE` in `backend/handler.py`) |
 
 **Scoring:**
 
@@ -111,7 +111,7 @@ You drive everything from the admin page, on your own laptop: `<GameUrl>/admin.h
 | Switch | Covers | When it is off |
 |---|---|---|
 | **Dig lab** | the warm-up, the missions and the dig console | students see "Waiting for your teacher"; the board shows "Dig lab paused" |
-| **Advanced missions** | the advanced stage, for students who cleared every mission | the advanced section reads "your teacher opens them" |
+| **Advanced missions** | the advanced stage, for students who solved 80% of the missions | the advanced section reads "your teacher opens them" |
 
 Progress and scores are kept while an activity is off, and a switch reaches students within 3 seconds. A new session runs both. From the terminal: `make lab-on`, `make lab-off`, `make advanced-on`, `make advanced-off` (with `CODE=CLASS-A`).
 
@@ -279,7 +279,7 @@ After each change of the spec:
 
 Edit `secret/questions.json`.
 
-- **Stage.** `"stage"` is `warmup`, `main` (the default) or `advanced`. Main questions stay locked until every warm-up part is solved, and advanced ones until every main part is solved.
+- **Stage.** `"stage"` is `warmup`, `main` (the default) or `advanced`. Main questions stay locked until every warm-up part is solved, and advanced ones until 80% of the warm-up and main parts are solved (`ADV_SHARE`). The debrief of the missions still needs all of them.
 - **Part types.** `live` (checked against real DNS), `static` (regex `patterns`) and `mcq` (`options`, and the `answer` index).
 
 Live check kinds:

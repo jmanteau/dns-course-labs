@@ -215,3 +215,15 @@ def test_base64_bodies_are_decoded(session):
              "body": body, "isBase64Encoded": True}
     out = handler.lambda_handler(event)
     assert out["statusCode"] == 200 and json.loads(out["body"])["nick"] == "dora"
+
+
+def test_advanced_opens_before_every_main_mission(session, monkeypatch):
+    """The advanced stage needs ADV_SHARE of the warm-up and main parts, not all of them."""
+    monkeypatch.setattr(handler, "ADV_SHARE", 0.5)  # 2 of the fixture's 4 parts
+    tok = warmed("alice")
+    assert call("POST", "/answer", {"qid": "a01", "part": "a", "value": "deep"}, tok)[0] == 403
+    call("POST", "/answer", {"qid": "q02", "part": "a", "value": "Imperva"}, tok)
+    state = call("GET", "/state", token=tok)[1]
+    assert state["advOpen"] is True and state["mainDone"] is False and state["advNeeded"] == 2
+    assert call("POST", "/answer", {"qid": "a01", "part": "a", "value": "deep"}, tok)[1]["correct"] is True
+    assert [r["nick"] for r in call("GET", "/leaderboard", query={"session": "CLS1"})[1]["advanced"]] == ["alice"]

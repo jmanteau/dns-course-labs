@@ -59,8 +59,8 @@ function render() {
   $("who").textContent = state.nick;
   $("score").textContent = state.score;
   $("advScore").textContent = state.advScore;
-  $("advScoreBox").classList.toggle("hidden", !state.mainDone);
-  const adv = state.mainDone && state.advTotalParts ? ` · advanced ${state.advSolvedCount}/${state.advTotalParts}` : "";
+  $("advScoreBox").classList.toggle("hidden", !state.advOpen);
+  const adv = state.advOpen && state.advTotalParts ? ` · advanced ${state.advSolvedCount}/${state.advTotalParts}` : "";
   $("progress").textContent = `${state.solvedCount}/${state.totalParts} parts cleared${adv} · class ${state.session}${state.status === "closed" ? " (closed)" : ""}`;
   $("barFill").style.width = `${(100 * state.solvedCount) / state.totalParts}%`;
   const warm = state.questions.filter((q) => q.stage === "warmup");
@@ -75,8 +75,8 @@ function render() {
     return;
   }
   const challenge = state.warmupDone ? "The challenge" : "🔒 The challenge: clear the warm-up to unlock it";
-  const advTitle = !state.mainDone
-    ? "🔒 Advanced: clear every mission to unlock it"
+  const advTitle = !state.advOpen
+    ? `🔒 Advanced: solve ${state.advNeeded} of the ${state.totalParts} parts above to unlock it (${state.solvedCount} so far)`
     : !act.advanced
       ? "⏸ Advanced: your teacher opens them"
       : `Advanced: separate leaderboard. Read the <a href="deck/dns-advanced.html" target="_blank" rel="noopener">DNS Beyond the Basics</a> slides first`;
@@ -146,10 +146,10 @@ async function submit(qid, part, value, partEl, anchor) {
     const wasUnlocked = state.unlocked;
     const wasWarm = state.warmupDone;
     const wasAdv = state.advUnlocked;
-    const wasMain = state.mainDone;
+    const wasAdvOpen = state.advOpen;
     await refresh();
     if (!wasWarm && state.warmupDone) toast("Warm-up cleared: the challenge and the dig console are unlocked");
-    if (!wasMain && state.mainDone && state.advTotalParts) toast("Every mission cleared: the advanced missions are open");
+    if (!wasAdvOpen && state.advOpen && state.advTotalParts) toast("Advanced missions unlocked: read the DNS Beyond the Basics slides first");
     if ((!wasUnlocked && state.unlocked) || (!wasWarm && state.warmupDone) || (!wasAdv && state.advUnlocked)) confetti();
   } catch (e) {
     err.textContent = e.message;

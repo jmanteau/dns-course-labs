@@ -55,7 +55,7 @@ The dig lab as a game, with a score, a class leaderboard and the live quiz. Your
 
 - [Play Dig Quest at dns.jmanteau.fr](https://dns.jmanteau.fr){.button}
 
-When every mission is solved, the advanced missions open. Read these slides first:
+Once you have solved 80% of the missions, the advanced missions open. Read these slides first:
 
 - [Open the DNS Beyond the Basics slides](dns-advanced.html)
 :::

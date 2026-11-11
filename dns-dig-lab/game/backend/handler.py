@@ -2,6 +2,7 @@
 import base64
 import glob
 import hashlib
+import math
 import hmac
 import json
 import os
@@ -22,6 +23,7 @@ NICK_RE = re.compile(r"^[A-Za-z0-9_-]{2,16}$")
 CODE_RE = re.compile(r"^[A-Z0-9-]{3,24}$")
 WRONG_LIMIT, WRONG_WINDOW = 5, 60
 DIG_LIMIT, DIG_WINDOW = 20, 60
+ADV_SHARE = 0.8  # the advanced missions open once this share of the warm-up and main parts is solved
 
 _questions = None
 _dig_calls = {}  # player -> recent console timestamps; per Lambda container, best effort
@@ -51,7 +53,7 @@ def find_part(qid, pid):
 
 
 def stage_of(q):
-    """warmup (own machine), main (the missions) or advanced (after every main mission)."""
+    """warmup (own machine), main (the missions) or advanced (after 80% of the warm-up and main parts)."""
     return q.get("stage", "main")
 
 
@@ -65,15 +67,24 @@ def warmup_done(player):
 
 
 def main_done(player):
-    """Every warm-up and main part solved: this unlocks the advanced missions."""
+    """Every warm-up and main part solved: this unlocks the debrief of the missions."""
     return set(player["solved"]) >= stage_keys("warmup", "main")
+
+
+def adv_needed():
+    """How many warm-up and main parts open the advanced missions (ADV_SHARE of them, rounded up)."""
+    return math.ceil(ADV_SHARE * len(stage_keys("warmup", "main")))
+
+
+def adv_ready(player):
+    return len(set(player["solved"]) & stage_keys("warmup", "main")) >= adv_needed()
 
 
 def stage_open(player, stage):
     if stage == "main":
         return warmup_done(player)
     if stage == "advanced":
-        return main_done(player)
+        return adv_ready(player)
     return True
 
 
@@ -195,6 +206,7 @@ def state(body, headers, query):
         "advSolvedCount": len(done & adv), "advTotalParts": len(adv),
         "unlocked": unlocked(player, session), "advUnlocked": adv_unlocked(player, session),
         "warmupDone": warmup_done(player), "mainDone": main_done(player), "activities": activities(session),
+        "advOpen": adv_ready(player), "advNeeded": adv_needed(),
         "questions": public_questions(player, session),
     }
 
@@ -203,7 +215,7 @@ def require_stage(player, q, session):
     if not activity_open(session, stage_of(q)):
         raise HttpError(403, "the teacher has paused the advanced missions" if activities(session)["dig"] else "the teacher has paused the dig lab")
     if not stage_open(player, stage_of(q)):
-        raise HttpError(403, "finish every main mission first" if stage_of(q) == "advanced" else "finish the warm-up first")
+        raise HttpError(403, f"solve {adv_needed()} parts of the missions first" if stage_of(q) == "advanced" else "finish the warm-up first")
 
 
 def unlocked(player, session):
@@ -284,7 +296,7 @@ def leaderboard(body, headers, query):
     # the advanced board lists only the players who reached it
     adv_rows = sorted(
         ({"nick": p["nick"], "score": p.get("advScore", 0), "solved": len(set(p["solved"]) & adv),
-          "lastSolveAt": p.get("lastAdvSolveAt", 0)} for p in players if set(p["solved"]) >= main),
+          "lastSolveAt": p.get("lastAdvSolveAt", 0)} for p in players if adv_ready(p)),
         key=lambda r: (-r["score"], r["lastSolveAt"] or 1 << 60),
     )
     # the quiz board: everyone who scored in the live quiz

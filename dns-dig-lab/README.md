@@ -234,7 +234,7 @@ Dig Quest is this lab as a game, with a score and a class leaderboard. Play at [
 
 1. It starts with a short warm-up that you do with `dig` on your own computer.
 2. Once the warm-up is done, the missions open, with a web dig console. Pick a name, a type, a server and options: it shows the output and the `dig` command you would type.
-3. Once every mission is solved, the **Advanced** missions open, with their own leaderboard. They use DNS features the course does not cover. Read the *DNS Beyond the Basics* slides first: they are linked from the game, and on the [course site](https://jmanteau.github.io/dns-course-labs/).
+3. Once 80% of the missions are solved, the **Advanced** missions open, with their own leaderboard. They use DNS features the course does not cover. Read the *DNS Beyond the Basics* slides first: they are linked from the game, and on the [course site](https://jmanteau.github.io/dns-course-labs/).
 
 ## Tips
 

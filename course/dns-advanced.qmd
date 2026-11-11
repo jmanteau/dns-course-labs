@@ -16,7 +16,7 @@ format:
 ## How to use this deck
 
 ::: {.absolute left=61 top=130 width=1160 .f29}
-- Read it **on your own** before the **Advanced** missions of Dig Quest. They unlock once every main mission is solved.
+- Read it **on your own** before the **Advanced** missions of Dig Quest. They unlock once 80% of the main missions are solved.
 - It starts where *DNS Fundamentals* stops: you already know records, resolution, TTL, flags, NODATA and the idea of DNSSEC.
 - Every slide ends with a **Try it** command. Run it: the answers change over time, and reading live output is the skill being trained.
 - Each Advanced mission names the part of this deck it needs.
@@ -940,7 +940,7 @@ Dig Quest Advanced missions
 :::
 
 ::: {.absolute left=96 top=330 width=1100 .f27}
-- They unlock once **every main mission** is solved.
+- They unlock once **80% of the main missions** are solved.
 - A **separate leaderboard**: the main ranking stays as it was.
 - The dig console gains `class CH`, `+nsid`, `+cd`, and AXFR and `-p` toward the game server.
 - Hints cost points as before. Each mission names the part of this deck it needs.
@@ -950,7 +950,7 @@ Dig Quest Advanced missions
 <div class="qr" style="left:1066px;top:140px"><img src="images/qr-cheatsheet.svg">Cheat sheet</div>
 
 ::: notes
-**Main point:** the advanced missions open after every main mission, with their own leaderboard; the console gains the tools of this deck.
+**Main point:** the advanced missions open once 80% of the main missions are solved, with their own leaderboard; the console gains the tools of this deck.
 
 - Switch the **Advanced missions** activity on from your admin page (`admin.html?session=CODE`) when you want them to open; off, students who finished the main missions see "your teacher opens them".
 - New console options: class CH, +nsid, +cd, and AXFR and -p toward the game server only.
