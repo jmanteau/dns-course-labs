@@ -26,6 +26,16 @@ format:
 `dig -v` (you need dig 9.16 or later for every command in this deck)
 :::
 
+::: notes
+**Main point:** this deck is read alone, before the Dig Quest advanced missions; every slide ends with a command to run.
+
+- It assumes the whole of DNS Fundamentals: records, resolution, TTL, flags, NODATA, the idea of DNSSEC.
+- If you present it, run each Try it live: the answers change over time, and reading live output is the skill being trained.
+- `dig -v` first: some commands need dig 9.16 or later (for example the EDE lines).
+
+**Next:** the seven parts.
+:::
+
 ## Agenda {.agenda-slide}
 
 <div class="rec" style="left:44px;top:120px"><div class="code" style="--c:var(--teal)">1</div><div class="d"><span>Who answers you? Anycast, CHAOS, NSID, your resolver</span></div></div>
@@ -37,11 +47,26 @@ format:
 <div class="rec" style="left:44px;top:510px"><div class="code" style="--c:var(--red)">7</div><div class="d"><span>DNS as a puzzle: encodings, chained clues, files in pieces</span></div></div>
 <div class="rec" style="left:655px;top:510px"><div class="code" style="--c:var(--amber)">LAB</div><div class="d"><span>Dig Quest Advanced missions</span></div></div>
 
+::: notes
+**Main point:** seven parts, each feeding a group of advanced missions, then the lab.
+
+- Parts 1 to 5 use the public Internet only. Part 6 needs the game server (zone transfer, NSEC walk). Part 7 matches the game zone's puzzles.
+- Students can read the parts in any order: each mission names the part it needs.
+
+**Next:** part 1, who answers you.
+:::
+
 ## Who answers you? {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/dns-client-server.png"></div>
 <div class="part">Part 1</div>
 <div class="sub">Anycast, CHAOS, NSID and the resolver behind your resolver</div>
+
+::: notes
+**Main point:** part 1: behind one address there may be hundreds of servers, and behind your resolver another resolver. Here is how to find out which one answered.
+
+**Next:** anycast.
+:::
 
 ## One address, many servers: anycast
 
@@ -65,7 +90,13 @@ Same query to `k.root-servers.net`, then to `l.root-servers.net`. Same city?
 :::
 
 ::: notes
-Operators often name anycast instances after the nearest airport (IATA code). K-root answered "ns1.fr-lio.k.ripe.net" (Lyon) in November 2026. A student on another network may get another city: that is the point.
+**Main point:** with anycast, one IP address is announced from many sites, and routing sends each packet to the nearest one.
+
+- Benefits: speed (the closest copy answers) and robustness (a DDoS is spread over all sites). Cost: you cannot tell which machine answered.
+- Operators often name anycast instances after the nearest airport (IATA code). The slide's answer is CDG, Paris.
+- K-root answered "ns1.fr-lio.k.ripe.net" (Lyon) in November 2026. A student on another network may get another city: that is the point.
+
+**Next:** the query used here, CHAOS class.
 :::
 
 ## The CHAOS class: servers describing themselves
@@ -99,6 +130,17 @@ Verisign answers "ATLAS" (its own software) and no version number. Knowing the e
 `dig @8.8.8.8 CH TXT id.server`: what does Google answer, and with which status?
 :::
 
+::: notes
+**Main point:** besides IN, DNS has a CH class; servers reuse it to answer questions about themselves (version.bind, hostname.bind, id.server).
+
+- Chaosnet was an MIT network of the 1970s; nobody uses it, so the class became a side channel for server identity.
+- id.server and version.server are the standard names (RFC 4892); the .bind names come from BIND.
+- Hiding the version is common: knowing it helps an attacker pick an exploit. Verisign answers "ATLAS" with no version.
+- Try it answer (checked November 2026): 8.8.8.8 returns SERVFAIL with no answer to CH TXT id.server. Google does not take part.
+
+**Next:** NSID, which identifies the server inside the real answer.
+:::
+
 ## NSID: the identity inside the answer
 
 ::: {.absolute left=44 top=118 width=1192 .f25}
@@ -120,6 +162,17 @@ L-root also names itself in a normal record (RFC 7108). Whose instance is it?
 
 ::: {.tryit style="left:44px;top:610px;width:1192px"}
 Add `+nsid` to a query to `1.1.1.1` or `9.9.9.9`. Which instance answered?
+:::
+
+::: notes
+**Main point:** NSID (RFC 5001) puts the server's identity inside the same answer, so anycast cannot send it to another instance.
+
+- A CH TXT query is a separate packet: it may reach another anycast instance than your real query.
+- `+nsid` asks for the identity as an EDNS option; dig prints it in hex and in text.
+- RFC 7108: L-root also answers IDENTITY.L.ROOT-SERVERS.ORG as a normal TXT record. Asked through your resolver, it names the instance your resolver reached, not yours: on the slide, Hamburg.
+- In November 2026, L-root's hostname.bind was "bg-goz-aa", the same name as in the NSID on the slide.
+
+**Next:** a classic dig trap.
 :::
 
 ## The `dig ch` trap
@@ -146,6 +199,16 @@ m.root-servers.net.</pre>
 `dig ch. NS +short`: which organisation runs the `.ch` servers? (Hint: `nic.ch`.)
 :::
 
+::: notes
+**Main point:** dig reads ch, in and hs as class names, so `dig ch NS` asks for the root in the CHAOS class. Write the final dot: `dig ch. NS`.
+
+- With no name left, dig asks about the root (.): `dig in NS` lists the root servers, not India's.
+- The final dot makes the word a name, like the FQDN rule of DNS Fundamentals.
+- Try it answer (checked November 2026): `dig ch. NS +short` gives a.nic.ch to f.nic.ch; the TXT of nic.ch shows an SPF policy at switch.ch: SWITCH runs .ch.
+
+**Next:** finding the resolver behind your resolver.
+:::
+
 ## Who is my resolver, really?
 
 ::: {.absolute left=44 top=118 width=1192 .f25}
@@ -168,7 +231,13 @@ Same question through `1.1.1.1`, then `9.9.9.11`. Which ones pass your subnet (E
 :::
 
 ::: notes
-ECS was seen with +subnet in the main lab. Here students see it from the other side: what an authoritative server learns about them. Results vary with each resolver's policy and change over time; do not give the answer, let them compare.
+**Main point:** authoritative servers only see the last resolver in the chain; "whoami" names reveal that resolver, and the subnet (ECS) it passes on.
+
+- ECS was seen with +subnet in the main lab. Here students see it from the other side: what an authoritative server learns about them.
+- On the slide, Google's answer shows two things: the client subnet it passed on, and the address of the Google resolver that asked.
+- Results vary with each resolver's policy and change over time; do not give the answer, let them compare.
+
+**Next:** part 2, reading answers closely.
 :::
 
 ## Reading answers closely {.divider}
@@ -176,6 +245,12 @@ ECS was seen with +subnet in the main lab. Here students see it from the other s
 <div class="panel" style="--panel:#f4f6f8"><img src="images/ttl-cache.png"></div>
 <div class="part">Part 2</div>
 <div class="sub">SOA fields, extended errors, wildcards and caches</div>
+
+::: notes
+**Main point:** part 2: the details of an answer explain most failures: SOA fields, error codes, wildcards, cache state.
+
+**Next:** the SOA.
+:::
 
 ## The SOA, field by field
 
@@ -197,7 +272,14 @@ brassens.iut-blagnac.fr. pinf.iutb.univ-tlse2.fr. 2026082311 3600 600 1209600 36
 :::
 
 ::: notes
-A dot inside the mailbox part is escaped: john\.doe.example.com is john.doe@example.com.
+**Main point:** the SOA holds the zone's settings: primary server, admin mailbox, version (serial), secondary timers and the negative caching limit.
+
+- RNAME: the first dot becomes @. A dot inside the mailbox part is escaped: john\.doe.example.com is john.doe@example.com.
+- SERIAL: YYYYMMDDnn is a habit, not a rule.
+- MINIMUM: the negative caching limit seen in DNS Fundamentals (status and flags).
+- Try it answers (checked November 2026): fr's serial 2247254246 is a counter; afnic.fr's 2026111105 is a date (11 November 2026, change 05). Contacts: dnsmaster@afnic.fr for fr, hostmaster@nic.fr for afnic.fr.
+
+**Next:** finding out why a lookup failed.
 :::
 
 ## Why did it fail? Extended DNS Errors
@@ -221,6 +303,17 @@ A dot inside the mailbox part is escaped: john\.doe.example.com is john.doe@exam
 
 ::: {.tryit style="left:44px;top:560px;width:1192px"}
 The same name through `1.1.1.1` and `9.9.9.9`: same status? same EDE code?
+:::
+
+::: notes
+**Main point:** Extended DNS Errors (EDE, RFC 8914) add a code and a text to an answer, so SERVFAIL finally says why.
+
+- Read the table: DNSSEC failures (6, 7, 9), filtering (15, 17), refusal (18), unreachable servers (22).
+- dig prints EDE in the OPT section; older dig versions do not show it.
+- Try it answer (checked November 2026): 1.1.1.1 gives EDE 9 (DNSKEY Missing) and 9.9.9.9 gives EDE 7 (Signature Expired). Same SERVFAIL, different codes: each resolver describes the failure its own way.
+- Google's EDE is not always present: some anycast instances leave it out.
+
+**Next:** wildcards.
 :::
 
 ## Wildcards
@@ -252,6 +345,16 @@ Only with DNSSEC: the RRSIG has a **labels** field. A signature with fewer label
 `dig anything-you-want.blogspot.com +short`, then `dig "*.blogspot.com" +short`
 :::
 
+::: notes
+**Main point:** a wildcard record answers for names that do not exist, but an existing name blocks it.
+
+- The rules: `*` only as the leftmost label; an existing name gives NODATA rather than the wildcard; it does not reach below an existing name.
+- github.io has a wildcard: any made-up name answers. wikipedia.org has none: NXDOMAIN.
+- Ask the prediction: the answer shows the asked name, never the `*`. Only DNSSEC proves it, through the labels field of the RRSIG.
+
+**Next:** reading a resolver's cache.
+:::
+
 ## Peeking into a cache: `+norecurse`
 
 ::: {.absolute left=44 top=118 width=1192 .f25}
@@ -275,11 +378,27 @@ www.google.com.   <b>154</b>   IN   A   142.251.152.119      <span class="gray">
 Run the 8.8.8.8 query three times, a few seconds apart. Does the TTL count down smoothly?
 :::
 
+::: notes
+**Main point:** without the rd flag, a resolver answers only from its cache, which reveals what others asked recently: cache snooping.
+
+- 8.8.8.8 answers from cache, with the TTL left. 1.1.1.1 refuses with an EDE text. 9.9.9.9 returns nothing.
+- On a company resolver, this reveals which sites its users visit; that is why many resolvers refuse rd=0 from outside.
+- Anycast again: each instance has its own cache, so running the query twice can make the TTL jump instead of counting down.
+
+**Next:** part 3, size and transport.
+:::
+
 ## Size and transport {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/full-dns-query.png"></div>
 <div class="part">Part 3</div>
 <div class="sub">512 bytes, EDNS, the tc flag and long TXT records</div>
+
+::: notes
+**Main point:** part 3: answers that are too big for one UDP packet, and long text values.
+
+**Next:** the 512-byte limit.
+:::
 
 ## 512 bytes, EDNS and the `tc` flag
 
@@ -307,6 +426,17 @@ Add `+ignore`: dig keeps the cut answer instead of retrying. What do you expect?
 `dig . DNSKEY +bufsize=512 +ignore`: is the root's key set too big for 512 bytes?
 :::
 
+::: notes
+**Main point:** a UDP answer was limited to 512 bytes; EDNS raises it, and anything still too big is truncated (tc) and retried over TCP.
+
+- DNS Flag Day 2020 settled on 1232 bytes to avoid IP fragmentation.
+- `+noedns` forces the old limit: google.com's TXT set no longer fits, dig retries over TCP.
+- `+ignore` keeps the truncated answer: tc flag set, 0 answers.
+- Try it answer (checked November 2026): `dig . DNSKEY +bufsize=512 +ignore` sets tc with 0 answers: the root's key set does not fit in 512 bytes.
+
+**Next:** long TXT records.
+:::
+
 ## Long TXT records
 
 ::: {.absolute left=44 top=118 width=1192 .f25}
@@ -329,11 +459,27 @@ A TXT record is a list of **strings of at most 255 bytes each**. Longer data (a 
 `dig TXT google.com +short`: find the longest value. Is it one string or several?
 :::
 
+::: notes
+**Main point:** a TXT record is a list of strings of at most 255 bytes; one long value is split, and readers join the pieces with nothing in between.
+
+- dig shows each string in its own quotes, on one line.
+- Several strings in one record: one value, join them. Several records: separate values, in no fixed order.
+- Typical cases: 2048-bit DKIM keys, large SPF policies.
+
+**Next:** part 4, special records and names.
+:::
+
 ## Special records and names {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/fqdn-anatomy.png"></div>
 <div class="part">Part 4</div>
 <div class="sub">Null MX, mail authentication, apex, SRV, NAPTR, IPv6 reverse, IDN</div>
+
+::: notes
+**Main point:** part 4: records with special meanings (null MX, mail authentication, HTTPS, SRV, NAPTR) and names beyond the usual form (IPv6 reverse, IDN).
+
+**Next:** null MX.
+:::
 
 ## Null MX: "no mail here"
 
@@ -360,6 +506,16 @@ It goes with an SPF `v=spf1 -all`: "this domain never **sends** mail either".
 `dig example.org MX +short` and `dig example.org TXT +short`: does example.org send mail?
 :::
 
+::: notes
+**Main point:** a null MX (`0 .`) says a domain receives no mail; without any MX, senders would try its address and retry for days.
+
+- `0 .`: priority 0, target the root, which is not a host.
+- It goes with `v=spf1 -all`: the domain sends no mail either.
+- Try it answer (checked November 2026): example.org has `MX 0 .` and `v=spf1 -all`: it neither receives nor sends mail.
+
+**Next:** the three mail authentication records.
+:::
+
 ## Mail authentication: SPF, DKIM, DMARC
 
 <div class="rec" style="left:44px;top:118px;width:1192px"><div class="code" style="--c:var(--teal);width:170px;font-size:26px">SPF</div><div class="d"><span>TXT on the domain: <code>v=spf1 include:… -all</code>. <b>Which servers</b> may send mail for this domain.</span></div></div>
@@ -372,6 +528,17 @@ It goes with an SPF `v=spf1 -all`: "this domain never **sends** mail either".
 
 ::: {.tryit style="left:44px;top:625px;width:1192px"}
 `dig _dmarc.gouv.fr TXT +short`: what does `sp=none` change for the subdomains?
+:::
+
+::: notes
+**Main point:** SPF, DKIM and DMARC are plain TXT records: which servers may send, which key signs, and what to do when checks fail.
+
+- SPF on the domain; DKIM under `<selector>._domainkey`; DMARC under `_dmarc`.
+- The DKIM selector is in the mail header (`s=`), so it cannot be guessed from DNS alone (except by NSEC walking, part 6).
+- airbus.com's DMARC is a CNAME to a shared policy: p=reject.
+- Try it answer (checked November 2026): gouv.fr has p=reject for itself but sp=none: its subdomains are only monitored, not rejected.
+
+**Next:** why the zone apex cannot be a CNAME.
 :::
 
 ## No CNAME at the zone apex
@@ -392,6 +559,16 @@ So how do `example.com` sites point to a CDN?
 
 ::: {.tryit style="left:44px;top:560px;width:1192px"}
 `dig www.airbus.com CNAME +short`, then `dig airbus.com CNAME +short`. Why the difference?
+:::
+
+::: notes
+**Main point:** a CNAME must be alone at its name, and the apex always has SOA and NS, so `example.com` itself cannot be a CNAME.
+
+- Providers work around it with ALIAS, ANAME or "CNAME flattening": they resolve the target themselves and serve A/AAAA records.
+- The standard answer is the HTTPS/SVCB record (RFC 9460), which can point to another name and carry hints.
+- Try it answer (checked November 2026): www.airbus.com is a CNAME to b4in5fr.x.incapdns.net (Imperva); airbus.com has no CNAME, because it is the apex.
+
+**Next:** SRV and NAPTR.
 :::
 
 ## SRV and NAPTR: services, ports, rewriting
@@ -416,6 +593,16 @@ So how do `example.com` sites point to a CDN?
 Apply the regex to `+441865332244`: which SIP address do you get? (`\1` is what `(.*)` matched.)
 :::
 
+::: notes
+**Main point:** SRV finds a service's host and port; NAPTR rewrites a name with a regular expression, for example a phone number into a SIP address.
+
+- SRV fields: priority, weight, port, host. Gmail's IMAPS is on port 993.
+- NAPTR/ENUM: the phone number's digits are reversed under e164.arpa, like reverse DNS.
+- Try it answer: the regex keeps what follows +441865332, here 244, so the result is sip:244@nominet.org.uk.
+
+**Next:** reverse lookups in IPv6.
+:::
+
 ## Reverse lookup in IPv6
 
 ::: {.absolute left=44 top=118 width=1192 .f25}
@@ -434,6 +621,16 @@ dns.google.</pre>
 
 ::: {.tryit style="left:44px;top:590px;width:1192px"}
 Build the name by hand, then check: `dig PTR <your name> +short` must give the same answer.
+:::
+
+::: notes
+**Main point:** IPv6 reverse names reverse every hex digit (nibble) under ip6.arpa: 32 labels.
+
+- Step 1 is where students go wrong: expand `::` to all the zero groups first.
+- One label per hex digit allows delegation on any 4-bit boundary (see the reverse lookup notes in DNS Fundamentals).
+- Try it answer: 8.8.8.8.0.0.0.0.0.0.0.0.0.0.0.0.0.6.8.4.0.6.8.4.1.0.0.2.ip6.arpa gives dns.google.
+
+**Next:** names that are not ASCII.
 :::
 
 ## Names beyond ASCII: IDN
@@ -458,11 +655,27 @@ The `ß` case shows two standards giving **two different domains** for the same 
 `dig xn--caf-dma.fr +short`, then `dig café.fr +short` (recent dig converts it for you).
 :::
 
+::: notes
+**Main point:** DNS only carries ASCII; a Unicode name travels as Punycode, with the prefix xn--.
+
+- Browsers show the Unicode form; DNS, certificates and logs show the xn-- form.
+- straße.de: two standards (IDNA 2003 and 2008) give two different domains.
+- Lookalike characters give the homograph attacks of DNS Fundamentals (lookalike domain detection).
+
+**Next:** part 5, DNSSEC in practice.
+:::
+
 ## DNSSEC in practice {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/dnssec-validation.png"></div>
 <div class="part">Part 5</div>
 <div class="sub">The records, the chain of trust, the flags</div>
+
+::: notes
+**Main point:** part 5: the records behind DNSSEC, the chain of trust, and the flags that show validation.
+
+**Next:** the four records.
+:::
 
 ## The four records of DNSSEC
 
@@ -473,6 +686,15 @@ The `ß` case shows two standards giving **two different domains** for the same 
 
 ::: {.tryit style="left:44px;top:600px;width:1192px"}
 `dig fr DNSKEY +dnssec +multi`: find the KSK, the ZSK and the RRSIG that signs them.
+:::
+
+::: notes
+**Main point:** DNSKEY holds the keys, RRSIG the signatures, DS links a child to its parent, and NSEC/NSEC3 prove that something does not exist.
+
+- KSK (flag 257) signs the key set; ZSK (flag 256) signs the records. Two keys let the ZSK change often without touching the parent.
+- The key tag in each RRSIG says which key signed it.
+
+**Next:** following the chain.
 :::
 
 ## Following the chain: DS → DNSKEY
@@ -491,6 +713,16 @@ fr.  163 IN DNSKEY <b>257</b> 3 13 ( C8Q2nWGQ… ) ; KSK; alg = ECDSAP256SHA256 
 
 ::: {.tryit style="left:44px;top:560px;width:1192px"}
 Do the same one level down: `dig afnic.fr DS +short` (asked to `.fr`), then `dig afnic.fr DNSKEY`.
+:::
+
+::: notes
+**Main point:** the parent's DS record holds a hash of the child's KSK; matching key tags link the two, level by level, up to the root's key.
+
+- Read the DS fields: key tag 65381, algorithm 13 (ECDSA P-256), digest type 2 (SHA-256).
+- The same key tag appears on .fr's KSK: that is the link.
+- The resolver repeats this up to the root key, which it knows in advance (the trust anchor; it changed in October 2026, see DNS Fundamentals).
+
+**Next:** the flags that show validation.
 :::
 
 ## The flags: `do`, `ad`, `cd`
@@ -514,11 +746,27 @@ Do the same one level down: `dig afnic.fr DS +short` (asked to `.fr`), then `dig
 `dig iana.org @1.1.1.1` vs `dig iut-blagnac.fr @1.1.1.1`: which one has the `ad` flag? Why?
 :::
 
+::: notes
+**Main point:** do asks for signatures, ad says the resolver validated the answer, cd asks it not to validate.
+
+- A bogus signature gives SERVFAIL, like a dead server. `+cd` tells them apart: if the data comes back, DNSSEC was the problem.
+- ad is set by the resolver: you trust it and the path to it.
+- Try it answer (checked November 2026): iana.org has ad (it is signed); iut-blagnac.fr has no ad, because it is not signed.
+
+**Next:** part 6, opening a zone.
+:::
+
 ## Opening a zone {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/zone-transfer.png"></div>
 <div class="part">Part 6</div>
 <div class="sub">Zone transfers and walking the NSEC chain</div>
+
+::: notes
+**Main point:** part 6: two ways to list every name of a zone, a zone transfer and an NSEC walk.
+
+**Next:** zone transfers.
+:::
 
 ## Zone transfers: AXFR
 
@@ -548,6 +796,17 @@ zonetransfer.me. 7200 IN NS  nsztm1.digi.ninja.
 Run the AXFR above. How many records? Which ones would interest an attacker?
 :::
 
+::: notes
+**Main point:** AXFR copies a whole zone; open to anyone, it leaks every host name. Allow it only to the secondaries, and sign transfers with TSIG.
+
+- AXFR is the full zone over TCP; IXFR only the changes; NOTIFY tells secondaries to come.
+- zonetransfer.me is left open on purpose for training. Only try AXFR on zones you may test.
+- What interests an attacker: internal names, test and backup servers, mail and VPN hosts.
+- In Dig Quest, the game server has one open zone to transfer.
+
+**Next:** listing a zone without AXFR.
+:::
+
 ## Proving that a name does not exist: NSEC
 
 ::: {.absolute left=44 top=118 width=1192 .f24}
@@ -565,6 +824,16 @@ A server can't sign "nothing". So it signs the **gap**: an NSEC record says "aft
 
 ::: {.tryit style="left:44px;top:600px;width:1192px"}
 Walk three more steps. Then: why would a company **not** want this?
+:::
+
+::: notes
+**Main point:** NSEC signs the gap between two existing names, so asking for each next name walks the whole zone.
+
+- On the slide, four steps of the walk at isc.org reach a DKIM selector without guessing.
+- Why a company would not want this: the same leak as an open AXFR, through DNSSEC.
+- In Dig Quest, one game zone is signed with NSEC to walk.
+
+**Next:** the answers to that leak: NSEC3 and compact denial.
 :::
 
 ## NSEC3 and compact denial
@@ -590,11 +859,27 @@ zz-nope.cloudflare.com. 300 IN NSEC
 `dig zz-nope.afnic.fr +dnssec +noall +authority`: NSEC or NSEC3? With a salt?
 :::
 
+::: notes
+**Main point:** NSEC3 chains hashes instead of names; compact denial signs a tiny gap built on the fly, so nothing is revealed.
+
+- NSEC3 hashes can still be guessed offline with a dictionary of common names.
+- Compact denial (RFC 9824) answers NOERROR with a type NXNAME (TYPE128) instead of NXDOMAIN.
+- Try it answer (checked November 2026): afnic.fr uses NSEC3 with parameters `1 1 0 -`: SHA-1, opt-out set, 0 iterations, no salt.
+
+**Next:** part 7, DNS as a puzzle.
+:::
+
 ## DNS as a puzzle {.divider}
 
 <div class="panel" style="--panel:#f4f6f8"><img src="images/exfiltration-path.png"></div>
 <div class="part">Part 7</div>
 <div class="sub">Encodings, chained clues and files in pieces</div>
+
+::: notes
+**Main point:** part 7: the patterns used by CTF challenges and by malware to hide data in DNS: encodings, chained clues and files in pieces.
+
+**Next:** recognising encodings.
+:::
 
 ## Data hidden in TXT records
 
@@ -615,7 +900,12 @@ TXT holds any bytes, so CTF challenges (and malware, see *infiltration* in *DNS 
 :::
 
 ::: notes
-\240\159\148\141 is 🔍 (bytes F0 9F 94 8D). The same bytes in octal are \360\237\224\215. Mixing up dig's decimal escapes with octal is the classic trap.
+**Main point:** recognise the encoding first (Base64, hex, escaped bytes), then decode it with a one-line command.
+
+- Base64 ends with `=` and mixes cases; hex is 0-9 and a-f, even length.
+- dig writes unprintable bytes as decimal `\DDD`; printf wants octal. \240\159\148\141 is 🔍 (bytes F0 9F 94 8D). The same bytes in octal are \360\237\224\215. Mixing up dig's decimal escapes with octal is the classic trap.
+
+**Next:** clues spread over several records.
 :::
 
 ## Chained clues and files in pieces
@@ -629,6 +919,16 @@ TXT holds any bytes, so CTF challenges (and malware, see *infiltration* in *DNS 
 
 ::: {.tryit style="left:44px;top:600px;width:1192px"}
 The Advanced missions on the game zone use these three patterns.
+:::
+
+::: notes
+**Main point:** three puzzle patterns: a chain of records, a CNAME maze, and a file split into numbered TXT chunks.
+
+- Chain: each answer names the next question (TXT → MX → SRV).
+- Maze: a script loop beats clicking.
+- Chunks: join, decode, then check the SHA-256 against the meta record. Real malware stages payloads this way (infiltration, DNS Fundamentals).
+
+**Next:** the advanced missions.
 :::
 
 ## Dig Quest: Advanced missions {.lab-slide}
@@ -649,6 +949,17 @@ Dig Quest Advanced missions
 
 <div class="qr" style="left:1066px;top:140px"><img src="images/qr-cheatsheet.svg">Cheat sheet</div>
 
+::: notes
+**Main point:** the advanced missions open after every main mission, with their own leaderboard; the console gains the tools of this deck.
+
+- Switch the **Advanced missions** activity on from your admin page (`admin.html?session=CODE`) when you want them to open; off, students who finished the main missions see "your teacher opens them".
+- New console options: class CH, +nsid, +cd, and AXFR and -p toward the game server only.
+- Hints cost points as before; each mission names the part of this deck it needs.
+- Explanations unlock when all advanced missions are solved, or when the session closes.
+
+**Next:** what to remember.
+:::
+
 ## What to remember
 
 ::: {.absolute left=75 top=115 width=1150 .f27 .gray .sp2}
@@ -662,6 +973,14 @@ Dig Quest Advanced missions
 8. AXFR and NSEC walking both list a zone: restrict the first, prefer NSEC3 or compact denial for the second.
 :::
 
+::: notes
+**Main point:** eight points, one per part, plus the two ways a zone leaks.
+
+- Read them as a checklist: a student who can explain each one is ready for every advanced mission.
+
+**Next:** resources.
+:::
+
 ## Resources
 
 ::: {.absolute left=44 top=125 width=1192 .f24 .links}
@@ -672,3 +991,12 @@ Dig Quest Advanced missions
 - [Mess With DNS (Julia Evans)](https://messwithdns.net/) · [zonetransfer.me](https://digi.ninja/projects/zonetransferme.php) · [Why you can't dig Switzerland](https://shkspr.mobi/blog/?p=43028)
 - [Which anycast server are you talking to? (jpmens)](https://jpmens.net/2011/02/26/which-anycasted-dns-server-are-you-really-talking-to/) · [RFC search](https://www.rfc-editor.org/search/rfc_search.php)
 :::
+
+::: notes
+**Main point:** the RFCs behind each slide, and three hands-on sites.
+
+- Mess With DNS: a sandbox to create records and watch queries live.
+- zonetransfer.me: the legal training target for AXFR.
+- "Why you can't dig Switzerland": the `dig ch` trap, told as a story.
+:::
+
