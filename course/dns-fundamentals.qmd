@@ -971,13 +971,13 @@ You now have what the questions need: records, resolution, TTL, reverse DNS and 
 The lab is in `dns-dig-lab`, with a one-page **dig cheat sheet**. Then check your answers and compete on **Dig Quest** at **dns.jmanteau.fr**: scan the code on the leaderboard.
 :::
 
-<div class="qr" style="left:880px;top:330px"><img src="images/qr-dig-lab.svg">dig lab</div>
+<div class="qr" style="left:880px;top:330px"><img src="images/qr-dig-lab.svg">Course site</div>
 <div class="qr" style="left:1066px;top:330px"><img src="images/qr-cheatsheet.svg">Cheat sheet</div>
 
 ::: notes
 **Main point:** students now have what the dig lab needs: records, resolution, TTL, reverse DNS and split horizon.
 
-- Students scan the QR codes: the dig lab and the one-page cheat sheet.
+- Students scan the QR codes: the course site (dig lab card, step 2) and the one-page cheat sheet PDF.
 - Create the Dig Quest session before class (see dns-dig-lab/game/README.md) and project the leaderboard: it shows the join QR code for the session.
 - On your admin page (`admin.html?session=CODE`), check the **Dig lab** activity is on. You can pause it to get everyone's attention back: students then see a waiting screen, with their progress kept.
 - Give the time box (about one hour), then walk around: most blockers are resolver timeouts (use `@1.1.1.1`) and reading the wrong section.
@@ -1209,12 +1209,12 @@ Practical Exercise: DNS C2 with Sliver (Red Team)
 
 ![](images/c2-lab-topology.png){.absolute left=290 top=255 width=960}
 
-<div class="qr" style="left:96px;top:330px;width:160px"><img src="images/qr-cyber-lab.svg">Cyber lab</div>
+<div class="qr" style="left:96px;top:330px;width:160px"><img src="images/qr-cyber-lab.svg">Course site</div>
 
 ::: notes
 **Main point:** students run a real C2 channel over DNS in a closed lab, as the attacker.
 
-- Students scan the QR code and follow the red team steps of the cyber lab.
+- Students scan the QR code to open the course site, then the cyber lab card (step 4), and follow the red team steps.
 - The topology: the firewall lets only DNS out, so the implant has no other way to talk.
 - Run the Red Team part only, then leave the lab running: the Blue Team part comes after the detection slides and uses the logs created here.
 - Common blocker: all sessions [DEAD]. Restart the implant and use an [ALIVE] session (see the lab's maintainer notes).
@@ -1500,7 +1500,7 @@ Worked example, facebook: 6 letters appear once and "o" twice, so entropy = 6 ×
 Practical Exercise: DNS C2 with Sliver (Blue Team)
 :::
 
-<div class="qr" style="left:1066px;top:330px"><img src="images/qr-cyber-lab.svg">Cyber lab</div>
+<div class="qr" style="left:1066px;top:330px"><img src="images/qr-cyber-lab.svg">Course site</div>
 
 ::: {.absolute left=96 top=350 width=940 .f29}
 Back to the lab you left running. Now you are the defender:

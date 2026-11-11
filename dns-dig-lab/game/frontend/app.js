@@ -227,6 +227,7 @@ function quizHtml(live) {
   // revealed
   let verdict = "";
   if (live.mine && live.mine.correct === true) verdict = `<p class="ok">✓ Right: +${live.mine.points} quiz points</p>`;
+  else if (live.mine && live.mine.correct === false && live.mine.points > 0) verdict = `<p class="ok">◐ Partly right: +${live.mine.points} quiz points</p>`;
   else if (live.mine && live.mine.correct === false) verdict = `<p class="bad">✗ Not this time.</p>`;
   else if (!live.mine) verdict = `<p class="sub">You did not answer this one.</p>`;
   const explain = q.explain ? `<p class="explain">${md(q.explain)}</p>` : "";
