@@ -2,7 +2,8 @@ PY      := .venv/bin/python
 CDK_PY  := infra/.venv/bin
 COURSE  := ../../course
 DECK    := $(COURSE)/_site/dns-advanced-single.html
-CDK     := cd infra && PATH="$(CURDIR)/$(CDK_PY):$$PATH" npx aws-cdk
+# --app names the venv's python: a shell profile may put another python3 first on PATH
+CDK     := cd infra && PATH="$(CURDIR)/$(CDK_PY):$$PATH" npx aws-cdk --app "$(CURDIR)/$(CDK_PY)/python app.py"
 CODE    ?= CLASS-A
 NAME    ?= $(CODE)
 # the game server: BIND in Docker on an always-on host, reached over SSH
@@ -92,7 +93,7 @@ server-logs:
 	ssh $(HOST) "cd $(REMOTE) && docker compose logs --tail 30"
 
 # Oracle images block everything but SSH: iptables (Ubuntu) or firewalld (Oracle Linux).
-# The VCN security list must allow the same ports: add those ingress rules in the Oracle console.
+# The VCN security list must allow the same ports: see network.tf in the oci-pkms project.
 server-firewall:
 	ssh -t $(HOST) 'set -e; for p in 53 8053; do for t in udp tcp; do \
 	  if command -v firewall-cmd >/dev/null; then sudo firewall-cmd -q --permanent --add-port=$$p/$$t; \

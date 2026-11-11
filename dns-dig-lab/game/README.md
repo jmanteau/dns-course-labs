@@ -189,17 +189,25 @@ Missions a21 to a25 need what Route 53 cannot do. So BIND 9.20 runs in Docker on
 
 How it is built:
 
-- `secret/server.json` (private) holds the content and the server's reserved public IPv4 address (`address`).
+- `secret/server.json` (private) holds the content and the server's public IPv4 address (`address`).
 - `infra/game_server.py` renders a Docker folder from it: a Debian 13 image, two containers on the host network, `named.conf` and the zone files. The host network lets BIND see the real client addresses, which its rate limiting needs.
 - `DigQuestZone` publishes the server's address and delegates `axfr.` and `walk.` to it.
 - The server is authoritative only (`recursion no`), with response rate limiting: it can never serve as an open resolver.
 
 The first time:
 
-1. Add `oraclevm` to `~/.ssh/config`.
-2. Install Docker with the compose plugin on the VM.
-3. In the Oracle console, allow UDP and TCP on ports 53 and 8053 in the VCN security list.
+1. Create the VM with the `oci-pkms` project (`~/SynologyDrive/Dev/oci-pkms`): `terraform apply`, then `make deploy-all` to install Docker. Its `network.tf` already allows UDP and TCP on ports 53 and 8053 in the VCN security list.
+2. Add `oraclevm` to `~/.ssh/config`, with the address from `terraform output -raw ampere_public_ip`:
+   ```
+   Host oraclevm
+     HostName <ampere_public_ip>
+     User ubuntu
+     IdentityFile ~/.ssh/id_ed25519
+   ```
+3. Put the same address in `secret/server.json` (`address`). It is an ephemeral IP: it changes only if the instance is recreated. Then update both places and run `make deploy-zone`.
 4. Open the same ports in the host firewall: `make server-firewall`.
+
+The VM also runs the `oci-pkms` Traefik stack on ports 80 and 443. They don't clash: BIND uses 53 and 8053, and Ubuntu's `systemd-resolved` listens only on 127.0.0.53 and 127.0.0.54.
 
 After each change of the spec:
 
