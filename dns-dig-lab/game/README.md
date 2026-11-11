@@ -1,44 +1,111 @@
-# Dig Quest: the gamified correction
+# Dig Quest: guide for teachers and maintainers
 
-Students answer the lab questions in a browser, earn points, and see a live leaderboard.
-The explanations (the old correction) unlock only once a student has cleared every part,
-or when you close the session.
+Dig Quest turns the dig lab into a game: students answer the lab questions in a browser, earn points and follow a live leaderboard. This guide explains how to run it for a class, test it, deploy it and add questions. For teachers and maintainers. Updated November 2026.
 
-- Data questions are graded with a live DNS lookup, so answers never go stale.
-- Hints cost 25% then 50% of a part; a wrong multiple-choice guess costs 25%.
-- First to clear a mission gets +50, second +25, third +10.
-- Players join with a class code and a nickname, no account.
-- A warm-up comes first: five short questions answered with `dig` on the student's own machine (`dig -v`, their resolver's IP, a first lookup, NXDOMAIN and flags, writing a command). The missions and the dig console stay locked until it is cleared. No first-blood bonus on the warm-up.
-- An **advanced** stage opens once every main mission is solved: 14 missions on concepts the main course does not teach (anycast and CHAOS, NSID, whoami resolvers, SOA, extended errors, DNSSEC chain, mail records, IPv6 reverse, IDN, truncation, SRV/NAPTR, AXFR and NSEC walking). Its points go to a **separate leaderboard**, shown beside the main one on the board, so the main ranking stays fair. Its explanations unlock when every advanced part is solved, or when the session closes.
-- The theory for the advanced stage is the *DNS Beyond the Basics* deck (`course/dns-advanced.qmd`). The game links to it as `deck/dns-advanced.html`: build it first with `make single DECK=dns-advanced` in `course/`, and the deploy and `dev_server.py` pick it up.
-- A dig console sits beside the missions (a drawer on phones): it runs real lookups (`+short`, `+trace`, `+norecurse`, `+dnssec`, `+tcp`, `+nsid`, `+cd`, `+subnet`, `-x`, class `CH`, authoritative server) and shows the `dig` command that matches. Extended DNS Errors and NSID are printed like dig does. Public servers only (a server name must resolve to a public address), 20 lookups a minute per player. AXFR and `-p` work only toward the game server (`GAME_SERVER`, set by the stack), so the console cannot transfer or scan anyone else's servers.
+Students: you don't need this page. Open the link your teacher gives you, or read the [dig lab handout](../).
 
-## Layout
+## Contents
 
-| Path | What |
-|---|---|
+- [How the game works](#how-the-game-works)
+- [How the parts fit together](#how-the-parts-fit-together)
+- [Run a class](#run-a-class)
+- [Keep the answers private](#keep-the-answers-private)
+- [Try it on your computer](#try-it-on-your-computer)
+- [Test everything in the local simulation](#test-everything-in-the-local-simulation)
+- [Deploy to AWS](#deploy-to-aws)
+- [The game zone](#the-game-zone)
+- [The game server](#the-game-server)
+- [Edit the questions](#edit-the-questions)
+
+`make help` lists a shortcut for every command in this guide.
+
+## How the game works
+
+**Joining.** Players join with a class code and a nickname, without an account.
+
+**Three stages:**
+
+| Stage | What students do | Unlocks when |
+|-------|------------------|--------------|
+| Warm-up | Five short questions answered with `dig` on their own computer: `dig -v`, their resolver's IP, a first lookup, NXDOMAIN and flags, writing a command | At once |
+| Main | The missions of the dig lab, with the dig console | Every warm-up part is solved |
+| Advanced | 25 missions on concepts the course does not teach: anycast and CHAOS, NSID, whoami resolvers, SOA, extended errors, the DNSSEC chain, mail records, IPv6 reverse, IDN, truncation, SRV and NAPTR, AXFR and NSEC walking, and puzzles on the game zone and the game server | Every main part is solved |
+
+**Scoring:**
+
+- Data questions are graded with a live DNS lookup, so the answers never go stale.
+- A hint costs 25% of the part, then 50%. A wrong multiple-choice guess costs 25%.
+- The first player to clear a mission gets +50, the second +25, the third +10. The warm-up gives no such bonus.
+- Advanced points go to a **separate leaderboard**, shown beside the main one, so the main ranking stays fair.
+
+**Explanations.** The explanations (the old correction) unlock for a player who has cleared every part of a stage, or for everyone when you close the session. Main and advanced explanations unlock separately.
+
+**Advanced slides.** The theory for the advanced stage is the *DNS Beyond the Basics* deck, `course/dns-advanced.qmd`. The game links to it as `deck/dns-advanced.html`. `make dev` and `make deploy` build it first.
+
+**Dig console.** A console sits beside the missions (a drawer on phones). It runs real lookups and shows the matching `dig` command:
+
+- Options: `+short`, `+trace`, `+norecurse`, `+dnssec`, `+tcp`, `+nsid`, `+cd`, `+subnet`, `-x`, class `CH`, and "authoritative server". Extended DNS Errors (EDE) and NSID (Name Server Identifier) are printed as dig prints them.
+- Limits: public servers only (a server name must resolve to a public address), and 20 lookups a minute per player.
+- AXFR (zone transfer) and `-p` (another port) work only toward the game server (`GAME_SERVER`, set by the stack). So the console cannot be used to transfer or scan anyone else's servers.
+
+## How the parts fit together
+
+```mermaid
+flowchart LR
+  P[Player page and board<br/>S3 + CloudFront] -->|HTTP API| L[Lambda<br/>handler, checkers, dig console]
+  L --> D[(DynamoDB<br/>sessions, players, solves)]
+  L -->|live DNS lookups| R[Public resolvers<br/>8.8.8.8 and others]
+  R --> Z[Game zone quest.jmanteau.fr<br/>Route 53]
+  Z -->|delegates axfr. and walk.| G[Game server ns.quest.jmanteau.fr<br/>BIND in Docker on oraclevm]
+  L -->|AXFR, -p, CH| G
+```
+
+In words: the player page and the projector board are static files served by CloudFront. They call an HTTP API backed by one Lambda function. The Lambda stores sessions, players and solves in DynamoDB. It grades answers and runs the dig console with live DNS lookups through public resolvers. The advanced missions use two extra pieces. The first is a game zone in Route 53, `quest.jmanteau.fr`. The second is a BIND game server, `ns.quest.jmanteau.fr`, to which the zone delegates two sub-zones. The console may query that server directly for zone transfers, other ports and CHAOS-class questions.
+
+| Path | What it holds |
+|------|---------------|
 | `backend/` | Lambda code: handler, checkers (dnspython), dig console (`dig.py`), scoring, DynamoDB store |
 | `frontend/` | Static player page (`index.html`) and projector board (`board.html`, with a join QR code from the vendored `qrcode.min.js`) |
-| `infra/` | CDK app (Python): DynamoDB, Lambda, HTTP API, S3 + CloudFront, admin secret |
-| `secret/` | **Private**: `questions.json` (answers, checks) and `explanations/*.md` |
-| `tests/` | `pytest` (mocked DNS and DynamoDB); `pytest -m live` checks real DNS |
-| `dev_server.py` | Run everything locally with in-memory DynamoDB |
-| `admin.py` | Create and close class sessions |
-| `Makefile` | Shortcuts for the commands below: `make help` |
+| `infra/` | CDK (Cloud Development Kit) app in Python: DynamoDB, Lambda, HTTP API, S3 + CloudFront, admin secret, game zone, game server files, local simulation |
+| `secret/` | **Private** submodule: `questions.json` (answers, checks), `explanations/*.md`, `zone.json`, `server.json` |
+| `tests/` | `pytest`: unit tests with mocked DNS and DynamoDB; `-m live` checks real DNS; `-m sim` runs in the local simulation |
+| `dev_server.py` | Runs everything on your computer with an in-memory DynamoDB |
+| `admin.py` | Creates and closes class sessions |
+| `Makefile` | Shortcuts for every command: `make help` |
+
+## Run a class
+
+Before the class:
+
+1. Check that every live question can still be answered: `make live`.
+2. Create the session:
+
+   ```
+   export QUEST_API=<ApiUrl> QUEST_ADMIN_SECRET_ARN=<AdminSecretArn>
+   python admin.py create CLASS-A "IUT Blagnac A"
+   ```
+
+   Or `make session CODE=CLASS-A NAME="IUT Blagnac A"`.
+
+During the class:
+
+3. Project `<GameUrl>/board.html?session=CLASS-A`. It shows a QR code that opens `<GameUrl>/index.html?session=CLASS-A` with the class code filled in. You can also give students the link directly. The QR code is hidden once the session is closed.
+
+When the class ends:
+
+4. Close the session: `python admin.py close CLASS-A` (or `make close CODE=CLASS-A`). This unlocks the explanations for everyone. `make reopen CODE=CLASS-A` reopens it.
 
 ## Keep the answers private
 
-This repository is public, so `secret/` must live in a private repository:
+This repository is public, so the answers live in a private repository, mounted as the `secret/` submodule (`jmanteau/dns-dig-lab-game`). It is copied into the Lambda package at deploy time. To set it up in a fresh clone:
 
 ```
 git submodule add -f <private-repo-url> dns-dig-lab/game/secret
 ```
 
-`secret/` is a git submodule (`jmanteau/dns-dig-lab-game`, private) and is copied into the Lambda package at deploy time.
+## Try it on your computer
 
-## Try it locally
-
-`make help` lists the shortcuts for everything below (`make setup`, `dev`, `test`, `live`, `zone-check`, `sim-test`, `deploy`, `session`, `close`). `make dev` and `make deploy` build the advanced slides first.
+`make setup` creates the Python environments. Then:
 
 ```
 python3 -m venv .venv && .venv/bin/pip install dnspython "moto[server]" pytest boto3
@@ -49,10 +116,45 @@ python3 -m venv .venv && .venv/bin/pip install dnspython "moto[server]" pytest b
 .venv/bin/python -m pytest -m live # before a class: are all live questions still answerable?
 ```
 
-`dev_server.py` starts a moto "AWS" server (DynamoDB on port 5000) and runs the real Lambda handler against it,
-so you can play as a student and watch the items change in the viewer. No Docker or AWS account needed.
+The same with make: `make dev`, `make test`, `make live`.
 
-## Deploy
+`dev_server.py` starts a moto "AWS" server (DynamoDB on port 5000) and runs the real Lambda handler against it. You can play as a student and watch the items change in the viewer. It needs no Docker and no AWS account.
+
+## Test everything in the local simulation
+
+Run `make sim-test` to test the game zone and the game server before deploying anything, or after you edit a spec. It needs Docker or Podman.
+
+`infra/sim.py` renders `build/sim/` from the same specs that get deployed. Then compose starts these containers on a private network, 10.53.0.0/24:
+
+| Container | Address | Plays the part of |
+|-----------|---------|-------------------|
+| `resolver` | 10.53.0.2 | The resolver students use: the Internet through 8.8.8.8, and the local game zone with its delegations |
+| `zone` | 10.53.0.10 | Route 53: the game zone, served by BIND (TXT escapes converted from octal to decimal) |
+| `main` + `alt` | 10.53.0.53 | The game server, on ports 53 and 8053, exactly as on `oraclevm` |
+| `runner` | 10.53.0.100 | The game code: the tests, or `dev_server.py` |
+
+The tests run inside `runner`, because on macOS the host cannot reach those addresses. `make sim-test` runs:
+
+1. the unit tests;
+2. every `live` test;
+3. the end-to-end tests in `tests/test_sim.py`: grading of a15, a23, a24 and a25, and the console's CH, AXFR and `-p 8053`.
+
+Other commands:
+
+- `make sim-dev` serves the game on http://localhost:8787/?session=DEV against the simulation.
+- `make sim-down` stops and removes the containers.
+
+Three environment variables point the code at the simulation. None of them is set in AWS.
+
+- `QUEST_RESOLVER` replaces 8.8.8.8 in the checkers and the console.
+- `DIG_ALLOW_NET` lets the console reach the private network.
+- `GAME_SERVER` names the game server.
+
+Limit: `+trace` starts from the real root servers, so it cannot find the local game zone.
+
+## Deploy to AWS
+
+Do not deploy during a class.
 
 ```
 cd infra
@@ -61,64 +163,60 @@ npx aws-cdk bootstrap          # once per account/region
 npx aws-cdk deploy --all
 ```
 
-The outputs give `GameUrl`, `BoardUrl`, `ApiUrl` and `AdminSecretArn`. Cost for a class is a few cents.
+Or `make deploy`, which also builds the advanced slides first.
 
-`--all` also deploys `DigQuestZone`, the game zone (below), when `secret/zone.json` exists.
+The outputs give `GameUrl`, `BoardUrl`, `ApiUrl` and `AdminSecretArn`. A class costs a few cents.
+
+`--all` also deploys `DigQuestZone`, the game zone, when `secret/zone.json` exists.
 
 ## The game zone
 
-Missions a15 to a20 are played on a real zone, `quest.jmanteau.fr`: a trail of clues (TXT → MX → SRV), a CNAME maze, wildcards, encoded TXT records, a long TXT and a picture split into TXT chunks.
+Missions a15 to a20 are played on a real zone, `quest.jmanteau.fr`. It holds a trail of clues (TXT → MX → SRV), a CNAME maze, wildcards, encoded TXT records, a long TXT, and a picture split into TXT chunks.
 
-- `secret/zone.json` (private) holds the content, so the answers stay out of this repository. `infra/game_zone.py` turns it into Route 53 records; its docstring describes the spec.
-- `DigQuestZone` creates the hosted zone and, since `jmanteau.fr` is in the same account (`"parent"` in the spec), the NS delegation too. It costs $0.50 a month plus queries.
-- After a deploy or an edit of the spec: `pytest -m live -k "game_zone or wildcard"` checks that every record is published as the spec describes (allow the 300 s TTL for changes).
+- `secret/zone.json` (private) holds the content, so the answers stay out of this repository. `infra/game_zone.py` turns it into Route 53 records. Its docstring describes the spec.
+- `DigQuestZone` creates the hosted zone. Because `jmanteau.fr` is in the same AWS account (`"parent"` in the spec), it also creates the NS delegation. It costs $0.50 a month, plus queries.
+- After a deploy or an edit of the spec, run `make zone-check`. It checks that every record is published as the spec describes. Allow 300 seconds (the TTL) for changes to show.
 
 ## The game server
 
-Missions a21 to a25 need what Route 53 cannot do, so BIND 9.20 runs in Docker on an always-on host (`oraclevm`, an Oracle Cloud free-tier Ampere VM) as `ns.quest.jmanteau.fr`: an open zone transfer (`axfr.`), a zone signed with NSEC to walk (`walk.`), custom CH TXT answers, a second instance on port 8053, and `secret.lab`, a zone no resolver can find.
+Missions a21 to a25 need what Route 53 cannot do. So BIND 9.20 runs in Docker on an always-on host, `oraclevm` (an Oracle Cloud free-tier Ampere VM), as `ns.quest.jmanteau.fr`. It serves:
 
-- `secret/server.json` (private) holds the content and the server's reserved public IPv4 (`address`). `infra/game_server.py` renders a Docker folder from it: a Debian 13 image, two containers on the host network (so BIND sees real client addresses for its rate limiting), `named.conf` and the zone files.
+- an open zone transfer (`axfr.`);
+- a zone signed with NSEC, to walk (`walk.`);
+- custom CH TXT answers;
+- a second instance on port 8053;
+- `secret.lab`, a zone no resolver can find.
+
+How it is built:
+
+- `secret/server.json` (private) holds the content and the server's reserved public IPv4 address (`address`).
+- `infra/game_server.py` renders a Docker folder from it: a Debian 13 image, two containers on the host network, `named.conf` and the zone files. The host network lets BIND see the real client addresses, which its rate limiting needs.
 - `DigQuestZone` publishes the server's address and delegates `axfr.` and `walk.` to it.
-- Authoritative only (`recursion no`), with response rate limiting: it can never serve as an open resolver.
-- First time: add `oraclevm` to `~/.ssh/config`, install Docker with the compose plugin on the VM, allow UDP and TCP 53 and 8053 in the VCN security list (Oracle console), then `make server-firewall` for the host firewall.
-- Each change of the spec: `make server-deploy` (copies the folder over SSH, then `docker compose up -d --build`), `make deploy-zone` if the address or the zones changed, then `make server-check`, which checks the CH answers, the transfer, the NSEC chain, the private zone and the second port against the spec. `make server-logs` shows the containers' logs.
+- The server is authoritative only (`recursion no`), with response rate limiting: it can never serve as an open resolver.
 
-## Local simulation
+The first time:
 
-Test the game zone and the game server before deploying anything, or after editing a spec: `make sim-test`. It needs Docker or Podman. `infra/sim.py` renders `build/sim/` from the same specs that get deployed, then compose starts these containers on a private network (10.53.0.0/24):
+1. Add `oraclevm` to `~/.ssh/config`.
+2. Install Docker with the compose plugin on the VM.
+3. In the Oracle console, allow UDP and TCP on ports 53 and 8053 in the VCN security list.
+4. Open the same ports in the host firewall: `make server-firewall`.
 
-| container | address | plays |
-|-----------|---------|-------|
-| `resolver` | 10.53.0.2 | the resolver students use: the Internet through 8.8.8.8, and the local game zone, delegations included |
-| `zone` | 10.53.0.10 | Route 53: the game zone, served by BIND (TXT escapes converted from octal to decimal) |
-| `main` + `alt` | 10.53.0.53 | the game server, on ports 53 and 8053, exactly as on `oraclevm` |
-| `runner` | 10.53.0.100 | the game code: the tests, or `dev_server.py` |
+After each change of the spec:
 
-The tests run inside `runner`, because on macOS the host cannot reach those addresses. `make sim-test` runs the unit tests first, then every `live` test plus the end-to-end tests in `tests/test_sim.py`: grading of a15, a23, a24 and a25, and the console's CH, AXFR and `-p 8053`.
+1. `make server-deploy` copies the folder over SSH, then runs `docker compose up -d --build`.
+2. `make deploy-zone`, if the address or the zones changed.
+3. `make server-check` checks the CH answers, the transfer, the NSEC chain, the private zone and the second port against the spec.
 
-`make sim-dev` serves the game on http://localhost:8787/?session=DEV against the simulation. `make sim-down` stops and removes the containers.
+`make server-logs` shows the containers' logs.
 
-How the code is pointed at the simulation (none of these variables is set in AWS):
-- `QUEST_RESOLVER` replaces 8.8.8.8 in the checkers and the console;
-- `DIG_ALLOW_NET` lets the console reach that private network;
-- `GAME_SERVER` names the game server.
+## Edit the questions
 
-The limit: `+trace` starts from the real root servers, so it cannot find the local game zone.
+Edit `secret/questions.json`.
 
-## Run a class
+- **Stage.** `"stage"` is `warmup`, `main` (the default) or `advanced`. Main questions stay locked until every warm-up part is solved, and advanced ones until every main part is solved.
+- **Part types.** `live` (checked against real DNS), `static` (regex `patterns`) and `mcq` (`options`, and the `answer` index).
 
-```
-export QUEST_API=<ApiUrl> QUEST_ADMIN_SECRET_ARN=<AdminSecretArn>
-python admin.py create CLASS-A "IUT Blagnac A"
-```
-
-Project `<GameUrl>/board.html?session=CLASS-A`: it shows a QR code that opens `<GameUrl>/index.html?session=CLASS-A` with the class code filled in (hidden once the session is closed). You can also give students the link directly.
-When the class ends: `python admin.py close CLASS-A` unlocks the explanations for everyone.
-
-## Editing questions
-
-Edit `secret/questions.json`. `"stage"` is `warmup`, `main` (the default) or `advanced`: main questions are locked until all warm-up parts are solved, advanced ones until all main parts are solved.
-Part types: `live`, `static` (regex `patterns`) and `mcq` (`options`, `answer` index). Live check kinds:
+Live check kinds:
 
 | Kind | Expects |
 |---|---|
@@ -131,5 +229,7 @@ Part types: `live`, `static` (regex `patterns`) and `mcq` (`options`, `answer` i
 | `ede_code` | Extended DNS Error code (retried: some anycast instances leave it out) |
 | `null_mx` | which of `domains` publish `MX 0 .` |
 
-`txt_count` reads `backend/data/list100.txt`; keep it in sync with `../list100.txt`.
-Anycast answers (`hostname.bind`, NSID) depend on where you ask from, so grade them with a `static` pattern, not a live check.
+Two rules:
+
+- `txt_count` reads `backend/data/list100.txt`. Keep it in sync with `../list100.txt`.
+- Anycast answers (`hostname.bind`, NSID) depend on where you ask from. Grade them with a `static` pattern, not a live check.

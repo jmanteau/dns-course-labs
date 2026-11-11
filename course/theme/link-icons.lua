@@ -1,7 +1,7 @@
 -- Turn every external link into plain text followed by a clickable icon,
 -- so the text reads the same in print and the icon alone marks the link.
 function Link(link)
-  if not link.target:match("^https?://") then
+  if not FORMAT:match("revealjs") or not link.target:match("^https?://") then  -- slides only
     return nil
   end
   local label = pandoc.utils.stringify(link.content)

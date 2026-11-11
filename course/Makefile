@@ -14,7 +14,7 @@ STEPS    := $(foreach n,0 1 2 3 4 5 6 7 8,images/full-dns-sequence-step$(n).png)
 REPO      := https://github.com/jmanteau/dns-course-labs
 CHEATSHEET := ../dns-dig-lab/cheatsheet
 
-.PHONY: all build figures qr cheatsheet preview serve single pdf clean help
+.PHONY: all build figures qr cheatsheet preview serve single pdf site clean help
 
 .DEFAULT_GOAL := help
 
@@ -29,6 +29,7 @@ help:
 	@echo "make serve    serve _site on http://localhost:$(PORT)"
 	@echo "make single   self-contained HTML (_site/$(DECK)-single.html)"
 	@echo "make pdf      export PDF via headless Chromium (_site/$(DECK).pdf)"
+	@echo "make site     the published site in _site: home page, both decks, the PDFs (what GitHub Pages serves)"
 	@echo "make clean    remove build output"
 	@echo "add DECK=dns-advanced to build the advanced deck (default: $(DECK))"
 
@@ -69,6 +70,14 @@ single:
 
 pdf: build
 	node print-pdf.mjs "$(CHROME)" $(OUT) _site/$(DECK).pdf
+
+# the GitHub Pages site (.github/workflows/pages.yml runs this): quarto only, no draw.io
+site:
+	$(QUARTO) render index.qmd
+	$(QUARTO) render dns-fundamentals.qmd
+	$(QUARTO) render dns-advanced.qmd
+	cp "../Domain Name System Fundamentals.pdf" _site/Domain-Name-System-Fundamentals.pdf
+	cp $(CHEATSHEET).pdf _site/dig-cheatsheet.pdf
 
 clean:
 	rm -rf _site .quarto dns-fundamentals_files dns-advanced_files
