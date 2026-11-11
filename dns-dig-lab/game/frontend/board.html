@@ -8,12 +8,20 @@
 </head>
 <body class="board">
 <main>
+  <div class="join" id="join" hidden></div>
   <h1 id="title">Dig Quest</h1>
   <p class="sub" id="meta">Add <code>?session=CODE</code> to the URL.</p>
-  <div class="rows" id="rows" aria-live="polite"></div>
+  <div class="boards" id="boards">
+    <div class="rows" id="rows" aria-live="polite"></div>
+    <section id="advPanel" hidden>
+      <h2 class="adv-title">Advanced</h2>
+      <div class="rows" id="advRows" aria-live="polite"></div>
+    </section>
+  </div>
   <div class="bloods" id="bloods"></div>
 </main>
 <script src="config.js"></script>
+<script src="qrcode.min.js"></script>
 <script src="board.js"></script>
 </body>
 </html>

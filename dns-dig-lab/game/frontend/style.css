@@ -36,6 +36,7 @@ input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-of
 .hud { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0 12px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; }
 .hud-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .score { font-size: 28px; color: var(--accent); font-weight: 800; }
+.adv-score { font-size: 16px; color: var(--dim); font-weight: 600; }
 .bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
 .bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .5s; }
 
@@ -65,10 +66,60 @@ input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-of
 .md table { border-collapse: collapse; }
 .md td, .md th { border: 1px solid var(--line); padding: 4px 8px; }
 
+/* dig console: a column beside the missions on wide screens, a drawer on narrow ones */
+select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 6px; min-width: 0; }
+.playing main { max-width: 1280px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 540px); gap: 18px; align-items: start; }
+.dig { position: sticky; top: 124px; margin: 14px 0; max-height: calc(100vh - 140px); overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.dig-head { display: flex; justify-content: space-between; align-items: center; }
+.dig-head h2 { font-size: 17px; color: var(--accent); }
+#digClose, .dig-toggle { display: none; }
+.dig-form, .dig-out { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.dig-row { display: flex; gap: 8px; }
+.dig-row select { flex: 1; width: 0; }
+.dig-opts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; }
+.dig-opts label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.dig-opts input { accent-color: var(--accent); margin: 0; }
+.dig-more summary { cursor: pointer; color: var(--dim); font-size: 13px; margin-bottom: 6px; }
+.dig-more input + input { margin-top: 6px; }
+.dig-form .err { margin: 0; min-height: 0; }
+.dig-res summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; cursor: pointer; }
+.dig-res summary code { overflow-wrap: anywhere; font-size: 13px; }
+.dig-res summary .ghost { font-size: 12px; padding: 2px 8px; }
+.dig-res pre { margin: 6px 0 0; font-size: 12px; line-height: 1.45; white-space: pre; }
+.dig-res pre .c { color: #7fa08b; }
+.dig-res pre .ttl { color: #ffc247; }
+.dig-res pre .ty { color: #3ddc84; font-weight: 700; }
+.dig-res pre .host { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.dig-res pre .host:hover { color: #fff; }
+.stage-title { font-size: 15px; color: var(--dim); margin: 22px 0 4px; text-transform: uppercase; letter-spacing: .04em; }
+.stage-title a { color: var(--accent); }
+.card.locked { opacity: .55; }
+.card.locked h2 { font-weight: 400; }
+.dig.locked .dig-form, .dig.locked .dig-out, .dig:not(.locked) .dig-locked { display: none; }
+.dig-locked { display: grid; gap: 8px; }
+.dig-locked p { margin: 0; }
+.dig-locked pre { margin: 0; }
+.warmup .dig-toggle { display: none !important; }
+@media (max-width: 1099px) {
+  .layout { display: block; }
+  .dig { position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; top: auto; margin: 0; height: 78vh; max-height: none; border-radius: 14px 14px 0 0; box-shadow: 0 -8px 30px rgb(0 0 0 / 25%); transform: translateY(105%); transition: transform .25s; }
+  .dig.open { transform: none; }
+  #digClose { display: inline-block; }
+  .dig-toggle { display: block; position: fixed; z-index: 9; right: 16px; bottom: 16px; padding: 12px 18px; border-radius: 999px; box-shadow: 0 4px 14px rgb(0 0 0 / 25%); }
+}
+
 /* leaderboard */
 .board main { max-width: 1100px; }
 .board h1 { font-size: clamp(28px, 5vw, 54px); color: var(--accent); }
+.join { float: right; width: clamp(140px, 18vw, 220px); margin: 0 0 12px 18px; padding: 10px; background: #fff; border-radius: 12px; text-align: center; }
+.join svg { display: block; width: 100%; height: auto; }
+.join span { display: block; margin-top: 6px; font-size: 12px; color: #111; overflow-wrap: anywhere; }
 .rows { display: grid; gap: 8px; margin-top: 18px; }
+.boards { display: grid; gap: 24px; align-items: start; }
+.boards.two { grid-template-columns: 3fr 2fr; }
+.adv-title { margin: 18px 0 0; font-size: clamp(18px, 2.4vw, 28px); color: var(--gold); }
+@media (max-width: 760px) { .boards.two { grid-template-columns: 1fr; } }
 .lrow { display: grid; grid-template-columns: 3em 1fr 6em; gap: 12px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: clamp(16px, 2.4vw, 26px); transition: transform .4s; }
 .lrow .rank { color: var(--dim); }
 .lrow:nth-child(1) .rank { color: var(--gold); }

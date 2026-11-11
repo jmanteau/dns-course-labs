@@ -2,6 +2,8 @@
 const API = window.QUEST_API;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// escaped text, with `backticks` shown as code
+const md = (s) => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
 let token = null;
 let state = null;
 let timer = null;
@@ -56,31 +58,48 @@ function confetti() {
 function render() {
   $("who").textContent = state.nick;
   $("score").textContent = state.score;
-  $("progress").textContent = `${state.solvedCount}/${state.totalParts} parts cleared · class ${state.session}${state.status === "closed" ? " (closed)" : ""}`;
+  $("advScore").textContent = state.advScore;
+  $("advScoreBox").classList.toggle("hidden", !state.mainDone);
+  const adv = state.mainDone && state.advTotalParts ? ` · advanced ${state.advSolvedCount}/${state.advTotalParts}` : "";
+  $("progress").textContent = `${state.solvedCount}/${state.totalParts} parts cleared${adv} · class ${state.session}${state.status === "closed" ? " (closed)" : ""}`;
   $("barFill").style.width = `${(100 * state.solvedCount) / state.totalParts}%`;
-  $("missions").innerHTML = state.questions.map(missionHtml).join("");
+  const warm = state.questions.filter((q) => q.stage === "warmup");
+  const main = state.questions.filter((q) => q.stage === "main");
+  const advanced = state.questions.filter((q) => q.stage === "advanced");
+  const challenge = state.warmupDone ? "The challenge" : "🔒 The challenge: clear the warm-up to unlock it";
+  const advTitle = state.mainDone
+    ? `Advanced: separate leaderboard. Read the <a href="deck/dns-advanced.html" target="_blank" rel="noopener">DNS Beyond the Basics</a> slides first`
+    : "🔒 Advanced: clear every mission to unlock it";
+  $("missions").innerHTML = (warm.length ? `<h2 class="stage-title">Warm-up: use dig in your own terminal</h2>${warm.map((q, i) => missionHtml(q, `Warm-up ${i + 1}`)).join("")}<h2 class="stage-title">${challenge}</h2>` : "")
+    + main.map((q, i) => missionHtml(q, `Mission ${i + 1}`)).join("")
+    + (advanced.length ? `<h2 class="stage-title">${advTitle}</h2>${advanced.map((q, i) => missionHtml(q, `Advanced ${i + 1}`)).join("")}` : "");
+  document.body.classList.toggle("warmup", !state.warmupDone);
+  $("dig").classList.toggle("locked", !state.warmupDone);
   const debrief = $("debrief");
   debrief.classList.toggle("hidden", !state.unlocked);
-  if (state.unlocked && !debrief.dataset.ready) {
-    debrief.dataset.ready = "1";
+  // the debrief is rebuilt when the advanced explanations unlock too
+  const level = `${state.unlocked}|${state.advUnlocked}`;
+  if (state.unlocked && debrief.dataset.ready !== level) {
+    debrief.dataset.ready = level;
     debrief.innerHTML = `<h2>${state.status === "closed" ? "Session closed" : "All missions cleared"}</h2>
-      <p class="sub">The explanations are unlocked.</p><button id="showDebrief">Read the debrief</button>`;
+      <p class="sub">${state.advUnlocked ? "All the explanations are unlocked, advanced ones included." : "The explanations of the missions are unlocked."}</p><button id="showDebrief">Read the debrief</button>`;
     $("showDebrief").onclick = loadDebrief;
   }
 }
 
-function missionHtml(q, i) {
+function missionHtml(q, label) {
+  if (q.locked) return `<article class="card locked"><h2>🔒 ${label}: ${esc(q.title)}</h2></article>`;
   const done = q.parts.every((p) => p.solved != null);
   const parts = q.parts.map((p) => partHtml(q, p)).join("");
-  return `<article class="card ${done ? "done" : ""}"><h2>${done ? "✓ " : ""}Mission ${i + 1}: ${esc(q.title)}</h2>
-    <p class="prompt">${esc(q.prompt)}</p>${parts}</article>`;
+  return `<article class="card ${done ? "done" : ""}"><h2>${done ? "✓ " : ""}${label}: ${esc(q.title)}</h2>
+    <p class="prompt">${md(q.prompt)}</p>${parts}</article>`;
 }
 
 function partHtml(q, p) {
   const id = `${q.id}-${p.id}`;
-  const head = `<div class="part-head"><span>${esc(p.label)}</span><span class="pts">${p.solved != null ? `+${p.solved}` : `${p.points} pts`}</span></div>`;
+  const head = `<div class="part-head"><span>${md(p.label)}</span><span class="pts">${p.solved != null ? `+${p.solved}` : `${p.points} pts`}</span></div>`;
   if (p.solved != null) return `<div class="part">${head}<span class="ok">✓ solved</span></div>`;
-  const hints = p.hints.map((h) => `<div class="hint">💡 ${esc(h)}</div>`).join("");
+  const hints = p.hints.map((h) => `<div class="hint">💡 ${md(h)}</div>`).join("");
   const hintBtn = p.nextHintCost != null ? `<button class="ghost" data-hint="${q.id}|${p.id}">Hint (−${p.nextHintCost} pts)</button>` : "";
   const input = p.type === "mcq"
     ? `<div class="opts">${p.options.map((o, k) => `<button class="opt" data-mcq="${q.id}|${p.id}|${k}">${esc(o)}</button>`).join("")}</div>`
@@ -114,8 +133,13 @@ async function submit(qid, part, value, partEl, anchor) {
     floatPoints(anchor, `+${res.points}`);
     if (res.firstBlood) toast(`🩸 First blood #${res.firstBlood.rank}: +${res.firstBlood.bonus} bonus pts`);
     const wasUnlocked = state.unlocked;
+    const wasWarm = state.warmupDone;
+    const wasAdv = state.advUnlocked;
+    const wasMain = state.mainDone;
     await refresh();
-    if (!wasUnlocked && state.unlocked) confetti();
+    if (!wasWarm && state.warmupDone) toast("Warm-up cleared: the challenge and the dig console are unlocked");
+    if (!wasMain && state.mainDone && state.advTotalParts) toast("Every mission cleared: the advanced missions are open");
+    if ((!wasUnlocked && state.unlocked) || (!wasWarm && state.warmupDone) || (!wasAdv && state.advUnlocked)) confetti();
   } catch (e) {
     err.textContent = e.message;
   }
@@ -154,7 +178,109 @@ async function loadDebrief() {
   if (window.mermaid) { mermaid.initialize({ startOnLoad: false }); mermaid.run(); }
 }
 
+// ---- dig console ---------------------------------------------------------------
+
+const DIG_OPTS = ["Short", "Trace", "Norecurse", "Dnssec", "Tcp", "Nsid", "Cd"];
+const HOST_RE = /\b([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+\.)/g;
+
+function digForm() {
+  const server = $("digServer").value;
+  const body = {
+    names: $("digNames").value, type: $("digType").value, class: $("digClass").value, subnet: $("digSubnet").value.trim(),
+    port: $("digPort").value.trim(),
+    server: server === "ip" ? $("digIp").value.trim() : server,
+  };
+  DIG_OPTS.forEach((o) => { body[o.toLowerCase()] = $(`dig${o}`).checked; });
+  return body;
+}
+
+function saveDigForm() {
+  const f = { ...digForm(), server: $("digServer").value, ip: $("digIp").value };
+  try { localStorage.setItem("dq-dig", JSON.stringify(f)); } catch (e) { /* private mode */ }
+}
+
+function restoreDigForm() {
+  let f = null;
+  try { f = JSON.parse(localStorage.getItem("dq-dig")); } catch (e) { /* none saved */ }
+  if (!f) return;
+  $("digNames").value = f.names || "";
+  $("digType").value = f.type || "A";
+  $("digClass").value = f.class || "IN";
+  $("digServer").value = f.server || "google";
+  $("digIp").value = f.ip || "";
+  $("digSubnet").value = f.subnet || "";
+  $("digPort").value = f.port || "";
+  DIG_OPTS.forEach((o) => { $(`dig${o}`).checked = !!f[o.toLowerCase()]; });
+}
+
+// Colour one line of output: comments dim, TTL gold, type accent, hostnames clickable.
+function digLine(line) {
+  const host = (t) => t.replace(HOST_RE, '<span class="host">$1</span>');
+  const e = esc(line);
+  if (e.startsWith(";")) return `<span class="c">${e}</span>`;
+  const m = e.match(/^(\S+)(\s+)(\d+)(\s+(?:IN|CH)\s+)(\S+)(\s+)(.*)$/);
+  if (!m) return host(e);
+  return `${host(m[1])}${m[2]}<span class="ttl">${m[3]}</span>${m[4]}<span class="ty">${m[5]}</span>${m[6]}${host(m[7])}`;
+}
+
+function showDig(res) {
+  const out = $("digOut");
+  const box = document.createElement("details");
+  box.className = "dig-res";
+  box.open = true;
+  box.innerHTML = `<summary><code>❯ ${esc(res.command)}</code><button type="button" class="ghost" data-copy>copy</button></summary>
+    <pre>${res.output.split("\n").map(digLine).join("\n")}</pre>`;
+  box.querySelector("[data-copy]").dataset.copy = res.command;
+  out.prepend(box);
+  [...out.children].slice(10).forEach((el) => el.remove());
+}
+
+async function runDig(ev) {
+  ev.preventDefault();
+  saveDigForm();
+  $("digErr").textContent = "";
+  $("digGo").disabled = true;
+  $("digGo").textContent = "…";
+  try {
+    showDig(await call("POST", "/dig", digForm()));
+  } catch (e) {
+    $("digErr").textContent = e.message;
+  } finally {
+    $("digGo").disabled = false;
+    $("digGo").textContent = "Dig";
+  }
+}
+
+function toggleDig(open) {
+  $("dig").classList.toggle("open", open);
+  if (open) $("digNames").focus();
+}
+
+$("digForm").addEventListener("submit", runDig);
+$("digForm").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && (ev.metaKey || ev.ctrlKey)) runDig(ev); });
+$("digServer").addEventListener("change", () => $("digIp").classList.toggle("hidden", $("digServer").value !== "ip"));
+$("digClear").onclick = () => { $("digOut").innerHTML = ""; $("digErr").textContent = ""; };
+$("digToggle").onclick = () => toggleDig(true);
+$("digClose").onclick = () => toggleDig(false);
+document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") toggleDig(false); });
+$("digOut").addEventListener("click", (ev) => {
+  const copy = ev.target.closest("[data-copy]");
+  if (copy) {
+    ev.preventDefault();
+    navigator.clipboard?.writeText(copy.dataset.copy).then(() => { copy.textContent = "copied"; setTimeout(() => { copy.textContent = "copy"; }, 1200); });
+    return;
+  }
+  const host = ev.target.closest(".host");
+  if (host) {
+    $("digNames").value = host.textContent.replace(/\.$/, "");
+    $("digNames").focus();
+  }
+});
+restoreDigForm();
+$("digIp").classList.toggle("hidden", $("digServer").value !== "ip");
+
 function start() {
+  document.body.classList.add("playing");
   $("login").classList.add("hidden");
   $("game").classList.remove("hidden");
   refresh().catch(logout);

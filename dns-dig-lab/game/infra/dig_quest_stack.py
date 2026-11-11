@@ -21,6 +21,8 @@ from constructs import Construct
 
 GAME = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 BUILD = os.path.join(GAME, "build", "lambda")
+DECK = os.path.join(GAME, "..", "..", "course", "_site", "dns-advanced-single.html")
+DECK_BUILD = os.path.join(GAME, "build", "deck")
 
 
 def assemble_lambda():
@@ -39,8 +41,20 @@ def assemble_lambda():
     return BUILD
 
 
+def assemble_deck():
+    """The advanced theory deck, served next to the game as deck/dns-advanced.html (None if not built)."""
+    if not os.path.isfile(DECK):
+        print("warning: course/_site/dns-advanced-single.html is missing (run `make single DECK=dns-advanced` in course/):"
+              " the game's link to the advanced slides will not work", file=sys.stderr)
+        return None
+    shutil.rmtree(DECK_BUILD, ignore_errors=True)
+    os.makedirs(os.path.join(DECK_BUILD, "deck"))
+    shutil.copy(DECK, os.path.join(DECK_BUILD, "deck", "dns-advanced.html"))
+    return DECK_BUILD
+
+
 class DigQuestStack(Stack):
-    def __init__(self, scope: Construct, construct_id: str, **kwargs):
+    def __init__(self, scope: Construct, construct_id: str, game_server: str = None, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
 
         table = dynamodb.TableV2(
@@ -66,7 +80,8 @@ class DigQuestStack(Stack):
             code=lambda_.Code.from_asset(assemble_lambda()),
             memory_size=512,
             timeout=Duration.seconds(29),
-            environment={"TABLE": table.table_name, "ADMIN_SECRET_ARN": admin_secret.secret_arn},
+            environment={"TABLE": table.table_name, "ADMIN_SECRET_ARN": admin_secret.secret_arn,
+                         **({"GAME_SERVER": game_server} if game_server else {})},
         )
         table.grant_read_write_data(fn)
         admin_secret.grant_read(fn)
@@ -101,6 +116,7 @@ class DigQuestStack(Stack):
         stage = api.default_stage.node.default_child
         stage.default_route_settings = apigw.CfnStage.RouteSettingsProperty(throttling_burst_limit=100, throttling_rate_limit=50)
 
+        deck = assemble_deck()
         s3deploy.BucketDeployment(
             self, "DeploySite",
             destination_bucket=bucket,
@@ -109,7 +125,7 @@ class DigQuestStack(Stack):
                 s3deploy.Source.asset(os.path.join(GAME, "frontend")),
                 # later sources win: this replaces the local-dev config.js
                 s3deploy.Source.data("config.js", cdk.Fn.join("", ["window.QUEST_API = \"", api.api_endpoint, "\";"])),
-            ],
+            ] + ([s3deploy.Source.asset(deck)] if deck else []),
         )
 
         cdk.CfnOutput(self, "GameUrl", value=site_url)

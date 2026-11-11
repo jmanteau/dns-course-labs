@@ -19,12 +19,67 @@
 
   <section id="game" class="hidden">
     <div class="hud">
-      <div class="hud-row"><h1 id="who">Dig Quest</h1><div class="score"><span id="score">0</span> pts</div></div>
+      <div class="hud-row"><h1 id="who">Dig Quest</h1><div class="score"><span id="score">0</span> pts<span id="advScoreBox" class="adv-score hidden"> · advanced <span id="advScore">0</span></span></div></div>
       <div class="hud-row"><span class="sub" id="progress"></span><button class="ghost" id="leave">Leave</button></div>
       <div class="bar"><i id="barFill"></i></div>
     </div>
-    <div id="debrief" class="debrief hidden"></div>
-    <div id="missions"></div>
+    <div class="layout">
+      <div>
+        <div id="debrief" class="debrief hidden"></div>
+        <div id="missions"></div>
+      </div>
+      <aside id="dig" class="dig" aria-label="dig console">
+        <div class="dig-head"><h2>› dig</h2><button type="button" class="ghost" id="digClose" aria-label="Close the dig console">✕</button></div>
+        <div class="dig-locked">
+          <p>🔒 The web console unlocks with the challenge, once the warm-up is cleared.</p>
+          <p>For the warm-up, use dig on your own machine: open a terminal and type</p>
+          <pre>dig example.com</pre>
+          <p class="sub">No dig? The hints of Warm-up 1 explain how to install it.</p>
+        </div>
+        <form id="digForm" class="dig-form">
+          <input type="text" id="digNames" aria-label="Hostnames or IP addresses" placeholder="example.com (up to 5, or an IP)" autocomplete="off" spellcheck="false" autocapitalize="off">
+          <div class="dig-row">
+            <select id="digType" aria-label="Record type">
+              <option>A</option><option>AAAA</option><option>CNAME</option><option>MX</option><option>NS</option>
+              <option>TXT</option><option>SOA</option><option>PTR</option><option>CAA</option><option>SRV</option>
+              <option>HTTPS</option><option>DS</option><option>DNSKEY</option><option>RRSIG</option>
+              <option>NSEC</option><option>NSEC3PARAM</option><option>NAPTR</option><option>SSHFP</option><option>TLSA</option>
+              <option>LOC</option><option>HINFO</option>
+              <option title="Zone transfer: only toward the game server">AXFR</option>
+            </select>
+            <select id="digClass" aria-label="Class" title="IN: the Internet. CH: ask a server about itself (TXT version.bind, hostname.bind, id.server)">
+              <option>IN</option><option>CH</option>
+            </select>
+            <select id="digServer" aria-label="Server">
+              <option value="google">@8.8.8.8 Google</option>
+              <option value="cloudflare">@1.1.1.1 Cloudflare</option>
+              <option value="quad9">@9.9.9.9 Quad9</option>
+              <option value="opendns">@208.67.222.222 OpenDNS</option>
+              <option value="authoritative">Authoritative server</option>
+              <option value="ip">Other server…</option>
+            </select>
+          </div>
+          <input type="text" id="digIp" class="hidden" aria-label="Server IP address or name" placeholder="public IP or server name, e.g. f.root-servers.net" autocomplete="off" spellcheck="false" autocapitalize="off">
+          <div class="dig-opts">
+            <label title="Only the values"><input type="checkbox" id="digShort"> +short</label>
+            <label title="Walk the tree from the root"><input type="checkbox" id="digTrace"> +trace</label>
+            <label title="Do not ask the server to resolve for you"><input type="checkbox" id="digNorecurse"> +norecurse</label>
+            <label title="Also return the signatures (RRSIG)"><input type="checkbox" id="digDnssec"> +dnssec</label>
+            <label title="Use TCP instead of UDP"><input type="checkbox" id="digTcp"> +tcp</label>
+            <label title="Ask the server to name itself in the answer"><input type="checkbox" id="digNsid"> +nsid</label>
+            <label title="Checking disabled: get the data even if DNSSEC validation fails"><input type="checkbox" id="digCd"> +cd</label>
+          </div>
+          <details class="dig-more"><summary>Client subnet, port</summary>
+            <input type="text" id="digSubnet" aria-label="Client subnet" placeholder="+subnet, e.g. 129.20.0.0/24" autocomplete="off">
+            <input type="text" id="digPort" aria-label="Port" placeholder="-p port (53; another port only toward the game server)" inputmode="numeric" autocomplete="off">
+          </details>
+          <div class="dig-row"><button type="submit" id="digGo">Dig</button><button type="button" class="ghost" id="digClear">Clear</button></div>
+          <p class="err" id="digErr" role="alert"></p>
+        </form>
+        <div id="digOut" class="dig-out"></div>
+      </aside>
+    </div>
+    <button type="button" id="digToggle" class="dig-toggle">› dig</button>
   </section>
 </main>
 <script src="config.js"></script>
