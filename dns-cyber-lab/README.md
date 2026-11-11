@@ -117,6 +117,24 @@ Once DNS resolution is working properly, you can proceed with the Red Team activ
 
 ---
 
+# Understanding C2 Basics
+
+It's essential to grasp common terms and concepts related to Command and Control (C2) frameworks.
+
+- **Implant:** Software placed on a target system to maintain access. It acts like an agent, enabling remote control.
+
+- **Beacon:** A communication pattern where the implant periodically checks in with the C2 server for instructions. Beacon intervals are often randomized to avoid detection.
+
+- **Jitter:** The random delay added between beacon intervals to make traffic patterns less predictable.
+
+- **Staged Payload:** A method where a small initial payload (Stage 0) loads subsequent, larger payloads. This approach minimizes initial footprint and can evade detection mechanisms.
+
+- **BOF (Beacon Object File):** Custom code modules that extend the capabilities of a C2 framework. They interact with the C2's APIs to perform specialized tasks.
+
+- **Communications:** Refers to how the implant and C2 server exchange data. Secure and covert channels are crucial. Common methods include DNS, HTTPS, and mutual TLS (mTLS). Some frameworks use legitimate third-party services like Discord or Slack to blend in with normal traffic.
+
+---
+
 # Red Team Activities
 
 In this section, we'll act as the attacker to understand how DNS can be used for covert communication.
@@ -390,6 +408,8 @@ iptables -vL
 # Blue Team Activities
 
 Now, we'll switch roles to the defender's perspective to detect and mitigate the malicious DNS activities.
+
+> **In class:** run this part after the course's detection slides (DNS firewall and DNS heuristics), which explain the indicators used below. Leave the lab running between the two parts, or the implant session is lost.
 
 ## Step 1: Log Analysis
 
@@ -746,13 +766,14 @@ An RPZ allows you to define custom DNS response policies to block or redirect qu
    Open `/etc/bind/rpz.zone` and add the malicious domain:
 
    ```bind
-   ; Block domain by returning NXDOMAIN
+   ; Block domain by returning an empty response (NODATA)
    s.commandcontrol.com.rpz.       CNAME   *.
    *.s.commandcontrol.com.rpz.       CNAME   *.
    ```
    
    - **Explanation:**
-     - The `CNAME .` effectively blocks any queries to `s.commandcontrol.com` by providing a non-existent domain response.
+     - `CNAME *.` blocks queries to `s.commandcontrol.com` and its subdomains by returning an empty response (NODATA).
+     - `CNAME .` would block them too, but returns NXDOMAIN ("this name does not exist") instead.
 
 2. **Check BIND RPZ Configuration:**
 
@@ -775,8 +796,7 @@ An RPZ allows you to define custom DNS response policies to block or redirect qu
 
    - **Expected Output:**
 
-     - The query should fail, indicating that the domain is blocked.
-
+     - The status is `NOERROR` with `ANSWER: 0`: the name no longer resolves, indicating that the domain is blocked.
 3. **Retest the Implant:**
 
    - **On the Client Shell:**
@@ -788,24 +808,6 @@ An RPZ allows you to define custom DNS response policies to block or redirect qu
    - **Expected Behavior:**
 
      - The implant should fail to connect to the C2 server due to the DNS query being blocked.
-
----
-
-# Understanding C2 Basics
-
-It's essential to grasp common terms and concepts related to Command and Control (C2) frameworks.
-
-- **Implant:** Software placed on a target system to maintain access. It acts like an agent, enabling remote control.
-
-- **Beacon:** A communication pattern where the implant periodically checks in with the C2 server for instructions. Beacon intervals are often randomized to avoid detection.
-
-- **Jitter:** The random delay added between beacon intervals to make traffic patterns less predictable.
-
-- **Staged Payload:** A method where a small initial payload (Stage 0) loads subsequent, larger payloads. This approach minimizes initial footprint and can evade detection mechanisms.
-
-- **BOF (Beacon Object File):** Custom code modules that extend the capabilities of a C2 framework. They interact with the C2's APIs to perform specialized tasks.
-
-- **Communications:** Refers to how the implant and C2 server exchange data. Secure and covert channels are crucial. Common methods include DNS, HTTPS, and mutual TLS (mTLS). Some frameworks use legitimate third-party services like Discord or Slack to blend in with normal traffic.
 
 ---
 

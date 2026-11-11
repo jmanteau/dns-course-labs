@@ -254,7 +254,7 @@ LAB_STEPS = {
                     "instruction": "Test resolving the C2 domain from the client:",
                     "command": "dig xxx.s.commandcontrol.com",
                     "target_container": "client",
-                    "expected_output": "NXDOMAIN or no answer — the domain is blocked!",
+                    "expected_output": "status: NOERROR with ANSWER: 0 — the domain is blocked!",
                     "executable": True,
                 },
                 {
