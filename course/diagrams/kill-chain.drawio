@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="DNS in the kill chain">
+    <mxGraphModel dx="1168" dy="400" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1168" pageHeight="400" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="step0" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Reconnaissance&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Harvesting email addresses, conference information, etc.' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="0" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num0" value="&lt;b&gt;1&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="56.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="dns0" value="&lt;b&gt;DNS Reconnaissance&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="0" y="290" width="148" height="110" as="geometry" />
+</mxCell>
+<mxCell id="to_dns0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step0" target="dns0">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step1" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Weaponization&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Coupling exploit with backdoor into deliverable payload' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="170" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num1" value="&lt;b&gt;2&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="226.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="chain1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step0" target="step1">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step2" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Delivery&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Delivering weaponized bundle to the victim via email, web, USB, etc.' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="340" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num2" value="&lt;b&gt;3&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="396.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="dns2" value="&lt;b&gt;DNS Resolution&lt;br&gt;DNS Infiltration&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="340" y="290" width="148" height="110" as="geometry" />
+</mxCell>
+<mxCell id="to_dns2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step2" target="dns2">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="chain2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step1" target="step2">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step3" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Exploitation&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Exploiting a vulnerability to execute code on victim’s system' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="510" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num3" value="&lt;b&gt;4&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="566.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="dns3" value="&lt;b&gt;DNS Protocol Anomalies&lt;br&gt;DNS Exploits&lt;br&gt;DNS Hijacking&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="510" y="290" width="148" height="110" as="geometry" />
+</mxCell>
+<mxCell id="to_dns3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step3" target="dns3">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="chain3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step2" target="step3">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step4" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Installation&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Installing malware on the asset' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="680" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num4" value="&lt;b&gt;5&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="736.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="chain4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step3" target="step4">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step5" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Command &amp; Control (C2)&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Command channel for remote manipulation of victim' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="850" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num5" value="&lt;b&gt;6&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="906.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="dns5" value="&lt;b&gt;DNS Resolution&lt;br&gt;DNS Callback&lt;br&gt;DNS Tunneling&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="850" y="290" width="148" height="110" as="geometry" />
+</mxCell>
+<mxCell id="to_dns5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step5" target="dns5">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="chain5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step4" target="step5">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="step6" value='&lt;span style="font-size:17px"&gt;&lt;b&gt;Actions on Objectives&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;With “Hands on Keyboard” access, intruders accomplish their original goal' style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;verticalAlign=top;spacingTop=22;" vertex="1" parent="1">
+  <mxGeometry x="1020" y="18" width="148" height="240" as="geometry" />
+</mxCell>
+<mxCell id="num6" value="&lt;b&gt;7&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="1076.0" y="0" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="dns6" value="&lt;b&gt;DNS Tunneling&lt;br&gt;DNS Exfiltration&lt;br&gt;DNS DDoS&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="1020" y="290" width="148" height="110" as="geometry" />
+</mxCell>
+<mxCell id="to_dns6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step6" target="dns6">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="chain6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="step5" target="step6">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

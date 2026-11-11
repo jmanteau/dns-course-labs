@@ -1,5 +1,11 @@
 # Request DNS with Domain Information Groper (Dig)
 
+Keep the one-page [dig cheat sheet](cheatsheet.pdf) at hand: commands, output sections, status codes, flags, record types and cache commands. Its source is `cheatsheet.typ` (rebuild with `make cheatsheet` in `course/`).
+
+Dig Quest starts with a short warm-up done with `dig` on your own machine. Once it is cleared, the missions open along with a web dig console: pick a name, a type, a server and options, and it shows the output and the `dig` command you would type.
+
+Finished every mission? The **Advanced** missions open next, with their own leaderboard. They use DNS features the course does not cover: read the *DNS Beyond the Basics* slides first (linked from the game, source `course/dns-advanced.qmd`).
+
 
 
 ## Local Dig
@@ -99,10 +105,10 @@ Other lines can be translated as follows:
   - **STATUS** give the DNS response code (in bold the most common ones):
     - **NOERROR** (0): No Error. Everything's cool. The zone is being served from the requested authority without issues.
     - FORMERR (1): Format Error (unable to interpret Query)
-    - **SERVFAIL (2)**: Server or Feature Problem. The name that was queried exists, but there's no data or invalid data for that name at the requested authority. 
+    - **SERVFAIL (2)**: Server Failure. The server could not give a valid answer, e.g. it could not reach the authoritative servers or a DNSSEC check failed.
     - **NXDOMAIN** (3): FQDN doesn’t exist. The name in question does not exist, and therefore there is no authoritative DNS data to be served.
     - NOTIMPL (4): Not implemented
-    - **REFUSED** (5): Action refused, e.g. Zone Transfer or DDNS. Not only does the zone not exist at the requested authority, but their  infrastructure is not in the business of serving things that don't exist at all.
+    - **REFUSED** (5): Action refused. The server declines to answer because of its policy, e.g. a denied Zone Transfer or a resolver closed to outside clients.
     - NotAuth: Server not authoritative for Zone
     - NotZone: Name not contained in Zone
     - prereq: YXDomain, YXRRSet, NXRRSet
@@ -172,7 +178,11 @@ Other lines can be translated as follows:
 
 ## Questions
 
+Run this lab after the course's resolution, TTL, reverse DNS and Split Horizon slides: the questions rely on them.
+
 A gamified version with score and leaderboard is in [game/](game/).
+
+Good to know: a CDN (Content Delivery Network, e.g. Akamai or Cloudflare) serves a website from many locations and often also protects it. A site behind a CDN usually shows up as a CNAME to the CDN's own domain.
 
 If your local resolver times out or filters queries, add a public one, e.g. `dig @1.1.1.1 ...` or `dig @8.8.8.8 ...`. Answers on live domains change over time (IPs, TTLs, counts): reason on the structure, not the exact values.
 

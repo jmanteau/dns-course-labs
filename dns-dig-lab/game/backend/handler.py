@@ -9,6 +9,7 @@ import secrets
 import time
 
 import checkers
+import dig
 import scoring
 import store
 
@@ -17,8 +18,10 @@ SECRET_DIR = os.environ.get("SECRET_DIR", os.path.join(HERE, "secret"))
 NICK_RE = re.compile(r"^[A-Za-z0-9_-]{2,16}$")
 CODE_RE = re.compile(r"^[A-Z0-9-]{3,24}$")
 WRONG_LIMIT, WRONG_WINDOW = 5, 60
+DIG_LIMIT, DIG_WINDOW = 20, 60
 
 _questions = None
+_dig_calls = {}  # player -> recent console timestamps; per Lambda container, best effort
 
 
 class HttpError(Exception):
@@ -44,14 +47,42 @@ def find_part(qid, pid):
     raise HttpError(404, "unknown question or part")
 
 
-def all_part_keys():
-    return {f"{q['id']}#{p['id']}" for q in questions() for p in q["parts"]}
+def stage_of(q):
+    """warmup (own machine), main (the missions) or advanced (after every main mission)."""
+    return q.get("stage", "main")
+
+
+def stage_keys(*stages):
+    return {f"{q['id']}#{p['id']}" for q in questions() if stage_of(q) in stages for p in q["parts"]}
+
+
+def warmup_done(player):
+    """The warm-up (done with dig on the student's own machine) unlocks the missions and the dig console."""
+    return set(player["solved"]) >= stage_keys("warmup")
+
+
+def main_done(player):
+    """Every warm-up and main part solved: this unlocks the advanced missions."""
+    return set(player["solved"]) >= stage_keys("warmup", "main")
+
+
+def stage_open(player, stage):
+    if stage == "main":
+        return warmup_done(player)
+    if stage == "advanced":
+        return main_done(player)
+    return True
 
 
 def public_questions(player):
-    """Questions without answers or checks; hint texts only for hints the player already bought."""
+    """Questions without answers or checks; hint texts only for hints the player already bought.
+    A stage that is not open yet shows only its titles."""
     out = []
     for q in questions():
+        stage = stage_of(q)
+        if not stage_open(player, stage):
+            out.append({"id": q["id"], "title": q["title"], "stage": stage, "locked": True, "parts": []})
+            continue
         parts = []
         for p in q["parts"]:
             key = f"{q['id']}#{p['id']}"
@@ -66,7 +97,7 @@ def public_questions(player):
             if p["type"] == "mcq":
                 pub["options"] = p["options"]
             parts.append(pub)
-        out.append({"id": q["id"], "title": q["title"], "prompt": q["prompt"], "parts": parts})
+        out.append({"id": q["id"], "title": q["title"], "stage": stage, "prompt": q["prompt"], "parts": parts})
     return out
 
 
@@ -132,17 +163,31 @@ def state(body, headers, query):
     code, player = authenticate(headers)
     session = session_or_404(code)
     done = set(player["solved"])
+    main, adv = stage_keys("warmup", "main"), stage_keys("advanced")
     return {
         "nick": player["nick"], "session": code, "sessionName": session.get("name", code), "status": session["status"],
-        "score": player["score"], "bonus": player["bonus"],
-        "solvedCount": len(done), "totalParts": len(all_part_keys()),
-        "unlocked": unlocked(player, session),
+        "score": player["score"], "advScore": player.get("advScore", 0), "bonus": player["bonus"],
+        "solvedCount": len(done & main), "totalParts": len(main),
+        "advSolvedCount": len(done & adv), "advTotalParts": len(adv),
+        "unlocked": unlocked(player, session), "advUnlocked": adv_unlocked(player, session),
+        "warmupDone": warmup_done(player), "mainDone": main_done(player),
         "questions": public_questions(player),
     }
 
 
+def require_stage(player, q):
+    if not stage_open(player, stage_of(q)):
+        raise HttpError(403, "finish every main mission first" if stage_of(q) == "advanced" else "finish the warm-up first")
+
+
 def unlocked(player, session):
-    return session["status"] == "closed" or set(player["solved"]) >= all_part_keys()
+    """The debrief of the warm-up and main missions."""
+    return session["status"] == "closed" or main_done(player)
+
+
+def adv_unlocked(player, session):
+    """The debrief of the advanced missions."""
+    return session["status"] == "closed" or (bool(stage_keys("advanced")) and set(player["solved"]) >= stage_keys("advanced"))
 
 
 def answer(body, headers, query):
@@ -151,6 +196,7 @@ def answer(body, headers, query):
     if session["status"] != "open":
         raise HttpError(403, "session closed")
     q, part = find_part(str(body.get("qid", "")), str(body.get("part", "")))
+    require_stage(player, q)
     key = f"{q['id']}#{part['id']}"
     if key in player["solved"]:
         raise HttpError(409, "already solved")
@@ -168,13 +214,14 @@ def answer(body, headers, query):
         return {"correct": False, "attemptsLeft": WRONG_LIMIT - recent - 1}
     wrong_mcq = wrong["c"] if part["type"] == "mcq" else 0
     points = scoring.part_points(part["points"], int(player["hints"].get(key, 0)), wrong_mcq)
+    field = "advScore" if stage_of(q) == "advanced" else "score"
     try:
-        store.record_solve(code, player["nick"], key, points, now)
+        store.record_solve(code, player["nick"], key, points, now, field)
     except store.Conflict:
         raise HttpError(409, "already solved")
     result = {"correct": True, "points": points, "firstBlood": None}
-    if all(f"{q['id']}#{p['id']}" in player["solved"] or f"{q['id']}#{p['id']}" == key for p in q["parts"]):
-        won = store.claim_first_blood(code, q["id"], player["nick"], (1, 2, 3), scoring.FIRST_BLOOD)
+    if stage_of(q) != "warmup" and all(f"{q['id']}#{p['id']}" in player["solved"] or f"{q['id']}#{p['id']}" == key for p in q["parts"]):
+        won = store.claim_first_blood(code, q["id"], player["nick"], (1, 2, 3), scoring.FIRST_BLOOD, field)
         if won:
             result["firstBlood"] = {"rank": won[0], "bonus": won[1]}
     return result
@@ -184,6 +231,7 @@ def hint(body, headers, query):
     code, player = authenticate(headers)
     session_or_404(code)
     q, part = find_part(str(body.get("qid", "")), str(body.get("part", "")))
+    require_stage(player, q)
     key = f"{q['id']}#{part['id']}"
     if key in player["solved"]:
         raise HttpError(409, "already solved")
@@ -201,26 +249,56 @@ def leaderboard(body, headers, query):
     code = (query.get("session") or "").upper()
     session = session_or_404(code)
     players = store.list_players(code)
+    main, adv = stage_keys("warmup", "main"), stage_keys("advanced")
     rows = sorted(
-        ({"nick": p["nick"], "score": p["score"], "solved": len(p["solved"]), "lastSolveAt": p["lastSolveAt"]} for p in players),
+        ({"nick": p["nick"], "score": p["score"], "solved": len(set(p["solved"]) & main), "lastSolveAt": p["lastSolveAt"]}
+         for p in players),
+        key=lambda r: (-r["score"], r["lastSolveAt"] or 1 << 60),
+    )
+    # the advanced board lists only the players who reached it
+    adv_rows = sorted(
+        ({"nick": p["nick"], "score": p.get("advScore", 0), "solved": len(set(p["solved"]) & adv),
+          "lastSolveAt": p.get("lastAdvSolveAt", 0)} for p in players if set(p["solved"]) >= main),
         key=lambda r: (-r["score"], r["lastSolveAt"] or 1 << 60),
     )
     return {
         "session": code, "name": session.get("name", code), "status": session["status"],
-        "totalParts": len(all_part_keys()), "players": rows, "firstBloods": store.list_first_bloods(code),
+        "totalParts": len(main), "players": rows, "firstBloods": store.list_first_bloods(code),
+        "advTotalParts": len(adv), "advanced": adv_rows,
     }
 
 
 def explanations(body, headers, query):
     code, player = authenticate(headers)
     session = session_or_404(code)
-    if not unlocked(player, session):
+    main_open, adv_open = unlocked(player, session), adv_unlocked(player, session)
+    if not main_open:
         raise HttpError(403, "solve every part (or wait for the teacher to close the session) to unlock")
+    advanced = {q["id"] for q in questions() if stage_of(q) == "advanced"}
     out = {}
     for path in sorted(glob.glob(os.path.join(SECRET_DIR, "explanations", "*.md"))):
+        name = os.path.basename(path)[:-3]
+        if name in advanced and not adv_open:
+            continue
         with open(path, encoding="utf-8") as fh:
-            out[os.path.basename(path)[:-3]] = fh.read()
+            out[name] = fh.read()
     return {"explanations": out}
+
+
+def dig_console(body, headers, query):
+    code, player = authenticate(headers)
+    if not warmup_done(player):
+        raise HttpError(403, "the dig console unlocks after the warm-up: use dig in your terminal for now")
+    now = time.time()
+    key = f"{code}:{player['nick']}"
+    recent = [t for t in _dig_calls.get(key, []) if now - t < DIG_WINDOW]
+    if len(recent) >= DIG_LIMIT:
+        raise HttpError(429, f"slow down: wait {int(DIG_WINDOW - (now - recent[0])) + 1}s")
+    _dig_calls[key] = recent + [now]
+    try:
+        return dig.run(body)
+    except dig.DigError as exc:
+        raise HttpError(400, str(exc))
 
 
 def admin_create_session(body, headers, query):
@@ -250,6 +328,7 @@ ROUTES = {
     ("POST", "/hint"): hint,
     ("GET", "/leaderboard"): leaderboard,
     ("GET", "/explanations"): explanations,
+    ("POST", "/dig"): dig_console,
     ("POST", "/admin/session"): admin_create_session,
 }
 CLOSE_RE = re.compile(r"^/admin/session/([A-Za-z0-9-]+)/status$")

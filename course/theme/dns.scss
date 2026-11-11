@@ -1,268 +1,291 @@
 /*-- scss:defaults --*/
-$font-family-sans-serif: Arial, "Helvetica Neue", Helvetica, sans-serif;
-$presentation-font-size-root: 30px;
-$body-color: #111;
-$link-color: #2a7ab0;
-$presentation-heading-font: Arial, "Helvetica Neue", Helvetica, sans-serif;
-$presentation-heading-color: #333;
-$presentation-heading-font-weight: normal;
+$font-family-sans-serif: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+$presentation-font-size-root: 28px;
+$body-color: #1f2a44;
+$link-color: #0e7c8c;
+$presentation-heading-font: $font-family-sans-serif;
+$presentation-heading-color: #15315b;
+$presentation-heading-font-weight: 600;
 $presentation-heading-text-transform: none;
 $code-block-font-size: 0.7em;
 
 /*-- scss:rules --*/
-$orange: #d0703c;
-$mustard: #d9b44a;
-$teal: #6aaba0;
-$steel: #4a72a8;
-$olive: #8aa84a;
-$purple: #6b4a9c;
-$mauve: #9a5c7a;
-$green: #7cc34a;
-$red: #d0401b;
-$blue: #2b6cc4;
 
-.reveal { font-size: 30px; }
+/* ---------- design tokens ---------- */
+$ink: #1f2a44;      // body text
+$muted: #5b6478;    // secondary text
+$navy: #15315b;     // headings, table heads, title slide
+$teal: #1ba5b8;     // primary accent
+$teal-ink: #0e7c8c; // teal dark enough for text
+$amber: #e0a93b;
+$amber-ink: #a86b00;
+$orange: #e07b39;
+$red: #d64933;
+$green: #2f9e6b;
+$blue: #2c5aa0;
+$surface: #f4f6f8;  // card background
+$line: #dfe4ea;     // borders and rules
+$terminal: #0f1b2d;
+$shadow: 0 2px 10px rgba(21, 49, 91, 0.10);
+$mono: $font-family-monospace;
 
-/* every slide is a 1280x720 canvas */
+.reveal {
+  --ink: #{$ink}; --muted: #{$muted}; --navy: #{$navy}; --teal: #{$teal}; --teal-ink: #{$teal-ink}; --amber: #{$amber};
+  --orange: #{$orange}; --red: #{$red}; --green: #{$green}; --blue: #{$blue};
+  --surface: #{$surface}; --line: #{$line};
+  /* set here, not through the defaults: interpolation drops the quotes "Source Sans 3" needs */
+  --r-main-font: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  --r-heading-font: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--r-main-font); font-size: 28px; color: $ink;
+}
+
+/* ---------- canvas: every slide is 1280x720 ---------- */
 .reveal .slides > section,
 .reveal .slides > section > section {
   width: 1280px; height: 720px; box-sizing: border-box;
   padding: 120px 43px 0 43px; text-align: left; top: 0 !important;
 }
-.reveal h2 {
-  position: absolute; left: 43px; top: 20px; width: 1190px; margin: 0;
-  font-size: 53px; line-height: 1.2; text-transform: none;
-}
-.reveal h2 a { color: #2a7ab0; }
-.reveal p, .reveal li { line-height: 1.2; }
-.reveal ul, .reveal ol { margin-left: 1em; display: block; }
-.reveal ul ul { list-style: "– "; }
-.reveal ul li { margin: 0.12em 0; }
-.reveal ul, .reveal ol { margin-top: 0; margin-bottom: 0; }
-.reveal ul ul { margin: 0; }
-.reveal .gray, .reveal .gray li { color: #595959; }
-.reveal .slide-number { left: 40px; bottom: 6px; right: auto; bottom: 10px; background: none; color: #555; font-size: 16px; }
 .reveal .absolute, .reveal .a { position: absolute; }
 .reveal .a { margin: 0; }
 .reveal img { margin: 0; box-shadow: none; max-width: none; max-height: none; border: 0; }
 .reveal figure, .reveal .quarto-figure { margin: 0; }
-.reveal .r { color: $red; } .reveal .g { color: #3aa655; } .reveal .o { color: $orange; } .reveal .b { color: $blue; }
-.reveal .sm { font-size: 0.75em; } .reveal .xs { font-size: 0.6em; } .reveal .lg { font-size: 1.35em; }
-.reveal .center { text-align: center; }
-
-/* terminal blocks */
-.reveal pre.terminal {
-  font-family: "Roboto Mono", "Courier New", Courier, monospace; font-weight: 300; font-size: 22px; line-height: 1.4; white-space: pre;
-  color: #222; background: none; box-shadow: none; margin: 0; width: auto; padding: 0; overflow: visible;
-}
-.reveal .terminal b { color: #000; }
-
-/* lab banner: gear + "Practical Exercise" */
-.reveal .lab { display: flex; align-items: center; gap: 26px; font-weight: bold; font-size: 1.1em; }
-.reveal .lab img { width: 120px; }
-
-/* section slides */
-.reveal .section-title { position: absolute; font-size: 53px; border-bottom: 5px solid #111; padding: 0 0 8px; line-height: 1.2; }
-
-/* agenda */
-.reveal .agenda .item { position: absolute; }
-.reveal .agenda .num { position: absolute; width: 69px; height: 69px; box-sizing: border-box; border: 3px solid #1ba5b8; border-radius: 50%; text-align: center; line-height: 63px; font-size: 32px; background: #fff; }
-.reveal .agenda .num.g3 { border-color: #6fae63; }
-.reveal .agenda .t { position: absolute; font-size: 44px; line-height: 1.2; font-weight: bold; }
-.reveal .agenda .s { position: absolute; font-size: 34px; line-height: 1.2; }
-
-/* feature rows */
-.reveal .feature { position: absolute; left: 95px; width: 1024px; height: 107px; background: linear-gradient(90deg, transparent 31px, #f2f2f2 31px 991px, transparent 991px); }
-.reveal .feature .lab-c { position: absolute; left: 0; top: 0; width: 249px; height: 100%; display: flex; align-items: center; padding: 0 60px 0 21px; box-sizing: border-box; clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%); background: var(--c); color: #fff; font-weight: bold; font-size: 27px; line-height: 1.1; }
-.reveal .feature .txt { position: absolute; left: 276px; width: 565px; top: 0; height: 100%; display: flex; align-items: center; font-size: 32px; line-height: 1.2; }
-.reveal .feature img { position: absolute; right: 0; top: 0; width: 153px; height: 107px; object-fit: contain; background: var(--c); }
-
-/* tile grids */
-.reveal .tiles { position: absolute; display: grid; gap: 4px; }
-.reveal .tile { padding: 18px 20px; color: #fff; line-height: 1.25; }
-.reveal .tile h3 { margin: 0 0 8px; font-size: 21px; font-weight: bold; color: inherit; text-transform: none; line-height: 1.2; }
-.reveal .tile p { margin: 30px 0 0; font-size: 21px; line-height: 1.43; }
-.reveal .rec { position: absolute; display: flex; width: 581px; height: 107px; background: #f2f2f2; }
-.reveal .rec .code { width: 177px; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 42px; text-align: center; line-height: 1; }
-.reveal .rec .d { padding: 6px 12px 6px 31px; font-size: 24px; line-height: 1.15; display: flex; align-items: center; }
-
-/* pillars */
-.reveal .pillar { position: absolute; left: 47px; width: 1199px; height: 180px; background: #e6e6e6; box-shadow: 0 4px 6px rgba(0,0,0,.25); display: flex; align-items: center; overflow: hidden; }
-.reveal .pillar .badge { width: 84px; height: 84px; border-radius: 50%; background: #444; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 38px; margin: 0 24px 0 36px; flex: none; }
-.reveal .pillar .lbl { font-size: 38px; flex: 1; color: #111; }
-.reveal .pillar img { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); height: 150px; width: auto; }
-.reveal .pillar.dim { opacity: .35; }
-.reveal .pillar.dim .badge { background: #888; }
-.reveal .pillar.p3 .badge { background: #e0a93b; }
-.reveal .pillar.p2 .badge { background: #111; }
-.reveal .pillar-head { position: absolute; left: 58px; top: 50px; font-size: 20px; color: #111; }
-
-/* vendor cards */
-.reveal .vcard { position: absolute; width: 330px; height: 470px; color: #fff; text-align: center; }
-.reveal .vcard h3 { color: #fff; font-size: 34px; font-weight: bold; margin: 0; position: absolute; width: 100%; top: 125px; }
-.reveal .vcard p { position: absolute; width: 85%; left: 7.5%; top: 205px; margin: 0; font-size: 24px; line-height: 1.25; }
-.reveal .vcard img { position: absolute; left: 50%; transform: translateX(-50%); top: 0; }
-
-/* attack table */
-.reveal table.attacks { position: absolute; left: 43px; top: 100px; width: 1194px; border-collapse: collapse; font-size: 21px; line-height: 1.12; }
-.reveal table.attacks tr { height: 48px; }
-.reveal table.attacks td { padding: 3px 8px; border: 0; background: #e4e4e4; border-bottom: 3px solid #fff; vertical-align: middle; }
-.reveal table.attacks td:first-child { width: 260px; font-weight: bold; font-size: 23px; background: #efefef; }
-.reveal table.attacks tr.dns td:first-child { color: $red; }
-.reveal table.attacks tr.vol td:first-child { color: $blue; }
-
-/* plain markdown tables */
-.reveal table { font-size: 0.75em; border-collapse: collapse; }
-.reveal table th, .reveal table td { border: 1px solid #bbb; padding: 6px 10px; vertical-align: top; text-align: left; }
-.reveal table th { font-weight: normal; }
-.reveal table.cache { position: absolute; left: 43px; top: 470px; width: 1194px; font-size: 19px; }
-.reveal table.dot { position: absolute; left: 99px; top: 247px; width: 1075px; font-size: 31px; }
-.reveal table.dot th { font-weight: bold; font-size: 1.1em; }
-.reveal table.dga { font-size: 22px; }
-.reveal table.dga th { background: #3f5f9d; color: #fff; font-weight: bold; text-align: center; }
-.reveal table.dga tr:nth-child(odd) td { background: #d9dee8; }
-.reveal table.dga tr:nth-child(even) td { background: #eef0f5; }
-
-/* kill chain */
-.reveal .kc-step { position: absolute; text-align: center; line-height: 1.15; }
-.reveal .kc-step b { display: block; font-size: 20px; }
-.reveal .kc-step span { font-size: 15px; color: #333; display: block; }
-.reveal .kc-tag { position: absolute; text-align: center; color: #fff; font-size: 14px; font-weight: bold; padding: 4px 8px; border-radius: 6px; line-height: 1.15; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
-.reveal .kc-tag.o { background: $orange; color: #fff; } .reveal .kc-tag.gr { background: #8a8fa0; }
-.reveal .kc-num { position: absolute; width: 34px; height: 34px; border-radius: 50%; background: $orange; color: #fff; font-weight: bold; font-size: 20px; text-align: center; line-height: 34px; }
-
-.reveal .label { position: absolute; font-size: 20px; line-height: 1.15; }
-.reveal .label.blue { color: #2a7ab0; font-weight: bold; }
-
-/* font-size helpers (px at 1280 canvas) */
-.reveal .f21 { font-size: 21px; } .reveal .f25 { font-size: 25px; } .reveal .f27 { font-size: 30px; }
-.reveal .f30 { font-size: 30px; } .reveal .f32 { font-size: 32px; } .reveal .f36 { font-size: 36px; } .reveal .f41 { font-size: 41px; }
-.reveal .f19 { font-size: 21px; } .reveal .f22 { font-size: 24px; } .reveal .f24 { font-size: 27px; } .reveal .f26 { font-size: 29px; } .reveal .f29 { font-size: 32px; } .reveal .f35 { font-size: 39px; } .reveal .f37 { font-size: 41px; } .reveal .f38 { font-size: 42px; }
-.reveal .f37 li, .reveal .f41 li { margin: 0.45em 0; line-height: 1.3; }
 .reveal .absolute p, .reveal .a p { margin: 0 0 0.5em; }
-.reveal .absolute ul { margin-top: 0; }
+.reveal p, .reveal li { line-height: 1.3; }
+.reveal strong, .reveal b { font-weight: 700; }
+.reveal .center { text-align: center; }
+.reveal .gray, .reveal .gray li { color: $muted; }
 
-/* title variants: per-slide height/top via --t, size via class */
-.reveal h2 { top: var(--t, 19px); height: 80px; display: flex; align-items: center; }
-.reveal section.t28 h2 { font-size: 50px; } .reveal section.t24 h2 { font-size: 43px; }
-.reveal section.t19 h2 { font-size: 34px; color: #2a7ab0; }
-.reveal section.t30 { --t: 30px; }
+/* ---------- type scale: 20 / 24 / 28 / 32 / 40, titles 44 ---------- */
+.reveal .f19, .reveal .f21 { font-size: 20px; }
+.reveal .f22, .reveal .f25 { font-size: 24px; }
+.reveal .f24, .reveal .f26, .reveal .f27 { font-size: 28px; }
+.reveal .f29, .reveal .f32, .reveal .f34 { font-size: 32px; }
+.reveal .f35, .reveal .f37, .reveal .f38 { font-size: 40px; }
+.reveal .f37 li { margin: 0.45em 0; line-height: 1.3; }
 
-/* title slide */
-.reveal #title-slide { padding: 0; }
-.reveal #title-slide h1.title { display: none; }
-.reveal #title-slide .quarto-title-authors { position: absolute; left: 0; right: 0; bottom: 0; height: 140px; margin: 0; background: none; color: #fff; font-size: 40px; text-align: center; display: flex; align-items: center; justify-content: center; }
-.reveal #title-slide .quarto-title-author-name { color: #fff; }
+/* ---------- emphasis colours ---------- */
+.reveal .r { color: $red; } .reveal .g { color: $green; } .reveal .y { color: $amber-ink; } .reveal .b { color: $blue; }
 
-/* section divider slides (5, 6, 32) */
-.reveal section.divider h2 { left: 716px; top: 50px; width: 537px; height: 166px; font-size: 64px; align-items: flex-end; padding-bottom: 18px; box-sizing: border-box; color: #444; }
-.reveal section.divider h2::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #222; }
-.reveal section.divider h2::before { content: ""; position: absolute; left: 0; width: 140px; bottom: -2px; height: 7px; background: #111; }
-
-/* blue-grey source-like highlight for lab/quiz */
-.reveal .qr { position: absolute; }
-.reveal .tn { position: absolute; margin: 0; }
-
-/* teacher slide */
-.reveal .dot { width: 22px; height: 22px; border-radius: 50%; }
-.reveal .role.btm { padding-top: 49px; }
-.reveal .role { position: absolute; width: 200px; height: 105px; border: 2px solid; border-radius: 4px; background: #fff; text-align: center; font-size: 16px; line-height: 1.1; padding-top: 61px; color: #c0392b; font-weight: bold; box-sizing: border-box; }
-.reveal .role img { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); height: 43px; width: auto; }
-.reveal .role.btm img { top: 11px; }
-.reveal .role span { display: block; padding: 0 6px; }
-/* agenda */
-.reveal .agenda .ul { position: absolute; height: 3px; background: #1ba5b8; }
-.reveal .agenda .ul.g3 { background: #6fae63; }
-
-/* arrows for sequence diagrams */
-.reveal .arr { position: absolute; height: 0; border-top: 2px solid #777; }
-.reveal .arr.r::after { content: ""; position: absolute; right: -2px; top: -6px; border-left: 9px solid #777; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-.reveal .arr.l::after { content: ""; position: absolute; left: -2px; top: -6px; border-right: 9px solid #777; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-.reveal img.bot { position: absolute; }
-.reveal .tag-o { position: absolute; background: #e8742a; color: #fff; font-size: 13px; font-weight: bold; text-align: center; line-height: 22px; }
-.reveal .chunk { position: absolute; border: 1px dashed #e8742a; font-size: 11px; line-height: 1.25; padding: 2px 6px; background: #fff; }
-.reveal .mono li { font-family: "Courier New", Courier, monospace; margin: 0.45em 0; }
-.reveal .terminal .pr { color: #111; }
-
-.reveal section.teacher h2 { font-size: 24px; font-weight: bold; }
-.reveal .f38 { font-size: 40px; }
-
-/* links underlined like the original */
-.reveal a { text-decoration: underline; }
-.reveal .sp li { margin: 0.6em 0; }
-.reveal .circ ul ul { list-style: circle; }
-.reveal .subsm ul ul { font-size: 0.74em; }
-.reveal .links ul { list-style: none; margin-left: 0; }
-.reveal .links li { margin: 0.7em 0; }
-.reveal .nobullet { list-style: none; }
+/* ---------- lists ---------- */
+.reveal ul, .reveal ol { display: block; margin: 0 0 0 1em; }
+.reveal ul li { margin: 0.15em 0; }
+.reveal ul > li::marker { color: $teal; }
+.reveal ol > li::marker { color: $teal-ink; font-weight: 700; }
+.reveal ul ul { list-style: "– "; margin: 0 0 0 0.8em; }
+.reveal ul ul > li::marker { color: $muted; }
+.reveal .nobullet, .reveal li:has(> .nobullet) { list-style: none; }
 .reveal li.nobullet::marker { content: ""; }
-
-/* pillars: exact geometry from the original */
-.reveal .pillar { left: 46px; width: 1204px; height: 164px; overflow: visible; }
-.reveal .pillar img { transform: none; height: auto; }
-.reveal .pillar .lbl { font-size: 42px; }
-
-/* shaded INTERNET / ENTERPRISE zones (slides 36 and 44) */
-.reveal .zone-net { position: absolute; left: 716px; width: 564px; top: 0; background: linear-gradient(#cdd8f0, #e8edf8); }
-.reveal .zone-ent { position: absolute; left: 716px; width: 564px; bottom: 0; background: linear-gradient(#c4c4c4, #8f8f8f); }
-
-/* vendor cards */
-.reveal .vcard { width: 370px; border-radius: 12px; }
-.reveal .vcard h3 { font-size: 38px; }
-.reveal .vcard p { font-size: 24px; }
-
-/* kill chain callouts */
-.reveal .kc-step { background: #f4f4f4; box-shadow: 0 2px 5px rgba(0,0,0,.25); border-radius: 6px; padding: 4px 6px; box-sizing: border-box; }
-.reveal .kc-circle { position: absolute; width: 104px; height: 104px; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.3); }
-
-.reveal table.dot { font-size: 36px; }
-.reveal table.dot th { font-size: 40px; }
-.reveal .arr { border-top-color: #4aa88a; }
-.reveal .arr.r::after { border-left-color: #4aa88a; } .reveal .arr.l::after { border-right-color: #4aa88a; }
-.reveal .vline { position: absolute; width: 0; border-left: 2px solid #4aa88a; }
-.reveal .hline { position: absolute; height: 0; border-top: 2px solid #c8c8c8; }
-
-.reveal .g { color: #4ea84e; } .reveal .r { color: #b5391f; } .reveal .y { color: #d4a63a; }
-.reveal .tight li { margin: 0; line-height: 1.2; }
-
-.reveal .f34 { font-size: 34px; }
+.reveal .tight li { margin: 0; line-height: 1.25; }
 .reveal .sp li { margin: 1em 0; }
-.reveal ul ul { margin-left: 0.8em; }
-.reveal li:has(> .nobullet) { list-style: none; }
 .reveal .sp2 > ul > li { margin: 0.22em 0; }
-.reveal .vcard h3 { font-size: 40px; top: 147px; } .reveal .vcard p { width: 80%; left: 10%; top: 247px; } .reveal .vcard img { margin-top: 6px; }
-
-/* source colours of the highlighted words */
-.reveal .g { color: #00b050; } .reveal .r { color: #cc0000; } .reveal .y { color: #e69138; }
-
-/* slide 12: bullets indented 0.5in like the source, 1.4 line pitch */
+.reveal .sp3 > ul > li { margin: 0.55em 0 !important; }
+.reveal .sp40 li { margin: 1.25em 0 !important; }
+.reveal .sp49 li { margin: 1.08em 0 !important; }
 .reveal .m64 > ul { margin-left: 64px; }
 .reveal .lh14 li { line-height: 1.4; margin: 0; }
 .reveal .lh14 li > p { margin: 0; }
-.reveal .sub25 ul ul { font-size: 25px; }
+.reveal .sub25 ul ul { font-size: 24px; }
+.reveal .sub25 ul ul li { line-height: 1.35; margin: 0 !important; }
+.reveal .subsm ul ul { font-size: 0.74em; }
+.reveal .subsm ul ul li { margin: 0; }
+.reveal .circ ul ul { list-style: circle; }
+.reveal .links ul { list-style: none; margin-left: 0; }
+.reveal .links li { margin: 1.05em 0 !important; }
 .reveal div[style*="line-height"] p { line-height: inherit; }
 
-/* slide 22 cache table: column widths and row padding from the source */
-.reveal table.cache { table-layout: fixed; font-size: 20px; }
-.reveal table.cache th, .reveal table.cache td { padding: 12px 8px; }
-.reveal table.cache th:nth-child(1) { width: 160px; } .reveal table.cache th:nth-child(2) { width: 238px; }
-.reveal table.cache th:nth-child(3) { width: 175px; } .reveal table.cache th:nth-child(4) { width: 223px; }
-.reveal table.cache th:nth-child(5) { width: 202px; } .reveal table.cache th:nth-child(6) { width: 195px; }
-.reveal .sp3 > ul > li { margin: 0.55em 0 !important; }
-.reveal .sub25 ul ul li { margin: 0; line-height: 1.15; }
-.reveal .subsm ul ul li { margin: 0; }
-.reveal table.dga { font-size: 23px; width: 604px !important; }
-.reveal table.dga th, .reveal table.dga td { padding: 10px 12px; }
-.reveal table.dga th { background: #23558c; }
-.reveal table.dga td { text-align: center; }
-.reveal .label.zone { font-size: 14px; color: #222; font-weight: normal; }
-.reveal .sp40 li { margin: 1.4em 0 !important; }
-.reveal .sp49 li { margin: 1.08em 0 !important; }
-.reveal .links li { margin: 1.05em 0 !important; }
-.reveal .sub25 ul ul li { line-height: 1.4; margin: 0 !important; }
-.reveal table.cache { width: 1193px; font-size: 18px; }
-.reveal table.cache th, .reveal table.cache td { padding: 10px 6px; overflow-wrap: anywhere; }
-.reveal table.cache { box-sizing: border-box; max-width: 1194px; }
-.reveal table.cache th:nth-child(1) { width: 13.4%; } .reveal table.cache th:nth-child(2) { width: 20%; }
-.reveal table.cache th:nth-child(3) { width: 14.7%; } .reveal table.cache th:nth-child(4) { width: 18.7%; }
-.reveal table.cache th:nth-child(5) { width: 17%; } .reveal table.cache th:nth-child(6) { width: 16.2%; }
+/* ---------- links: text plus a clickable icon (added by theme/link-icons.lua) ---------- */
+.reveal a { color: $teal-ink; text-decoration: underline; text-decoration-color: rgba($teal, 0.45); text-underline-offset: 3px; }
+.reveal h2 a { color: inherit; }
+.reveal .nowrap { white-space: nowrap; }
+.reveal a.ext { display: inline-block; width: 0.72em; height: 0.72em; margin-left: 0.18em; vertical-align: -0.05em; text-decoration: none; background: $teal-ink;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3h7v7'/%3E%3Cpath d='M21 3l-9 9'/%3E%3Cpath d='M18 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+/* ---------- inline code ---------- */
+.reveal code { font-family: $mono; font-size: 0.86em; color: $navy; background: $surface; border: 1px solid $line; border-radius: 5px; padding: 0 0.25em; white-space: nowrap; }
+
+/* ---------- slide title: one style everywhere, a teal bar below it ---------- */
+.reveal h2 {
+  position: absolute; left: 43px; top: 30px; width: 1194px; height: 80px; margin: 0;
+  display: flex; align-items: center;
+  font-size: 44px; font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; color: $navy;
+}
+.reveal h2::after { content: ""; position: absolute; left: 0; bottom: 4px; width: 64px; height: 5px; border-radius: 3px; background: $teal; }
+
+/* activity slides: a coloured tag before the title */
+.reveal section.lab-slide h2::before, .reveal section.quiz-slide h2::before, .reveal section.exercise-slide h2::before {
+  flex: none; margin-right: 20px; padding: 6px 14px; border-radius: 6px; color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 2px; line-height: 1.2;
+}
+.reveal section.lab-slide h2::before { content: "LAB"; background: $teal; }
+.reveal section.quiz-slide h2::before { content: "QUIZ"; background: $amber; }
+.reveal section.exercise-slide h2::before { content: "EXERCISE"; background: $orange; }
+
+/* lab banner: icon + "Practical Exercise" line, same place on every lab slide */
+.reveal img.lab-icon { box-sizing: border-box; padding: 26px; border-radius: 50%; background: rgba($teal, 0.12); }
+.reveal .lab-banner { position: absolute; left: 280px; top: 186px; width: 950px; font-size: 32px; font-weight: 600; line-height: 1.2; color: $navy; }
+
+/* ---------- footer: current part + slide number ---------- */
+.reveal .part-footer {
+  position: absolute; left: 43px; right: 43px; bottom: 0; height: 34px; border-top: 1px solid $line;
+  display: flex; align-items: center; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: $muted;
+}
+.reveal .slide-number { left: auto; right: 43px; bottom: 9px; background: none; color: $muted; font-size: 14px; font-family: var(--r-main-font); font-weight: 600; }
+.reveal .progress { color: $teal; height: 4px; }
+.reveal .controls { color: $teal; }
+
+/* ---------- title slide ---------- */
+.reveal #title-slide { display: flex !important; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; padding: 0 0 40px 80px; }
+.reveal #title-slide .subtitle { order: -1; margin: 0 0 18px; font-size: 22px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #5fd0de; }
+.reveal #title-slide h1.title { position: relative; width: 560px; margin: 0 0 36px; padding-bottom: 30px; font-size: 76px; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: #fff; text-align: left; text-transform: none; }
+.reveal #title-slide h1.title::after { content: ""; position: absolute; left: 0; bottom: 0; width: 96px; height: 6px; border-radius: 3px; background: $teal; }
+.reveal #title-slide .quarto-title-authors { display: block; margin: 0; padding: 0; text-align: left; font-size: 30px; font-weight: 600; color: #fff; }
+.reveal #title-slide .quarto-title-author { padding: 0; margin: 0; }
+.reveal #title-slide .quarto-title-author-name { color: #fff; }
+.reveal #title-slide .date { margin: 6px 0 0; font-size: 22px; color: rgba(#fff, 0.65); text-align: left; }
+
+/* ---------- chapter dividers ---------- */
+.reveal section.divider h2 { left: 716px; top: 110px; width: 520px; height: 166px; font-size: 64px; font-weight: 700; align-items: flex-end; padding-bottom: 18px; box-sizing: border-box; color: $navy; }
+.reveal section.divider h2::after { left: 0; right: 0; bottom: 0; width: auto; height: 2px; border-radius: 0; background: $line; }
+.reveal section.divider h2::before { content: ""; position: absolute; left: 0; bottom: -2px; width: 140px; height: 6px; border-radius: 3px; background: $teal; }
+.reveal section.divider .panel { position: absolute; left: 0; top: 0; width: 640px; height: 100%; background: var(--panel); }
+.reveal section.divider .panel img { width: 100%; height: 100%; object-fit: contain; }
+.reveal section.divider .part { position: absolute; left: 716px; top: 90px; font-size: 22px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: $teal-ink; }
+.reveal section.divider .sub { position: absolute; left: 716px; top: 300px; width: 520px; font-size: 32px; line-height: 1.3; color: $muted; }
+
+/* ---------- terminal windows ---------- */
+.reveal pre.terminal {
+  font-family: $mono; font-weight: 400; font-size: 22px; line-height: 1.45; white-space: pre;
+  color: #dbe4ee; background: $terminal; border-radius: 10px; box-shadow: 0 6px 18px rgba($terminal, 0.18);
+  box-sizing: border-box; padding: 44px 24px 18px; margin: 0; overflow: hidden;
+}
+.reveal pre.terminal:not(.a) { position: relative; }
+.reveal pre.terminal::before { content: ""; position: absolute; left: 20px; top: 16px; width: 11px; height: 11px; border-radius: 50%; background: #3d4d66; box-shadow: 19px 0 #3d4d66, 38px 0 #3d4d66; }
+.reveal .terminal b { color: #5fd0de; font-weight: 700; }
+.reveal .terminal .gray { color: #8796ab; }
+.reveal .terminal .pr { color: #7ee2a8; }
+.reveal .terminal .g { color: #7ee2a8; } .reveal .terminal .r { color: #ff8a75; } .reveal .terminal .y { color: #f2c14e; }
+
+/* ---------- tables ---------- */
+.reveal table { border-collapse: separate; border-spacing: 0; font-size: 22px; line-height: 1.3; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: $shadow; }
+.reveal table th { background: $navy; color: #fff; font-weight: 600; text-align: left; padding: 10px 14px; border: 0; vertical-align: middle; }
+.reveal table td { padding: 8px 14px; border: 0; border-bottom: 1px solid $line; vertical-align: middle; text-align: left; }
+.reveal table tr:nth-child(odd) td { background: $surface; }
+.reveal table tr:last-child td { border-bottom: 0; }
+.reveal table tr.hl td { background: rgba($amber, 0.2); font-weight: 700; }
+
+.reveal table.attacks { position: absolute; left: 43px; top: 118px; width: 1194px; font-size: 22px; line-height: 1.2; }
+.reveal table.attacks td { padding: 6px 12px; }
+.reveal table.attacks td:first-child { width: 250px; font-weight: 700; font-size: 23px; }
+.reveal table.attacks td:last-child { width: 300px; }
+.reveal table.attacks tr.vol td:first-child { color: $blue; }
+.reveal table.attacks tr.dns td:first-child { color: $red; }
+
+.reveal table.status { position: absolute; left: 43px; top: 118px; width: 780px; font-size: 22px; }
+.reveal table.status th, .reveal table.status td { padding: 6px 14px; }
+.reveal table.status td:first-child { font-family: $mono; font-weight: 700; font-size: 20px; white-space: nowrap; color: $navy; }
+
+.reveal table.cache { position: absolute; left: 43px; top: 470px; width: 1194px; table-layout: fixed; font-size: 20px; }
+.reveal table.cache th, .reveal table.cache td { padding: 9px 10px; overflow-wrap: anywhere; }
+.reveal table.cache td:first-child { font-weight: 700; color: $navy; }
+.reveal table.cache th:nth-child(1) { width: 12%; } .reveal table.cache th:nth-child(2) { width: 18%; }
+.reveal table.cache th:nth-child(3) { width: 18%; } .reveal table.cache th:nth-child(4) { width: 20%; }
+.reveal table.cache th:nth-child(5) { width: 17%; } .reveal table.cache th:nth-child(6) { width: 15%; }
+
+.reveal table.metrics { position: absolute; left: 50px; top: 118px; width: 1180px; font-size: 22px; }
+.reveal table.metrics td:first-child { font-family: $mono; font-size: 19px; }
+
+.reveal table.dot { position: absolute; left: 99px; top: 225px; width: 1075px; font-size: 27px; }
+.reveal table.dot th { font-size: 28px; font-weight: 700; }
+
+.reveal table.dga { font-size: 23px; width: 604px; }
+.reveal table.dga th, .reveal table.dga td { padding: 10px 12px; text-align: center; }
+
+/* ---------- cards ---------- */
+/* roadmap and agenda rows: the current section highlighted */
+.reveal .pillar { position: absolute; left: 46px; width: 1188px; height: 150px; box-sizing: border-box; background: $surface; border-left: 8px solid $teal; border-radius: 10px; box-shadow: $shadow; display: flex; align-items: center; }
+.reveal .pillar .badge { width: 76px; height: 76px; border-radius: 50%; background: $teal; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; margin: 0 28px 0 32px; flex: none; }
+.reveal .pillar .lbl { font-size: 40px; font-weight: 600; flex: 1; color: $navy; line-height: 1.15; }
+.reveal .pillar .lbl small { display: block; margin-top: 6px; font-size: 26px; font-weight: 400; color: $muted; }
+.reveal .pillar img { width: 96px; height: 96px; margin-right: 40px; flex: none; }
+.reveal .pillar.dim { opacity: 0.35; filter: grayscale(1); box-shadow: none; }
+/* when the others are dimmed, the current row is raised above them */
+.reveal section:has(.pillar.dim) .pillar:not(.dim) { background: #fff; box-shadow: 0 10px 28px rgba(21, 49, 91, 0.22); transform: scale(1.02); }
+
+/* DNS features: coloured arrow label, text, icon */
+.reveal .feature { position: absolute; left: 95px; width: 1090px; height: 100px; display: flex; align-items: center; background: $surface; border-radius: 10px; box-shadow: $shadow; overflow: hidden; }
+.reveal .feature .lab-c { flex: none; width: 270px; height: 100%; display: flex; align-items: center; padding: 0 44px 0 24px; box-sizing: border-box; clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%); background: var(--c); color: #fff; font-weight: 700; font-size: 26px; line-height: 1.1; }
+.reveal .feature .txt { flex: 1; padding: 0 24px; font-size: 28px; line-height: 1.25; }
+.reveal .feature img { flex: none; width: 100px; height: 100px; box-sizing: border-box; padding: 24px; background: var(--c); }
+
+/* DNS record types */
+.reveal .rec { position: absolute; display: flex; width: 581px; height: 100px; background: $surface; border-radius: 10px; box-shadow: $shadow; overflow: hidden; }
+.reveal .rec .code { width: 150px; flex: none; display: flex; align-items: center; justify-content: center; background: var(--c); color: #fff; font-family: $mono; font-weight: 700; font-size: 30px; text-align: center; line-height: 1.1; }
+.reveal .rec .d { padding: 6px 18px 6px 22px; font-size: 22px; line-height: 1.25; display: flex; align-items: center; }
+
+/* detection families */
+.reveal .vcard { position: absolute; width: 370px; height: 470px; color: #fff; text-align: center; border-radius: 14px; box-shadow: $shadow; }
+.reveal .vcard h3 { position: absolute; width: 100%; top: 147px; margin: 0; color: #fff; font-size: 40px; font-weight: 700; }
+.reveal .vcard p { position: absolute; width: 80%; left: 10%; top: 247px; margin: 0; font-size: 24px; line-height: 1.3; }
+.reveal .vcard img { position: absolute; left: 50%; transform: translateX(-50%); top: 0; margin-top: 6px; }
+
+/* TLD families: country code, generic, special use */
+.reveal .tld { position: absolute; left: 43px; top: 118px; width: 1194px; height: 548px; display: grid; grid-template-columns: 340px 1fr 290px; grid-template-rows: 30px 1fr 1fr; gap: 14px 24px; }
+.reveal .tld .cc { --c: #{$blue}; } .reveal .tld .gen { --c: #{$teal-ink}; } .reveal .tld .sp { --c: #{$orange}; }
+.reveal .tld .fam { font-size: 18px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--c); border-bottom: 3px solid var(--c); align-self: end; padding-bottom: 4px; }
+.reveal .tld .card { position: relative; background: $surface; border-left: 6px solid var(--c); border-radius: 10px; box-shadow: $shadow; padding: 16px 20px; box-sizing: border-box; }
+.reveal .tld .eg { font-family: $mono; font-size: 28px; line-height: 1.25; color: var(--c); margin-bottom: 8px; }
+.reveal .tld h3 { margin: 0 0 6px; font-size: 26px; font-weight: 700; color: $navy; text-transform: none; line-height: 1.2; }
+.reveal .tld p { margin: 0; font-size: 22px; line-height: 1.35; color: $muted; }
+.reveal .tld .cc.card:nth-of-type(4) { grid-area: 2 / 1; } .reveal .tld .cc.card:nth-of-type(5) { grid-area: 3 / 1; }
+.reveal .tld > .gen.card { grid-area: 2 / 2; }
+.reveal .tld .kinds { grid-area: 3 / 2; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.reveal .tld .sub { background: #fff; border: 1px solid $line; border-left: 6px solid var(--c); padding-top: 34px; }
+.reveal .tld .sub .eg { font-size: 24px; }
+.reveal .tld .kind { position: absolute; left: 14px; top: 8px; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--c); }
+.reveal .tld .tall { grid-area: 2 / 3 / 4 / 4; }
+.reveal .tld .tall .eg { font-size: 32px; line-height: 1.35; margin-bottom: 14px; }
+
+/* reverse lookup slide: goal / how / why steps */
+.reveal .rev .step { margin-bottom: 10px; line-height: 1.25; }
+.reveal .rev .step p { margin: 0 0 6px; }
+.reveal .rev pre.terminal { font-size: 18px; line-height: 1.35; margin: 4px 0 0; padding-top: 36px; }
+.reveal .rev pre.terminal::before { top: 13px; }
+
+/* teacher slide: career timeline */
+.reveal .milestone { width: 22px; height: 22px; border-radius: 50%; box-shadow: 0 0 0 4px #fff; }
+.reveal .role { position: absolute; box-sizing: border-box; padding-top: 61px; border: 2px solid; border-radius: 10px; background: #fff; box-shadow: $shadow; text-align: center; font-size: 16px; font-weight: 700; line-height: 1.15; color: $navy; }
+.reveal .role.btm { padding-top: 49px; }
+.reveal .role img { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); height: 43px; width: auto; }
+.reveal .role.btm img { top: 11px; }
+.reveal .role span { display: block; padding: 0 6px; }
+
+/* ---------- step-by-step diagrams: stacked PNGs, each fragment adds one step ---------- */
+.reveal .r-stack img { width: 100%; height: auto; }
+
+/* ---------- predict before reveal: amber tag + question ---------- */
+.reveal .predict { position: absolute; display: flex; align-items: center; gap: 16px; font-size: 26px; font-weight: 600; line-height: 1.25; color: $navy; }
+.reveal .predict::before { content: "PREDICT"; flex: none; padding: 4px 12px; border-radius: 6px; background: $amber; color: #fff; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
+
+/* ---------- try it yourself: teal tag + a command to run ---------- */
+.reveal .tryit { position: absolute; display: flex; align-items: center; gap: 16px; font-size: 24px; line-height: 1.25; color: $navy; }
+.reveal .tryit::before { content: "TRY IT"; flex: none; padding: 4px 12px; border-radius: 6px; background: $teal; color: #fff; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
+.reveal .tryit p { margin: 0; }
+
+/* ---------- QR code card with a caption ---------- */
+.reveal .qr { position: absolute; width: 170px; box-sizing: border-box; padding: 10px 10px 8px; background: #fff; border: 1px solid $line; border-radius: 10px; box-shadow: $shadow; text-align: center; font-size: 16px; font-weight: 600; line-height: 1.2; color: $muted; }
+.reveal .qr img { display: block; width: 100%; height: auto; margin-bottom: 6px; }
+
+/* ---------- true or false: statement, then verdict and correction ---------- */
+.reveal .myth { position: absolute; left: 43px; width: 1194px; height: 76px; display: flex; align-items: stretch; background: $surface; border-radius: 10px; box-shadow: $shadow; overflow: hidden; }
+.reveal .myth .s { flex: none; width: 440px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; font-size: 23px; font-weight: 600; line-height: 1.2; color: $navy; }
+.reveal .myth .ans { flex: 1; display: flex; align-items: stretch; }
+.reveal .myth .v { flex: none; width: 104px; display: flex; align-items: center; justify-content: center; background: $red; color: #fff; font-size: 19px; font-weight: 700; letter-spacing: 2px; }
+.reveal .myth .d { flex: 1; display: flex; align-items: center; padding: 0 20px; font-size: 21px; line-height: 1.25; background: #fff; }
+
+/* ---------- dig output: labels paired with revealed sections ---------- */
+.reveal .tag { position: absolute; font-size: 21px; font-weight: 700; line-height: 1.2; color: $teal-ink; }
+.reveal .tag p { margin: 0; }
+.reveal .tag p::before { content: "◀ "; color: $teal; }
+
+/* entropy table: the highlight waits for the revealed scores */
+.reveal table.metrics tr.hl:has(td.fragment:not(.visible)) td { background: #fff; font-weight: 400; }

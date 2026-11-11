@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="DNSSEC validation">
+    <mxGraphModel dx="1190" dy="500" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1190" pageHeight="500" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="root_zone" value="&lt;b&gt;Root zone&lt;/b&gt;&lt;br&gt;Signs the DS record of .fr" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="10" y="20" width="300" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="fr_zone" value="&lt;b&gt;.fr zone&lt;/b&gt;&lt;br&gt;Signs the DS record of example.fr" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#e6f3ed;strokeColor=#2f9e6b;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="10" y="186" width="300" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="domain_zone" value="&lt;b&gt;example.fr zone&lt;/b&gt;&lt;br&gt;Signs its records (RRSIG)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="10" y="352" width="300" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="trust1" value="vouches for the key" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="root_zone" target="fr_zone">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trust2" value="vouches for the key" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="fr_zone" target="domain_zone">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="resolver" value="&lt;b&gt;Validating resolver&lt;/b&gt;&lt;br&gt;Checks each signature, starting from the root key it already trusts" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="470" y="160" width="290" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="forged" value="&lt;b&gt;Forged answer&lt;/b&gt;&lt;br&gt;Signature does not match" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="470" y="396" width="290" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" value="&lt;b&gt;Signatures valid&lt;/b&gt;&lt;br&gt;The client gets the answer, with the &lt;b&gt;ad&lt;/b&gt; flag" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#e6f3ed;strokeColor=#2f9e6b;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="880" y="60" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="invalid" value="&lt;b&gt;Signature invalid&lt;/b&gt;&lt;br&gt;The client gets &lt;b&gt;SERVFAIL&lt;/b&gt;: no answer and no warning" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+          <mxGeometry x="880" y="286" width="300" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="signed" value="signed answer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;strokeColor=#e07b39;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="domain_zone" target="resolver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="anchor" value="trust anchor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#2c5aa0;strokeWidth=2;dashed=1;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="root_zone" target="resolver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="forged_in" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;" edge="1" parent="1" source="forged" target="resolver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="to_valid" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#2f9e6b;strokeWidth=2;" edge="1" parent="1" source="resolver" target="valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="to_invalid" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;" edge="1" parent="1" source="resolver" target="invalid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

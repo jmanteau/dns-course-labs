@@ -1,0 +1,76 @@
+<mxfile host="Electron">
+  <diagram name="FQDN anatomy" id="0">
+    <mxGraphModel dx="3734" dy="1370" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1160" pageHeight="336" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fqdn_label" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=22;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;FQDN&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="fqdn_bracket" parent="1" style="shape=partialRectangle;html=1;fillColor=none;strokeColor=#555555;strokeWidth=2;bottom=0;" value="" vertex="1">
+          <mxGeometry height="14" width="1160" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="host" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=44;fontFamily=Arial;fillColor=#ffffff;strokeColor=#555555;strokeWidth=2;fontColor=#222222;" value="&lt;b&gt;api.&lt;/b&gt;" vertex="1">
+          <mxGeometry height="84" width="234" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="host_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;Host&lt;/b&gt; refers to separate computers or services accessible under a domain" vertex="1">
+          <mxGeometry height="104" width="234" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=44;fontFamily=Arial;fillColor=#ffffff;strokeColor=#555555;strokeWidth=2;fontColor=#222222;" value="&lt;b&gt;aws.&lt;/b&gt;" vertex="1">
+          <mxGeometry height="84" width="174" x="240" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;subdomain&lt;/b&gt;" vertex="1">
+          <mxGeometry height="104" width="174" x="240" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="sld" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=44;fontFamily=Arial;fillColor=#fbe6d6;strokeColor=#d0703c;strokeWidth=2;fontColor=#222222;" value="&lt;b&gt;amazon.&lt;/b&gt;" vertex="1">
+          <mxGeometry height="84" width="294" x="420" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="sld_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;second level domain&lt;/b&gt;" vertex="1">
+          <mxGeometry height="104" width="294" x="420" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="tld" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=44;fontFamily=Arial;fillColor=#dff0dc;strokeColor=#3aa655;strokeWidth=2;fontColor=#222222;" value="&lt;b&gt;com&lt;/b&gt;" vertex="1">
+          <mxGeometry height="84" width="234" x="720" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="tld_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;top-level domain&lt;/b&gt; is the most general part of the domain" vertex="1">
+          <mxGeometry height="104" width="234" x="720" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="root" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=44;fontFamily=Arial;fillColor=#dbe6f7;strokeColor=#2b6cc4;strokeWidth=2;fontColor=#222222;" value="&lt;b&gt;.&lt;/b&gt;" vertex="1">
+          <mxGeometry height="84" width="200" x="960" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="root_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;Root&lt;/b&gt; domain is the highest domain : &amp;quot;.&amp;quot;" vertex="1">
+          <mxGeometry height="104" width="200" x="960" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="domain_bracket" parent="1" style="shape=partialRectangle;html=1;fillColor=none;strokeColor=#555555;strokeWidth=2;top=0;" value="" vertex="1">
+          <mxGeometry height="14" width="714" x="240" y="256" as="geometry" />
+        </mxCell>
+        <mxCell id="domain_note" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="The &lt;b&gt;domain&lt;/b&gt; part of a FQDN. Only its last labels (here amazon.com) are registered: the owner then creates &lt;b&gt;subdomains&lt;/b&gt; like aws" vertex="1">
+          <mxGeometry height="60" width="714" x="240" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="yJIyCIU3Qx73ePjrwN3M-1" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="78" y="375" as="sourcePoint" />
+            <mxPoint x="1088" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yJIyCIU3Qx73ePjrwN3M-2" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;fillColor=#eeeeee;strokeColor=#36393d;width=22;endSize=9;endWidth=42;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="218" y="413" as="sourcePoint" />
+            <mxPoint x="906" y="413" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yJIyCIU3Qx73ePjrwN3M-8" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;Human reading direction&lt;/b&gt;" vertex="1">
+          <mxGeometry height="47" width="298" x="411" y="394" as="geometry" />
+        </mxCell>
+        <mxCell id="yJIyCIU3Qx73ePjrwN3M-9" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;fillColor=#eeeeee;strokeColor=#36393d;width=22;endSize=9;endWidth=42;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="899" y="518" as="sourcePoint" />
+            <mxPoint x="212" y="518" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yJIyCIU3Qx73ePjrwN3M-10" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fontSize=20;fontFamily=Arial;fontColor=#222222;strokeColor=none;fillColor=none;" value="&lt;b&gt;DNS reading direction&lt;/b&gt;" vertex="1">
+          <mxGeometry height="47" width="298" x="414" y="499" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

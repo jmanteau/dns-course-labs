@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Dangling CNAME">
+    <mxGraphModel dx="1200" dy="340" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1200" pageHeight="340" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="panel1" value="1. Normal" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#e6f3ed;strokeColor=#2f9e6b;fontColor=#24805a;rounded=1;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="370" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="record1" value="&lt;b&gt;shop.example.com&lt;/b&gt;&lt;br&gt;CNAME shop1.cloudhost.net" style="rounded=1;whiteSpace=wrap;html=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;fontColor=#1f2a44;" vertex="1" parent="panel1">
+          <mxGeometry x="25" y="58" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="resource1" value="&lt;b&gt;shop1.cloudhost.net&lt;/b&gt;&lt;br&gt;Owned by the company" style="rounded=1;whiteSpace=wrap;html=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#2f9e6b;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="panel1">
+          <mxGeometry x="25" y="210" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;" edge="1" parent="panel1" source="record1" target="resource1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="panel2" value="2. Resource deleted" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#fbf1db;strokeColor=#e0a93b;fontColor=#a86b00;rounded=1;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="415" y="10" width="370" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="record2" value="&lt;b&gt;shop.example.com&lt;/b&gt;&lt;br&gt;CNAME shop1.cloudhost.net" style="rounded=1;whiteSpace=wrap;html=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;fontColor=#1f2a44;" vertex="1" parent="panel2">
+          <mxGeometry x="25" y="58" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="resource2" value="&lt;b&gt;shop1.cloudhost.net&lt;/b&gt;&lt;br&gt;Name is free again" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#8a93a6;strokeWidth=2;fontColor=#5b6478;" vertex="1" parent="panel2">
+          <mxGeometry x="25" y="210" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" value="The record is forgotten" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#e0a93b;strokeWidth=2;dashed=1;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#fbf1db;" edge="1" parent="panel2" source="record2" target="resource2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="panel3" value="3. Attacker claims the name" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;fontColor=#b83a26;rounded=1;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="820" y="10" width="370" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="record3" value="&lt;b&gt;shop.example.com&lt;/b&gt;&lt;br&gt;CNAME shop1.cloudhost.net" style="rounded=1;whiteSpace=wrap;html=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;fontColor=#1f2a44;" vertex="1" parent="panel3">
+          <mxGeometry x="25" y="58" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="resource3" value="&lt;b&gt;shop1.cloudhost.net&lt;/b&gt;&lt;br&gt;Owned by the attacker" style="rounded=1;whiteSpace=wrap;html=1;fontSize=19;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#d64933;strokeWidth=2;fontColor=#b83a26;" vertex="1" parent="panel3">
+          <mxGeometry x="25" y="210" width="320" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" value="The company's name, attacker's content" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#d64933;strokeWidth=2;fontSize=17;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#f9e4e0;" edge="1" parent="panel3" source="record3" target="resource3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

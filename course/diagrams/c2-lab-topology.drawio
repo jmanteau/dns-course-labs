@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="DNS C2 lab topology">
+    <mxGraphModel dx="960" dy="395" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="960" pageHeight="395" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="internal" value="Internal network" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="370" height="340" as="geometry" />
+</mxCell>
+<mxCell id="public" value="Public network" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="590" y="0" width="370" height="340" as="geometry" />
+</mxCell>
+<mxCell id="resolver" value="&lt;b&gt;Internal DNS resolver&lt;/b&gt;&lt;br&gt;Logs queries, applies RPZ" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internal">
+  <mxGeometry x="30" y="60" width="310" height="90" as="geometry" />
+</mxCell>
+<mxCell id="client" value="&lt;b&gt;Client&lt;/b&gt;&lt;br&gt;Runs the implant" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internal">
+  <mxGeometry x="30" y="230" width="310" height="90" as="geometry" />
+</mxCell>
+<mxCell id="public_dns" value="&lt;b&gt;Public DNS server&lt;/b&gt;&lt;br&gt;Forwards s.commandcontrol.com" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="public">
+  <mxGeometry x="20" y="60" width="330" height="90" as="geometry" />
+</mxCell>
+<mxCell id="c2" value="&lt;b&gt;Sliver C2 server&lt;/b&gt;&lt;br&gt;Receives the DNS queries" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="public">
+  <mxGeometry x="20" y="230" width="330" height="90" as="geometry" />
+</mxCell>
+<mxCell id="firewall" value="&lt;b&gt;Firewall&lt;/b&gt;&lt;br&gt;Only DNS&lt;br&gt;(port 53)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="410" y="50" width="140" height="110" as="geometry" />
+</mxCell>
+<mxCell id="client_resolver" value="DNS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="client" target="resolver">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="resolver_fw" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="resolver" target="firewall">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="fw_public" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="firewall" target="public_dns">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="public_c2" value="DNS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="public_dns" target="c2">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell id="roles" value="&lt;b&gt;Red team:&lt;/b&gt; client and C2 server &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;b&gt;Blue team:&lt;/b&gt; internal DNS resolver and firewall" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontFamily=Source Sans 3;fontColor=#1f2a44;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+  <mxGeometry x="0" y="355" width="960" height="40" as="geometry" />
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

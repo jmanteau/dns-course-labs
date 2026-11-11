@@ -1,7 +1,7 @@
 """DynamoDB access. One table, keys PK/SK:
 
   S#<code> | META              session (status, name)
-  S#<code> | P#<nick>          player (tokenHash, score, solved, hints, wrong)
+  S#<code> | P#<nick>          player (tokenHash, score, advScore, solved, hints, wrong)
   S#<code> | FIRST#<qid>#<n>   first-blood winners, written with a conditional put
   CACHE#<key> | V              cached live-check results (DynamoDB TTL)
 """
@@ -81,11 +81,13 @@ def create_player(code, nick, token_hash):
             "nick": nick,
             "tokenHash": token_hash,
             "score": 0,
+            "advScore": 0,
             "solved": {},
             "hints": {},
             "wrong": {},
             "bonus": {},
             "lastSolveAt": 0,
+            "lastAdvSolveAt": 0,
             "joinedAt": int(time.time()),
         },
         ConditionExpression="attribute_not_exists(PK)",
@@ -123,19 +125,23 @@ def record_wrong(code, nick, part_key, count, at):
     )
 
 
-def record_solve(code, nick, part_key, points, now):
-    """Idempotent: raises Conflict if the part was already solved."""
+# each board has its own score and tie-break time: advanced solves never move the main ranking
+LAST_SOLVE = {"score": "lastSolveAt", "advScore": "lastAdvSolveAt"}
+
+
+def record_solve(code, nick, part_key, points, now, field="score"):
+    """Idempotent: raises Conflict if the part was already solved. `field` is score or advScore."""
     _conditional(
         table().update_item,
         Key={"PK": f"S#{code}", "SK": f"P#{nick.lower()}"},
-        UpdateExpression="SET solved.#k = :p, lastSolveAt = :t ADD score :p",
+        UpdateExpression="SET solved.#k = :p, #t = :t ADD #f :p",
         ConditionExpression="attribute_not_exists(solved.#k)",
-        ExpressionAttributeNames={"#k": part_key},
+        ExpressionAttributeNames={"#k": part_key, "#f": field, "#t": LAST_SOLVE[field]},
         ExpressionAttributeValues={":p": points, ":t": now},
     )
 
 
-def claim_first_blood(code, qid, nick, ranks, bonuses):
+def claim_first_blood(code, qid, nick, ranks, bonuses, field="score"):
     """Try rank 1, 2, 3 in turn; the conditional put makes the race atomic. Returns (rank, bonus) or None."""
     for rank in ranks:
         try:
@@ -148,8 +154,8 @@ def claim_first_blood(code, qid, nick, ranks, bonuses):
             continue
         table().update_item(
             Key={"PK": f"S#{code}", "SK": f"P#{nick.lower()}"},
-            UpdateExpression="SET bonus.#q = :b ADD score :b",
-            ExpressionAttributeNames={"#q": qid},
+            UpdateExpression="SET bonus.#q = :b ADD #f :b",
+            ExpressionAttributeNames={"#q": qid, "#f": field},
             ExpressionAttributeValues={":b": bonuses[rank]},
         )
         return rank, bonuses[rank]

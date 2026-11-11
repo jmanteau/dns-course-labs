@@ -8,10 +8,10 @@ $TTL 2h
 
         IN      NS      localhost.
 
-; Block domains by returning NXDOMAIN
+; Block domains by returning an empty response (NODATA)
 badwebsite.com.rpz.             CNAME   *.
 
-; Block domains by returning an empty response
+; Block domains by returning NXDOMAIN
 maliciousdomain.net.rpz.        CNAME   .
 
 ; Redirect domains to a walled garden or warning page
@@ -23,5 +23,3 @@ phishingsite.org.rpz.           CNAME   safe-redirect.example.com.
 
 ; Whitelist a domain (bypass RPZ policies)
 trustedsite.com.rpz.            CNAME   rpz-passthru.
-s.commandcontrol.com.rpz.       CNAME   *.
-*.s.commandcontrol.com.rpz.     CNAME   *.

@@ -1,0 +1,2 @@
+# Metadata for `make single`: the chalkboard plugin cannot be embedded in a self-contained file.
+chalkboard: false

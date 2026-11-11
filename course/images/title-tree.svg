@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Title slide background: the DNS namespace tree, from the root down to www.impots.gouv.fr -->
+  <rect width="1280" height="720" fill="#15315b"/>
+  <g stroke="#ffffff" stroke-opacity="0.22" stroke-width="2" fill="none">
+    <path d="M960 120 L680 280 M960 120 L800 280 M960 120 L920 280 M960 120 L1040 280 M960 120 L1160 280"/>
+    <path d="M800 280 L740 440 M800 280 L860 440 M920 280 L960 440 M1040 280 L1080 440 M1040 280 L1180 440"/>
+    <path d="M740 440 L740 600 M1080 440 L1080 600"/>
+  </g>
+  <path d="M960 120 L1040 280 L1080 440 L1080 600" stroke="#1ba5b8" stroke-width="3" fill="none"/>
+  <g fill="#15315b" stroke="#ffffff" stroke-opacity="0.45" stroke-width="2">
+    <circle cx="680" cy="280" r="8"/><circle cx="800" cy="280" r="8"/><circle cx="920" cy="280" r="8"/><circle cx="1160" cy="280" r="8"/>
+    <circle cx="740" cy="440" r="8"/><circle cx="860" cy="440" r="8"/><circle cx="960" cy="440" r="8"/><circle cx="1180" cy="440" r="8"/>
+    <circle cx="740" cy="600" r="8"/>
+  </g>
+  <g fill="#15315b" stroke="#1ba5b8" stroke-width="3">
+    <circle cx="960" cy="120" r="11"/><circle cx="1040" cy="280" r="10"/><circle cx="1080" cy="440" r="10"/><circle cx="1080" cy="600" r="10"/>
+  </g>
+  <g font-family="JetBrains Mono, Menlo, monospace" font-size="20" fill="#ffffff" fill-opacity="0.5">
+    <text x="985" y="112">.</text>
+    <text x="680" y="318" text-anchor="middle">arpa</text><text x="800" y="318" text-anchor="middle">com</text><text x="920" y="318" text-anchor="middle">org</text><text x="1160" y="318" text-anchor="middle">net</text>
+    <text x="740" y="478" text-anchor="middle">example</text><text x="860" y="478" text-anchor="middle">google</text><text x="960" y="508" text-anchor="middle">wikipedia</text><text x="1180" y="478" text-anchor="middle">nic</text>
+    <text x="740" y="638" text-anchor="middle">www</text>
+  </g>
+  <g font-family="JetBrains Mono, Menlo, monospace" font-size="20" fill="#5fd0de">
+    <text x="1062" y="318">fr</text><text x="1102" y="448">gouv</text><text x="1102" y="608">impots</text>
+  </g>
+</svg>

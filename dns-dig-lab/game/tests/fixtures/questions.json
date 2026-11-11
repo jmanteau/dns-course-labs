@@ -1,7 +1,11 @@
 {"questions": [
+ {"id": "w1", "stage": "warmup", "title": "W1", "prompt": "p", "parts": [
+   {"id": "a", "label": "version", "points": 20, "type": "static", "patterns": ["ok"], "hints": ["hw"]}]},
  {"id": "q01", "title": "T1", "prompt": "p", "parts": [
    {"id": "a", "label": "ip", "points": 100, "type": "live", "check": {"kind": "rrset", "name": "www.example.com", "type": "A"}, "hints": ["h1", "h2"]},
    {"id": "b", "label": "mcq", "points": 100, "type": "mcq", "options": ["x", "y"], "answer": 1, "hints": []}]},
  {"id": "q02", "title": "T2", "prompt": "p", "parts": [
-   {"id": "a", "label": "waf", "points": 50, "type": "static", "patterns": ["imperva"], "hints": []}]}
+   {"id": "a", "label": "waf", "points": 50, "type": "static", "patterns": ["imperva"], "hints": []}]},
+ {"id": "a01", "stage": "advanced", "title": "A1", "prompt": "p", "parts": [
+   {"id": "a", "label": "deep", "points": 200, "type": "static", "patterns": ["^deep$"], "hints": ["ha"]}]}
 ]}

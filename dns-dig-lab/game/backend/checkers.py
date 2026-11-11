@@ -11,15 +11,17 @@ import re
 import time
 
 import dns.edns
+import dns.exception
 import dns.flags
 import dns.message
 import dns.name
 import dns.query
 import dns.rcode
+import dns.rdataclass
 import dns.rdatatype
 import dns.resolver
 
-DEFAULT_SERVER = "8.8.8.8"
+DEFAULT_SERVER = os.environ.get("QUEST_RESOLVER", "8.8.8.8")  # local simulation: its own resolver
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 
@@ -27,22 +29,40 @@ class CheckError(Exception):
     """The live lookup needed to grade an answer failed (not the student's fault)."""
 
 
-def query(name, rtype, server=DEFAULT_SERVER, ecs=None, recurse=True):
-    """Send one DNS query and return the response message."""
+def query(name, rtype, server=DEFAULT_SERVER, ecs=None, recurse=True, rdclass="IN", cd=False):
+    """Send one DNS query and return the response message. `server` may be an IP or a hostname."""
     options = []
     if ecs:
         net, _, bits = ecs.partition("/")
         options.append(dns.edns.ECSOption(net, int(bits or 24)))
-    msg = dns.message.make_query(name, rtype, use_edns=0, options=options)
+    msg = dns.message.make_query(name, rtype, rdclass=dns.rdataclass.from_text(rdclass), use_edns=0, options=options)
     if not recurse:
         msg.flags &= ~dns.flags.RD
+    if cd:
+        msg.flags |= dns.flags.CD
+    server = server_ip(server)
+    for attempt in (1, 2):  # small servers drop the odd UDP packet: one retry
+        try:
+            resp = dns.query.udp(msg, server, timeout=3)
+            if resp.flags & dns.flags.TC:
+                resp = dns.query.tcp(msg, server, timeout=4)
+            return resp
+        except dns.exception.Timeout as exc:
+            if attempt == 2:
+                raise CheckError(f"lookup of {name} {rtype} via {server} failed: {exc}") from exc
+        except Exception as exc:
+            raise CheckError(f"lookup of {name} {rtype} via {server} failed: {exc}") from exc
+
+
+def server_ip(server):
+    """An IP address as is; a hostname resolved through the default resolver."""
     try:
-        resp = dns.query.udp(msg, server, timeout=3)
-        if resp.flags & dns.flags.TC:
-            resp = dns.query.tcp(msg, server, timeout=4)
-    except Exception as exc:
-        raise CheckError(f"lookup of {name} {rtype} via {server} failed: {exc}") from exc
-    return resp
+        return str(ipaddress.ip_address(server))
+    except ValueError:
+        addrs = sorted(rdata_values(query(server, "A"), "A"))
+        if not addrs:
+            raise CheckError(f"no address for server {server}")
+        return addrs[0]
 
 
 def rdata_values(resp, rtype):
@@ -62,6 +82,8 @@ def norm_rdata(rtype, rdata):
         return norm_name(rdata.exchange.to_text())
     if rtype in ("NS", "PTR", "CNAME"):
         return norm_name(rdata.to_text())
+    if rtype == "NSEC":
+        return norm_name(rdata.next.to_text())
     if rtype in ("A", "AAAA"):
         return str(ipaddress.ip_address(rdata.address))
     return rdata.to_text().strip('"').lower()
@@ -79,7 +101,20 @@ def norm_answer(rtype, text):
             return str(ipaddress.ip_address(text))
         except ValueError:
             return text.lower()
+    if rtype == "DATE":
+        return norm_date(text)
     return norm_name(text)
+
+
+def norm_date(text):
+    """2026-08-23, 20260823 or 23/08/2026 -> 2026-08-23 (anything else is returned lowercased)."""
+    m = re.fullmatch(r"(\d{4})-?(\d{2})-?(\d{2})", text)
+    if m:
+        return "-".join(m.groups())
+    m = re.fullmatch(r"(\d{1,2})[/.](\d{1,2})[/.](\d{4})", text)
+    if m:
+        return f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}"
+    return text.lower()
 
 
 # ---- expected values ---------------------------------------------------------
@@ -92,11 +127,15 @@ def expected(check):
 
 
 def _rrset(check):
-    resp = query(check["name"], check["type"], check.get("server", DEFAULT_SERVER), check.get("ecs"))
+    """The records of a name. `field` keeps one word of each record (e.g. 2 = the port of an SRV)."""
+    resp = query(check["name"], check["type"], check.get("server", DEFAULT_SERVER), check.get("ecs"), cd=check.get("cd", False))
     values = rdata_values(resp, check["type"])
     if not values:
         raise CheckError(f"no {check['type']} answer for {check['name']}")
-    return {"set": values, "match": check.get("match", "exact"), "all": check.get("all", False), "rtype": check["type"]}
+    rtype = check["type"]
+    if "field" in check:
+        values, rtype = {norm_name(v.split()[check["field"]]) for v in values}, "FIELD"
+    return {"set": values, "match": check.get("match", "exact"), "all": check.get("all", False), "rtype": rtype}
 
 
 def _mx_primary(check):
@@ -109,7 +148,7 @@ def _mx_primary(check):
 
 
 def _rcode(check):
-    resp = query(check["name"], check.get("type", "A"))
+    resp = query(check["name"], check.get("type", "A"), check.get("server", DEFAULT_SERVER), cd=check.get("cd", False))
     return {"set": {dns.rcode.to_text(resp.rcode()).lower()}, "rtype": "RCODE"}
 
 
@@ -167,6 +206,79 @@ def _txt_count(check):
     return {"num": count, "tol": check.get("tolerance", 1)}
 
 
+def _chaos_txt(check):
+    """What a server says about itself (CH TXT version.bind, hostname.bind, id.server)."""
+    resp = query(check["name"], "TXT", check["server"], recurse=False, rdclass="CH")
+    values = {r.to_text().strip('"').lower() for rrset in resp.answer for r in rrset}
+    if not values:
+        raise CheckError(f"no CH TXT {check['name']} from {check['server']}")
+    return {"set": values, "match": check.get("match", "exact"), "rtype": "TXT"}
+
+
+SOA_TEXT = {"mname": lambda r: norm_name(r.mname.to_text()), "rname": lambda r: rname_to_email(r.rname),
+            "serial_date": lambda r: norm_date(str(r.serial)[:8])}
+SOA_NUM = {"serial": lambda r: r.serial, "refresh": lambda r: r.refresh, "retry": lambda r: r.retry,
+           "expire": lambda r: r.expire, "expire_days": lambda r: r.expire // 86400, "minimum": lambda r: r.minimum}
+
+
+def rname_to_email(rname):
+    """The SOA mailbox as an e-mail address: the first label is the local part."""
+    return f"{rname.labels[0].decode()}@{dns.name.Name(rname.labels[1:]).to_text().rstrip('.')}".lower()
+
+
+def _soa_field(check):
+    resp = query(check["name"], "SOA")
+    rrs = [r for rrset in resp.answer if rrset.rdtype == dns.rdatatype.SOA for r in rrset]
+    if not rrs:
+        raise CheckError(f"no SOA for {check['name']}")
+    field = check["field"]
+    if field in SOA_NUM:
+        return {"num": SOA_NUM[field](rrs[0]), "tol": check.get("tolerance", 0)}
+    return {"set": {SOA_TEXT[field](rrs[0])}, "rtype": "DATE" if field == "serial_date" else "NAME"}
+
+
+def _ede_code(check):
+    """The Extended DNS Error code a resolver adds to its answer. Some anycast instances leave it out: retry."""
+    for _ in range(3):
+        resp = query(check["name"], check.get("type", "A"), check.get("server", DEFAULT_SERVER))
+        codes = [int(o.code) for o in resp.options if isinstance(o, dns.edns.EDEOption)]
+        if codes:
+            return {"num": codes[0], "tol": 0}
+    raise CheckError(f"no EDE for {check['name']}")
+
+
+def _txt_tag(check):
+    """The value of one tag (`p` in v=DMARC1; p=reject) in the TXT records of a name."""
+    tag = check["tag"].lower()
+    values = set()
+    for txt in rdata_values(query(check["name"], "TXT"), "TXT"):
+        for item in re.split(r"\s*;\s*", txt.replace('" "', "")):
+            key, _, value = item.partition("=")
+            if key.strip() == tag and value.strip():
+                values.add(value.strip())
+    if not values:
+        raise CheckError(f"no {tag}= in the TXT of {check['name']}")
+    return {"set": values, "rtype": "TAG"}
+
+
+def _null_mx(check):
+    """Which of the listed domains publish a null MX (MX 0 .): they accept no mail."""
+    hits = set()
+    for domain in check["domains"]:
+        resp = query(domain, "MX")
+        if any(r.preference == 0 and r.exchange == dns.name.root for rrset in resp.answer
+               if rrset.rdtype == dns.rdatatype.MX for r in rrset):
+            hits.update({domain.lower(), domain.lower().split(".")[0]})
+    return {"set": hits, "rtype": "NAME"}
+
+
+def _txt_contains(check):
+    """'yes' if a TXT record of the name (asked through `server`) contains the needle, else 'no'."""
+    resp = query(check["name"], "TXT", check.get("server", DEFAULT_SERVER))
+    found = any(check["needle"].lower() in v for v in rdata_values(resp, "TXT"))
+    return {"set": {"yes" if found else "no"}, "rtype": "YESNO"}
+
+
 KINDS = {
     "rrset": _rrset,
     "mx_primary": _mx_primary,
@@ -175,6 +287,12 @@ KINDS = {
     "auth_ttl": _auth_ttl,
     "txt_has": _txt_has,
     "txt_count": _txt_count,
+    "chaos_txt": _chaos_txt,
+    "soa_field": _soa_field,
+    "ede_code": _ede_code,
+    "txt_tag": _txt_tag,
+    "null_mx": _null_mx,
+    "txt_contains": _txt_contains,
 }
 
 
@@ -228,6 +346,10 @@ def _grade_set(exp, text):
     answer = norm_answer(rtype, text)
     if answer in values:
         return True
+    if exp.get("match") == "version":
+        # the upstream version is enough: 9.20.26 for "9.20.26-1~deb13u1-debian"
+        return any(re.fullmatch(r"\d+\.\d+\.\d+", answer) and v.startswith(answer)
+                   and not v[len(answer):len(answer) + 1].isdigit() for v in values)
     if exp.get("match") == "prefix24" and rtype == "A":
         return any(answer.rsplit(".", 1)[0] == v.rsplit(".", 1)[0] for v in values if "." in v)
     return False
