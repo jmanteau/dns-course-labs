@@ -9,3 +9,4 @@ dns-dig-lab/game/.venv/
 dns-dig-lab/game/infra/cdk.out/
 __pycache__/
 .pytest_cache/
+dns-dig-lab/game/infra/cdk.context.json

@@ -24,6 +24,15 @@ format:
 - Match DNS attacks to their defenses (DNS firewall, DoT, DoH, DoQ, DNSSEC)
 :::
 
+::: notes
+**Main point:** by the end of the course, students can read and trace DNS, and both attack and defend it in a lab.
+
+- Read the seven objectives aloud. The first four are part 1 (how DNS works), the last three part 2 (security).
+- Two labs make them concrete: the dig lab (objectives 2 to 4) and the cyber lab (objective 6).
+- The "What to remember" slide at the end has one point per objective: say you will come back to this list.
+
+**Next:** who is teaching, and why DNS matters in that job.
+:::
 
 ## Teacher Presentation: Julien MANTEAU
 
@@ -61,11 +70,32 @@ format:
 ![](images/image7.png){.absolute left=612 top=609 width=51}
 ![](images/image14.png){.absolute left=704 top=616 width=50}
 
+::: notes
+**Main point:** introduce yourself through the roles where DNS mattered, to show it is a daily tool, not theory.
+
+- Walk the timeline left to right: security engineering, LAN leadership, connectivity and cloud architecture.
+- Give one concrete DNS story from your own work (an outage, a migration, a security incident): it sets the tone for the course.
+- Teaching: IUT Béziers then Blagnac from 2010 to 2020, and the Airbus CyberDiploma since 2021.
+- Keep it under two minutes.
+
+**Next:** the plan of the session.
+:::
+
 ## Agenda {.agenda-slide}
 
 <div class="pillar" style="top:140px"><div class="badge">1</div><div class="lbl">DNS Overview<small>What is the Domain Name System?</small></div></div>
 <div class="pillar" style="top:315px"><div class="badge">2</div><div class="lbl">DNS Security<small>How attackers abuse DNS, and how to defend it</small></div></div>
 <div class="pillar" style="top:490px"><div class="badge">3</div><div class="lbl">Wrap-up<small>What to remember</small></div></div>
+
+::: notes
+**Main point:** three parts: how DNS works, how attackers abuse it and how to defend it, then what to remember.
+
+- Part 1 is the foundation, with the dig lab at the end.
+- Part 2 builds on it: every attack reuses the resolution seen in part 1. The cyber lab is split around the detection slides.
+- Part 3 is short: myths, the seven points to remember, and an exit ticket.
+
+**Next:** part 1, DNS overview.
+:::
 
 ## DNS Overview {.divider}
 
@@ -73,6 +103,13 @@ format:
 <div class="part">Part 1</div>
 <div class="sub">What is the Domain Name System?</div>
 
+::: notes
+**Main point:** part 1 answers one question: what is the Domain Name System, and how does it work?
+
+- It has three sections: how DNS is organised, how a name is resolved, and advanced concepts.
+
+**Next:** a joke that is also a good summary of DNS.
+:::
 
 ## DNS is hard ?
 
@@ -86,6 +123,15 @@ And **DNS is a caching system for names of things.**
 
 ![](images/image9.png){.absolute left=785 top=309 width=313 height=313}
 
+::: notes
+**Main point:** DNS combines the two "hard problems" of computer science: naming things, and caching (cache invalidation).
+
+- Let the joke land, then make it serious: most DNS surprises in this course come from caches (TTL, negative caching, "propagation").
+- The off-by-one line is part of the joke: it is the "third" of the "two" hard problems.
+
+**Next:** what students already know.
+:::
+
 ## Before we start {.quiz-slide}
 
 ![](images/question-mockups.png){.absolute left=125 top=125 width=311 height=540}
@@ -98,6 +144,16 @@ What is happening behind the scenes ?
 What do you know about the protocol allowing the name to be translated into technical information ?
 :::
 
+::: notes
+**Main point:** start from what students already know: they use DNS every day without seeing it.
+
+- Ask the first question to the room: what happens between typing a name in the browser and the page appearing? Collect answers on the board (DNS, TCP, TLS, HTTP...).
+- Ask the second: who has heard of DNS, and what does it do? Expect "it turns names into IP addresses": the next slide starts there.
+- Keep the answers visible: come back to them at the end of part 1.
+
+**Next:** the roadmap of part 1.
+:::
+
 ## Part 1: DNS Overview {.pillars-slide}
 
 <div class="pillar" style="top:140px"><div class="badge">1</div><div class="lbl">How DNS is organized</div><img src="images/roadmap-sitemap.svg"></div>
@@ -105,9 +161,11 @@ What do you know about the protocol allowing the name to be translated into tech
 <div class="pillar dim" style="top:490px"><div class="badge">3</div><div class="lbl">Advanced DNS concepts</div><img src="images/roadmap-server-cog.svg"></div>
 
 ::: notes
-The three parts ahead: how DNS is organized (namespace, zones, records), how a name is resolved, and advanced DNS concepts.
+**Main point:** the three sections of part 1: how DNS is organised, how a name is resolved, and advanced DNS concepts.
 
-First part: how DNS is organized.
+- First section: how DNS is organised (namespace, zones, records).
+
+**Next:** a definition of DNS.
 :::
 
 ## What is DNS ?
@@ -116,9 +174,9 @@ First part: how DNS is organized.
 **DNS is a distributed, hierarchical system that translates names into the data needed to reach a service.**
 :::
 
-<div class="rec" style="left:44px;top:232px;width:380px"><div class="code" style="--c:var(--teal)">A<br>AAAA</div><div class="d">Name → IP address<br>(the main use)</div></div>
-<div class="rec" style="left:450px;top:232px;width:380px"><div class="code" style="--c:var(--red)">PTR</div><div class="d">IP address → name</div></div>
-<div class="rec" style="left:856px;top:232px;width:380px"><div class="code" style="--c:var(--amber)">MX<br>TXT</div><div class="d">Name → resources: mail servers, domain verification</div></div>
+<div class="rec plain" style="left:44px;top:232px;width:380px"><div class="code" style="--c:var(--teal)">Website</div><div class="d"><span>Where is www.example.com?<br>→ its IP address</span></div></div>
+<div class="rec plain" style="left:450px;top:232px;width:380px"><div class="code" style="--c:var(--amber)">E-mail</div><div class="d"><span>Where do I deliver e-mail for example.com?<br>→ its mail servers</span></div></div>
+<div class="rec plain" style="left:856px;top:232px;width:380px"><div class="code" style="--c:var(--red)">Address</div><div class="d"><span>Which name is behind this IP address?<br>→ a name</span></div></div>
 
 ![](images/name-to-ip.png){.absolute left=190 top=372 width=900}
 
@@ -127,9 +185,14 @@ First part: how DNS is organized.
 :::
 
 ::: notes
-"DNS" can mean the system (Domain Name System) or the infrastructure running it (Domain Name Servers). Both meanings are used in this course.
+**Main point:** DNS translates names into the data needed to reach a service: most of the time an IP address, but not only.
 
-A recent example of "critical": in October 2025, a race condition in AWS's own DNS automation left the DynamoDB endpoint in us-east-1 with an empty DNS record. Services depending on it failed for hours. It was a software fault, not an attack.
+- The three cards are the three everyday uses, in plain words: find a website, deliver e-mail, put a name on an IP address. Their record types (A/AAAA, MX, PTR) come later, on "Types of DNS Record": no need to name them yet.
+- The diagram shows the main use: name in, IP address out.
+- "DNS" can mean the system (Domain Name System) or the infrastructure running it (Domain Name Servers). Both meanings are used in this course.
+- Critical infrastructure, a recent example: in October 2025, a race condition in AWS's own DNS automation left the DynamoDB endpoint in us-east-1 with an empty DNS record. Services depending on it failed for hours. It was a software fault, not an attack.
+
+**Next:** the properties that made DNS last since 1987.
 :::
 
 ## DNS Features
@@ -139,6 +202,19 @@ A recent example of "critical": in October 2025, a race condition in AWS's own D
 <div class="feature fragment" style="top:348px;--c:var(--teal)"><div class="lab-c">Scalable</div><div class="txt">The system can be scaled up and multiple servers can be added</div><img src="images/feature-scalable.svg"></div>
 <div class="feature fragment" style="top:458px;--c:var(--blue)"><div class="lab-c">Reliable</div><div class="txt">Failure tolerance due to hierarchical distributed architecture and local caches</div><img src="images/feature-reliable.svg"></div>
 <div class="feature fragment" style="top:568px;--c:var(--green)"><div class="lab-c">Dynamic</div><div class="txt">Anyone can add domains and records without causing outage</div><img src="images/feature-dynamic.svg"></div>
+
+::: notes
+**Main point:** five properties explain why DNS scales to the whole Internet, and also where its surprises come from.
+
+- Reveal them one by one and give an example for each:
+  - Distributed: no single company runs DNS; each domain owner runs (or rents) its own servers.
+  - Loosely coherent: after a change, some users see the old answer until their cache's TTL expires. This is the "propagation" myth of the wrap-up.
+  - Scalable: more servers can be added for a zone at any time.
+  - Reliable: several servers per zone, and caches keep answering during short outages.
+  - Dynamic: millions of records change every day without any global restart.
+
+**Next:** how a client and a server actually talk.
+:::
 
 ## DNS Protocol
 
@@ -153,6 +229,17 @@ A recent example of "critical": in October 2025, a race condition in AWS's own D
 
 ![](images/dns-client-server.png){.absolute left=230 top=405 width=820}
 
+::: notes
+**Main point:** DNS is a client-server protocol: a small resolver on your device asks a recursive resolver, which does the work.
+
+- Stub resolver: the part of your OS that asks questions. It never walks the tree itself.
+- Recursive resolver: usually your ISP's, your company's, or a public one (8.8.8.8, 1.1.1.1). It finds the answer and caches it.
+- Transport: UDP port 53 by default, because a query and its answer usually fit in one packet. TCP port 53 for large answers and zone transfers: the "DNS only uses UDP" myth of the wrap-up.
+- EDNS (bigger UDP answers) comes later in part 1.
+
+**Next:** how the names themselves are organised.
+:::
+
 ## DNS Namespace Hierarchy
 
 ![](images/namespace-tree.png){.absolute left=200 top=104 width=1040}
@@ -164,7 +251,13 @@ A recent example of "critical": in October 2025, a race condition in AWS's own D
 <div class="a f21" style="left:22px;top:520px;width:215px"><b>Anycast:</b> one IP address, served from many sites</div>
 
 ::: notes
-The servers column shows who usually answers at each level, but delegation is a choice for each operator, as the next slide shows. Anycast is why 13 names are not a bottleneck: each query goes to the nearest of many servers sharing the same address.
+**Main point:** names form a tree read from right to left: the root, then top-level domains (TLDs), then domains and subdomains.
+
+- Read the numbers on the left: 13 root server names, about 2,048 instances, 1,436 TLDs, about 400 million domains (dates on the slide).
+- The servers column shows who usually answers at each level, but delegation is a choice for each operator, as the next slide shows.
+- Anycast is why 13 names are not a bottleneck: each name is one IP address served from many sites, and each query goes to the nearest one.
+
+**Next:** where one administrator's responsibility starts and stops: zones.
 :::
 
 ## Domain or Zone? Delegation
@@ -185,11 +278,14 @@ dns1.impots.gouv.fr.
 dns2.impots.gouv.fr.</pre>
 
 ::: notes
-This is the slide to come back to whenever students ask why a root server does not simply answer. The root zone only holds the delegation to fr, and the fr zone only holds the delegation to impots.gouv.fr.
+**Main point:** a zone is the part of the tree one operator manages; delegation (NS records in the parent) hands a subtree to another operator.
 
-The data here was checked in November 2026 with dig +trace. It may change: rerun it before class. Domains can also keep a subdomain in the same zone, as gouv shows: delegating is the operator's choice.
+- This is the slide to come back to whenever students ask why a root server does not simply answer: the root zone only holds the delegation to fr, and the fr zone only holds the delegation to impots.gouv.fr.
+- A domain is not always a zone: gouv.fr has no NS records, it lives inside the fr zone. Delegating is the operator's choice.
+- Glue: dns1.impots.gouv.fr is inside the zone it serves, so the parent also gives its address. To show it: `dig +norecurse NS impots.gouv.fr @d.nic.fr` returns the two NS records, then their A records in the additional section.
+- The data was checked in November 2026 with `dig +trace`. It may change: rerun it before class.
 
-To show the glue: dig +norecurse NS impots.gouv.fr @d.nic.fr returns the two NS records, then their A records in the additional section.
+**Next:** who is responsible for each level.
 :::
 
 ## Who is responsible for DNS ?
@@ -202,26 +298,45 @@ To show the glue: dig +norecurse NS impots.gouv.fr @d.nic.fr returns the two NS 
 - **ISPs and Network Admins**: Provide recursive resolvers, translating domain names to IP addresses for end-users.
 :::
 
+::: notes
+**Main point:** many organisations share DNS: ICANN sets the rules, IANA runs the root zone, registries run TLDs, registrars sell domains, and ISPs run resolvers.
+
+- Follow a domain purchase: you buy example.fr from a registrar; the registrar tells the .fr registry (AFNIC); the registry adds the delegation to its zone.
+- IANA keeps the root zone; 12 independent operators run the 13 root server names.
+- Resolvers are run by someone else again: your ISP, your company, or a public service.
+- Point out where attacks happen later: a registrar account takeover is "DNS hijacking" (part 2).
+
+**Next:** the different kinds of TLDs.
+:::
+
 ## Types of TLDs
 
 <div class="tld">
 <div class="fam cc fragment" data-fragment-index="1">Country code</div>
-<div class="fam gen fragment" data-fragment-index="2">Generic</div>
-<div class="fam sp fragment" data-fragment-index="3">Special use</div>
-<div class="card cc fragment" data-fragment-index="1"><h3>ccTLD</h3><div class="eg">.fr .uk .ca .ae</div><p>Two letters, one per country or territory.</p></div>
-<div class="card cc fragment" data-fragment-index="1"><h3>IDN ccTLD</h3><div class="eg">.中国 .рф .مصر</div><p>Country codes written in a non-Latin script, such as Chinese, Cyrillic or Arabic.</p></div>
-<div class="card gen fragment" data-fragment-index="2"><h3>gTLD</h3><div class="eg">.com .org .airbus</div><p>Three or more characters. Brand TLDs since 2012; a 2026 round drew 1,615 applications.</p></div>
-<div class="kinds fragment" data-fragment-index="2">
-<div class="card gen sub"><span class="kind">kind of gTLD</span><h3>Unsponsored</h3><div class="eg">.com .net</div><p>Run under ICANN policy for the whole Internet.</p></div>
-<div class="card gen sub"><span class="kind">kind of gTLD</span><h3>Sponsored (sTLD)</h3><div class="eg">.aero .edu</div><p>A sponsor decides who may register, for one community.</p></div>
-</div>
-<div class="card sp tall fragment" data-fragment-index="3"><h3>[Special-use names](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml)</h3><div class="eg">.arpa<br>.local<br>.test<br>.onion</div><p>.arpa runs Internet infrastructure, such as reverse lookups. The others are reserved and never sold.</p></div>
+<div class="card cc fragment" data-fragment-index="1"><h3>ccTLD</h3><div class="eg">.fr .uk .ca .ae<br>.de .jp .io .tv</div><p>Two letters, one per country or territory. Some are sold worldwide: .io, .tv.</p></div>
+<div class="card cc fragment" data-fragment-index="2"><h3>IDN ccTLD</h3><div class="eg">.中国 .рф .مصر<br>.한국 .ελ</div><p>Country codes in non-Latin scripts: Chinese, Cyrillic, Arabic, Korean, Greek.</p></div>
+<div class="fam gen wide fragment" data-fragment-index="3">Generic</div>
+<div class="card gen tall fragment" data-fragment-index="3"><h3>Standard gTLD</h3><div class="eg">.com<br>.net<br>.org<br>.info<br>.biz</div><p>Open to anyone, run under ICANN policy for the whole Internet.</p></div>
+<div class="card gen fragment" data-fragment-index="4"><h3>New gTLD</h3><div class="eg">.airbus .google<br>.paris .bzh .app</div><p>Brands, cities, regions and words since 2012. A 2026 round drew 1,615 applications.</p></div>
+<div class="card spon fragment" data-fragment-index="5"><h3>Sponsored gTLD</h3><div class="eg">.aero .edu .gov<br>.coop .museum</div><p>A sponsor decides who may register, for one community.</p></div>
+<div class="fam sp fragment" data-fragment-index="6">Special use</div>
+<div class="card sp tall fragment" data-fragment-index="6"><h3>[Special-use names](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.xhtml)</h3><div class="eg">.arpa<br>.local<br>.onion<br>.test<br>.example<br>.invalid<br>.localhost</div><p>.arpa runs Internet infrastructure, such as reverse lookups. The others are reserved and never sold.</p></div>
 </div>
 
 ::: notes
-The 2026 round closed on 12 August 2026. These are applications, not new TLDs: none was delegated as of November 2026.
+**Main point:** TLDs come in three families: country codes, generic (standard, new and sponsored), and special-use names.
 
-Sponsored and unsponsored are both kinds of gTLD, from ICANN's earlier rounds. IANA's root database now simply lists them all as "generic".
+- Each box appears on its own click; the family header comes with its first box.
+  1. ccTLD: two letters per country or territory. Some are marketed worldwide as if generic: .io (British Indian Ocean Territory) and .tv (Tuvalu).
+  2. IDN ccTLD: country codes in non-Latin scripts: .中国 (China), .рф (Russia), .مصر (Egypt), .한국 (South Korea), .ελ (Greece). In DNS they travel as xn-- names (Punycode), covered in the advanced deck.
+  3. Standard gTLD: .com, .net, .org, .info, .biz, open to anyone.
+  4. New gTLD, since 2012: brands (.airbus, .google), cities (.paris), regions (.bzh for Brittany) and words (.app). The 2026 round closed on 12 August 2026 with 1,615 applications. These are applications, not new TLDs: none was delegated as of November 2026.
+  5. Sponsored gTLD (sTLD): a sponsor sets who may register, for one community: .aero (air transport), .edu (US universities), .gov (US government), .coop (cooperatives), .museum (museums).
+  6. Special-use: .arpa runs Internet infrastructure (reverse lookups, later in part 1). .local is for multicast DNS on a local network, .onion for Tor, and .test, .example, .invalid and .localhost are reserved for tests and documentation. None of them is ever sold.
+- Sponsored and standard are both kinds of gTLD, from ICANN's earlier rounds; they are split here because who may register differs. IANA's root database now simply lists them all as "generic" (checked November 2026).
+- Every example in the generic and country-code boxes was checked to be delegated in the root (November 2026).
+
+**Next:** the vocabulary for the parts of a name.
 :::
 
 ## DNS Terminology: “name” decomposition
@@ -233,15 +348,18 @@ A **Fully Qualified Domain Name** is an absolute name containing the host and th
 ![](images/fqdn-anatomy.png){.absolute left=160 top=215 width=960}
 
 ::: notes
-Root domain is the highest domain : “.”
+**Main point:** a fully qualified domain name (FQDN) names every level up to the root, and properly ends with a dot.
 
-A top-level domain, or TLD, is the most general part of the domain. The top-level domain is the furthest portion to the right (as separated by a dot)
+- Read the diagram right to left:
+  - Root: the empty label after the last dot, ".".
+  - TLD: the rightmost label (com).
+  - Second-level domain (SLD): the label just left of the TLD (amazon in amazon.com).
+  - Subdomain: any domain inside a larger one; each domain can create subdomains under it.
+  - Host: a name for a machine or service inside a domain (www).
+- Host versus subdomain: a host names a resource; a subdomain extends the parent domain, to divide it further.
+- The final dot matters in zone files and in dig: without it, a name can be completed with a local suffix. Students meet this again with `dig ch. NS` in the advanced deck.
 
-A “subdomain” refers to any domain that is part of a larger domain. In this case, “amazon.com” can be said to be a subdomain of “com”. This is typically just called the domain or the “amazon” portion is called a SLD, which means second level domain. DNS works in a hierarchy. Each domain can control “subdomains” that are located under it. This is usually what we mean by subdomains. The difference between a host name and a subdomain is that a host defines a computer or resource, while a subdomain extends the parent domain. It is a method of subdividing the domain itself.
-
-Within a domain, the domain owner can define individual hosts, which refer to separate computers or services accessible under a domain
-
-A Fully Qualified Domain Name is an absolute name that specifies its location in relation to the absolute root of the domain name system. This means that it specifies each parent domain including the TLD. A proper FQDN ends with a dot, indicating the root of the DNS hierarchy.
+**Next:** what data a name can hold: records.
 :::
 
 ## Types of DNS Record
@@ -263,13 +381,48 @@ There are dozens of DNS record types ([list here](https://en.wikipedia.org/wiki/
 CAA, LOC, HINFO, HTTPS/SVCB, RRSIG, NSEC, DNSKEY are also seen but are more “advanced ones”
 :::
 
+::: notes
+**Main point:** a name holds typed records; eight types cover almost everything students will meet.
+
+- Reveal the types one by one and link each to the "What is DNS?" cards:
+  - A/AAAA: the website card (IPv4 and IPv6 addresses).
+  - MX: the e-mail card, with a priority (lowest first).
+  - PTR: the address card (reverse lookup, later in part 1).
+  - CNAME: an alias; the worked example shows a chain of them.
+  - TXT: free text, used for site verification and mail policies (SPF, DMARC).
+  - SOA: the zone's settings, including the negative caching time used later.
+  - NS: delegation, as on the zone slide.
+  - SRV: a service's host and port.
+- The last line lists "advanced" types; students meet several of them in the advanced deck.
+
+**Next:** a quick quiz on part 1 so far.
+:::
+
 ## Quiz time {.quiz-slide}
 
-::: {.absolute left=43 top=344 width=612 .f37 .center}
-www.pollev.com/jmanteau973
+::: {.absolute left=43 top=150 width=740 .f37}
+**Quiz round 1** · How DNS is organised
 :::
-![](images/image11.png){.absolute left=643 top=91 width=585 height=585}
 
+::: {.absolute left=43 top=300 width=740 .f27 .gray}
+1. Open Dig Quest on your phone: **dns.jmanteau.fr**. Not in yet? Scan the code on the board, then pick a nickname.
+2. Each question appears on your screen: answer before the timer ends.
+3. Right and fast answers score points on the **Quiz** leaderboard.
+:::
+
+<div class="a" style="left:860px;top:170px;width:340px;height:340px;border-radius:50%;background:var(--amber);color:#fff;font-size:200px;font-weight:700;display:flex;align-items:center;justify-content:center">1</div>
+
+::: notes
+**Main point:** a quick check of how DNS is organised, before resolution: 11 questions, about one minute each.
+
+- This round comes before the dig lab, so most students join Dig Quest now. Project the board first (`board.html?session=CODE`): it shows the join QR code and the class code.
+- Then, on your laptop, open the admin page, `admin.html?session=CODE`, and enter the admin token once. Pick "Round 1" and press → (or Open next) for each question: it fills every student's screen.
+- Per question: wait until most have answered (the count and the timer are on the admin page and the board), press R to reveal, read the bars and the explanation aloud, then → for the next one. Esc goes back to the leaderboards.
+- Open questions (features, FQDN): after the reveal, students upvote the best answers on their phone. Read the top ones; ✕ on the admin page hides an inappropriate answer.
+- The questions and answers are in the private `secret/quiz.json`; `make quiz-list CODE=…` prints them.
+
+**Next:** the second section, how a name is resolved.
+:::
 ## Part 1: DNS Overview {.pillars-slide}
 
 <div class="pillar dim" style="top:140px"><div class="badge">1</div><div class="lbl">How DNS is organized</div><img src="images/roadmap-sitemap.svg"></div>
@@ -277,7 +430,9 @@ www.pollev.com/jmanteau973
 <div class="pillar dim" style="top:490px"><div class="badge">3</div><div class="lbl">Advanced DNS concepts</div><img src="images/roadmap-server-cog.svg"></div>
 
 ::: notes
-Second part: how a name is resolved, step by step, and how caches change what you see.
+**Main point:** second section: how a name is resolved, step by step, and how caches change what you see.
+
+**Next:** the tool used throughout: dig.
 :::
 
 ## DNS Client: nslookup/dig
@@ -302,7 +457,13 @@ Live demo: reading a first dig answer
 www.example.com.   300   IN     A      167.98.23.23</pre>
 
 ::: notes
-Run this live with any name, and read one answer line column by column. Keep it short: students do the full dig lab at the end of this part, once they have seen resolution, TTL and reverse DNS. The address on the slide is the one used in the next diagrams; a live answer will differ.
+**Main point:** dig is the tool of this course: it shows the whole answer. nslookup is enough for quick checks on machines where dig is missing.
+
+- nslookup was once marked deprecated, then ISC reversed that; it is everywhere, including Windows, where PowerShell also has Resolve-DnsName.
+- Live demo: run `dig www.example.com +noall +answer` with any name, and read one answer line column by column: name, TTL, class, type, value.
+- Keep it short: students do the full dig lab at the end of this part, once they have seen resolution, TTL and reverse DNS. The address on the slide is the one used in the next diagrams; a live answer will differ.
+
+**Next:** which servers dig's answer actually came from.
 :::
 
 ## Full DNS Query and types of DNS Server
@@ -314,13 +475,16 @@ Think of a library: the recursive resolver is the librarian, the root an index p
 :::
 
 ::: notes
-A Recursive DNS resolver responds to a recursive request from a client and takes the time to track down the DNS record (like a librarian fetching a book for a client querying it with its identifier)
+**Main point:** four kinds of servers take part in a resolution: the recursive resolver, a root server, a TLD server and the authoritative server.
 
-Root nameserver is the first step in translating (resolving) human readable host names into IP addresses. It can be thought of like an index in a library that points to a room with different racks of books.
+- Use the library comparison on the slide:
+  - Recursive resolver: the librarian, who does the searching for the client and remembers the answer.
+  - Root server: the index that points to the right room (the TLD).
+  - TLD server: the rack of books for that TLD, pointing to the domain's servers.
+  - Authoritative server: the dictionary holding the actual answer, which goes back to the resolver, then the client.
+- Forwarder: a resolver that passes queries to another resolver instead of walking the tree itself (common in companies and home routers).
 
-TLD nameserver can be thought of as finding a specific rack of books in a library. This nameserver is the next step in the search for a specific IP address.
-
-Authoritative nameserver - This final nameserver can be thought of as a dictionary on a rack of books, in which a specific name can be translated into its definition. The authoritative nameserver is the last stop in the nameserver query. If the authoritative name server has access to the requested record, it will return the IP address for the requested hostname back to the DNS Recursor (the librarian) that made the initial request.
+**Next:** the same resolution as a sequence, step by step.
 :::
 
 ## [Full DNS Query](https://sequencediagram.org/index.html#initialData=FAFwliA2CmAECqBnaAnWARAcgZVgJWkQHtIBXcIgO2GADMqQBDAd0KIFtoBWYyMAE1i0AjAAYAnBmgA3MAGNodBizaceJAUIBMAZh35oc0ikRhpcLNiWUmrYmt6bau-XiJEQGHNdurujwWc9WAAVABl0WAA6OQ5YTEZOWGxUcxMfFXt-DUCXWGgAD0SABxgYuIBBcgALIhQIRnBzL1wUlDTEGmB0GXloAFoAPgIjEzMLHAAuZhmowpKy2PZYAH5gRjkmxotehRpGACMiAtgiNINR02bLSewmFE8iWlgUQ2MridwARVJUAE8hHV8kV2KVoOV2DQRu9xi0hm4PC1JsJEJ4AI6-FB-SawGbMOYgsEQ9abMzbfDuTyWElbEBwaFja7eBkfFoAHn6CKpUwItFQKEYkFgICI0SW8SsNH40A2tPplJaULejM+Q3CkQh8UScDaHUmWkoggx-xxeIJC3BSxpZLpoQiYriCSSutQnWALNhlg56odyydOtSrsmvP5guFovmoMWjqs0tlNrgPs1-uSgfSHqZ2CGkaJ4qqIFq9SYTU+qfaQZ0KCNmOxuNmOejkPj0nJDctlRqdQaJZaZY67uVrK9-Tbmvzhe7npwfaDFUoiFYKBxFTr+NH4uEADYAOxRcQADiiuiPOmAcdJLdt647Ba7xanrTTnXPcouMMz6yOJzOqDfKqRACihqnM8ryXA+sA-P83S7NAHIZp8kxzguqDLqu5pRu2yxbruB4nieUoyhe5I9LIChAA)
@@ -351,6 +515,17 @@ Authoritative nameserver - This final nameserver can be thought of as a dictiona
 This is the classic view, with the full name sent at each step. With QNAME minimisation (RFC 9156), a resolver may send each server only the part it needs: better for privacy, same result.
 :::
 
+::: notes
+**Main point:** a resolution is a series of referrals: each server points one level down, until the authoritative server answers.
+
+- Click through the nine steps and narrate each arrow: who asks, who answers, what the answer contains (a referral or the final answer).
+- Stress the two kinds of query: the client asks the resolver once (recursive); the resolver asks each server in turn (iterative).
+- The last fragment: with QNAME minimisation (RFC 9156), the resolver sends each server only the part of the name it needs. Better for privacy, same result.
+- The title links to the editable diagram on sequencediagram.org; students reuse it in the exercise two slides later.
+
+**Next:** a real case where the answer is another name.
+:::
+
 ## Worked example: a CNAME restarts the resolution
 
 <pre class="a terminal" style="left:44px;top:106px;width:1200px;font-size:20px;line-height:1.4">❯ dig www.example.com +noall +answer
@@ -374,9 +549,15 @@ Why so many steps? This site uses a **CDN** (Content Delivery Network): Akamai s
 :::
 
 ::: notes
-Resolvers skip the steps they already have in cache, so .net is usually not asked twice. Point out the very different TTLs: the last one is short so that the CDN can change the address quickly.
+**Main point:** a CNAME answer is a new name, so the resolver starts a new resolution for it; a CDN chain can visit many zones.
 
-This prepares the next exercise, where www.impots.gouv.fr uses the same pattern.
+- Ask the prediction question first, and take a few guesses.
+- Walk the four steps: example.com gives a CNAME into edgesuite.net, which gives a CNAME into akamai.net, which finally gives an A record.
+- Resolvers skip the steps they already have in cache, so .net is usually not asked twice.
+- Point out the very different TTLs: the last one is short (20 s) so that the CDN can change the address quickly.
+- CDN: Akamai serves the site from many locations and often protects it too; the CNAME hands the name over to the CDN's zone.
+
+**Next:** students rebuild this for www.impots.gouv.fr.
 :::
 
 ## Full DNS query: sequence diagram {.lab-slide}
@@ -399,6 +580,17 @@ www.impots.gouv.fr.edgesuite.net. 21429	IN CNAME a1352.dscb.akamai.net.
 a1352.dscb.akamai.net.	20	IN	A	95.100.133.81
 a1352.dscb.akamai.net.	20	IN	A	95.100.133.74</pre>
 
+::: notes
+**Main point:** exercise: students redraw the full resolution of www.impots.gouv.fr, CNAME chain included.
+
+- Give 10 to 15 minutes. Students open the diagram from the title of the "Full DNS Query" slide and edit it.
+- `dig +trace www.impots.gouv.fr` shows each referral from the root; the output on the slide shows the CNAME chain to Akamai.
+- Expected chain: root → fr → impots.gouv.fr (CNAME to edgesuite.net) → root/net → edgesuite.net (CNAME to akamai.net) → akamai.net (A records).
+- Correct one student's diagram on screen.
+
+**Next:** the TTL, which decides how long each answer is reused.
+:::
+
 ## TTL: Definition
 
 ::: {.absolute left=44 top=128 width=1192 .f27}
@@ -414,13 +606,18 @@ This is why I personally advise TTL values between 1min and 1 day.
 ![](images/ttl-cache.png){.absolute left=210 top=500 width=860}
 
 ::: notes
-A or AAAA Record: Your A records should be set to a faster pace TTL as IP address lookups can change frequently if usage of CDN. A standard baseline would be around the 1-hour mark but may need to be adjusted depending on how often changes need to be made on an emergency basis (30 seconds in case of rapid change).
+**Main point:** the TTL (Time To Live) tells caches how many seconds they may reuse a record before asking again.
 
-CNAME Record: Your main website URL, for example (www.example.com), should usually never change. It is recommended that you set your TTL for something longer than the average session time (for example 10 min).
+- The zone owner sets it; every cache counts it down.
+- The protocol allows up to about 68 years, but resolvers and clients apply their own limits (see the link on the slide): stay between 1 minute and 1 day.
+- Typical values to give as examples:
+  - A/AAAA: about 1 hour as a baseline; much shorter (30 s to a few minutes) behind a CDN or before a planned change.
+  - CNAME: longer than an average session, for example 10 minutes or more; the main web name rarely changes.
+  - TXT: 1 to 12 hours; DKIM keys, SPF and verification records rarely change.
+  - MX: 12 to 24 hours, or 1 to 4 hours to keep room for emergencies.
+- The trade-off: a long TTL means fewer queries and more resilience; a short TTL means faster changes.
 
-TXT Record: Widely used for DKIM records, email security and verifying domain ownership. TXT records are rarely changed so anywhere within the 1 – 12-hour timeframe should suffice.
-
-MX Record: Your mail exchange TTL can be set between the 12-24 hour range, but you may want to consider placing it lower in case of emergencies; somewhere in the 1-4 hour range would be useful as well.
+**Next:** where those cached answers live.
 :::
 
 ## DNS Cache
@@ -440,9 +637,15 @@ A browser will also have a DNS cache that it will use before using the OS cache 
 </table>
 
 ::: notes
-Walk through the order: browser cache, OS cache (including the hosts file), then the recursive resolver, which has its own cache. This explains the classic "I changed the record but still see the old answer": each layer keeps it until the TTL expires. To check a change, flush the layers you control, or query the authoritative server directly with dig.
+**Main point:** answers are cached at several layers: browser, OS (with the hosts file first), then the recursive resolver.
 
-Attackers like the hosts file for the same reason: an entry there beats any DNS answer.
+- Walk through the order: browser cache, OS cache (including the hosts file), then the recursive resolver, which has its own cache.
+- This explains the classic "I changed the record but still see the old answer": each layer keeps it until the TTL expires. To check a change, flush the layers you control, or query the authoritative server directly with dig.
+- RFC 8767 (serve-stale): a resolver may keep serving expired data while the authoritative servers are unreachable.
+- Show one command from the table live, for example `ipconfig /displaydns` on Windows.
+- Attackers like the hosts file for the same reason: an entry there beats any DNS answer.
+
+**Next:** seeing the TTL count down with dig.
 :::
 
 ## TTL: Lookup
@@ -472,6 +675,18 @@ Same record, asked directly to the authoritative server: will the TTL be 403, lo
 
 ::: {.absolute left=44 top=520 width=1192 .f27 .fragment fragment-index=5}
 If your default DNS server is not the authoritative server for the zone you are digging (so 99,99% of the time) dig will show the time remaining (until the next refresh) instead of the raw TTL value in this position.
+:::
+
+::: notes
+**Main point:** a resolver shows the TTL left in its cache; only the authoritative server shows the configured TTL.
+
+- Run the first command: 403 seconds left in the resolver's cache.
+- The second command finds the authoritative servers.
+- Ask the prediction before the last line appears: asked directly, the authoritative server answers 600, the configured value.
+- Run the first command again a few seconds later: the TTL has gone down.
+- So when you investigate a record, ask the authoritative server (`@ns...` with `+norecurse`) to see the real setting.
+
+**Next:** reading every section of a dig answer.
 :::
 
 ## Reading a dig answer: the sections
@@ -514,7 +729,16 @@ Footer: which server answered, how fast, over UDP or TCP
 :::
 
 ::: notes
-The same CNAME chain as the worked example, as dig prints it by default. Read it top to bottom once, then remind students that `+noall +answer` keeps only the answer section. The next slide decodes the status and flags from the header.
+**Main point:** a full dig answer has five parts: header, EDNS (OPT), question, answer, and footer.
+
+- The same CNAME chain as the worked example, as dig prints it by default. Reveal the sections one by one.
+- Header: status and flags (next slide), and the count of records per section.
+- OPT: EDNS, which lets answers exceed 512 bytes (later in this part).
+- Question: what was asked. Answer: each line with its own TTL.
+- Footer: which server answered, how fast, over UDP or TCP.
+- `+noall +answer` keeps only the answer section: the form used in most slides.
+
+**Next:** decoding the status and the flags.
 :::
 
 ## Reading a dig answer: status and flags
@@ -551,9 +775,16 @@ impots.gouv.fr.   <b>2908</b>   IN   SOA   dns0.dgfip.finances.gouv.fr. ... <b>3
 :::
 
 ::: notes
-Output captured in November 2026; rerun it before class. Flags tell you who answered: the previous slide's query to the authoritative server returns qr aa, and the same query to a resolver returns qr rd ra.
+**Main point:** the status says what happened, the flags say who answered and how; NODATA and NXDOMAIN are different answers.
 
-The negative TTL is the lower of the SOA's own TTL and its last field, the MINIMUM (RFC 2308). Students meet NXDOMAIN again with DGA, and NODATA with RPZ.
+- Statuses: NOERROR, NXDOMAIN (the name does not exist), SERVFAIL (no valid answer, for example a DNSSEC failure), REFUSED (policy).
+- NODATA is not a real status: NOERROR with 0 answers, meaning the name exists but has no record of that type.
+- Flags tell you who answered: the previous slide's query to the authoritative server returns qr aa, and the same query to a resolver returns qr rd ra.
+- Ask the prediction, then reveal: AAAA for impots.gouv.fr gives NODATA, with the zone's SOA in the authority section.
+- Negative caching: the negative TTL is the lower of the SOA's own TTL and its last field, the MINIMUM (RFC 2308). Here 3600 s at most, 2908 s left.
+- Output captured in November 2026; rerun it before class. Students meet NXDOMAIN again with DGA, and NODATA with RPZ.
+
+**Next:** the third section, advanced DNS concepts.
 :::
 
 ## Part 1: DNS Overview {.pillars-slide}
@@ -563,7 +794,9 @@ The negative TTL is the lower of the SOA's own TTL and its last field, the MINIM
 <div class="pillar" style="top:490px"><div class="badge">3</div><div class="lbl">Advanced DNS concepts</div><img src="images/roadmap-server-cog.svg"></div>
 
 ::: notes
-Third part: advanced DNS concepts: reverse lookup, answers that depend on the client, load balancing and zone transfers.
+**Main point:** third section: advanced DNS concepts: reverse lookup, answers that depend on the client, load balancing and zone transfers.
+
+**Next:** finding the name behind an IP address.
 :::
 
 ## Reverse lookup and PTR records
@@ -592,11 +825,15 @@ The network then sits at the **end** of the name. DNS delegates by name ending, 
 :::
 
 ::: notes
-The technical reason is delegation. RFC 1035 (section 3.5): "The reversal, though awkward to read, allows zones to be delegated which are exactly one network of address space." DNS only hands over zones by suffix (the end of a name), while IP blocks are handed out by prefix (IANA, then a registry, then an ISP, then a company). Reversing turns the prefix into a suffix.
+**Main point:** a reverse lookup finds the name of an IP address: the address is written backwards under in-addr.arpa, and a PTR record holds the name.
 
-Caching is a side effect, not the reason: the resolver caches the NS referral for 34.164.in-addr.arpa, so the next reverse lookup in that network goes straight to the company's server.
+- Reveal the three steps: goal, how, why backwards.
+- Run `dig -x` on a known address live; show the name it builds.
+- The technical reason is delegation. RFC 1035 (section 3.5): "The reversal, though awkward to read, allows zones to be delegated which are exactly one network of address space." DNS only hands over zones by suffix (the end of a name), while IP blocks are handed out by prefix (IANA, then a registry, then an ISP, then a company). Reversing turns the prefix into a suffix.
+- Caching is a side effect, not the reason: the resolver caches the NS referral for 34.164.in-addr.arpa, so the next reverse lookup in that network goes straight to the company's server.
+- Delegation can only happen at label boundaries, so at /8, /16 or /24. A customer with a /26 needs the CNAME trick of RFC 2317 (classless delegation). IPv6 works the same way under ip6.arpa, with one label per hexadecimal digit, so it can delegate on any 4-bit boundary.
 
-Delegation can only happen at label boundaries, so at /8, /16 or /24. A customer with a /26 needs the CNAME trick of RFC 2317 (classless delegation). IPv6 works the same way under ip6.arpa, with one label per hexadecimal digit, so it can delegate on any 4-bit boundary.
+**Next:** when the same name gives different answers on purpose.
 :::
 
 ## DNS Concepts: Split Horizon
@@ -612,12 +849,32 @@ Split Horizon is the DNS concept that the same name gets a different answer depe
 - RPZ (seen in the next part)
 :::
 
+::: notes
+**Main point:** split horizon means the same name gets a different answer depending on where the question comes from.
+
+- Classic case from the diagram: inside the company, intranet.example.com gives a private address; from the Internet, it does not exist or gives a public address.
+- Four ways to build it: views on one server (next slide), separate internal and external servers, global load balancing (EDNS client subnet, two slides later), and RPZ (part 2).
+- It is by design, not a bug, but it confuses troubleshooting: always ask "which resolver did this answer come from?".
+
+**Next:** the simplest implementation, views.
+:::
+
 ## DNS Concepts: Views
 
 ![](images/dns-views.png){.absolute left=40 top=115 width=1200}
 
 ::: {.absolute left=105 top=500 width=1098 .f29 .center}
 The DNS server matches the client subnet and chooses the right view to answer from. This is simple here because the server holds both versions of the zone itself.
+:::
+
+::: notes
+**Main point:** with views, one server holds several versions of a zone and picks one by the client's source address.
+
+- Follow the diagram: the server matches the client's subnet, then answers from the internal or the external view.
+- In BIND, each view has a match-clients list and its own copy of the zone.
+- The risk: two copies of the zone to keep in sync, and a wrong match leaks internal names to the outside.
+
+**Next:** how a public service gives each region a nearby server.
 :::
 
 ## EDNS: bigger answers, and the client's location
@@ -636,7 +893,16 @@ dyna.wikimedia.org.
 <b>195.200.68.224</b></pre>
 
 ::: notes
-This is one way to build the "DNS Global Load Balancing" of the Split Horizon slide. Students use the same +subnet option in the dig lab. Output captured in November 2026; rerun it before class. Not every resolver or authoritative server supports ECS.
+**Main point:** EDNS extends DNS messages: bigger UDP answers, and options such as the client subnet (ECS) used to give a nearby server.
+
+- 512 bytes was the original UDP limit; EDNS(0) announces a bigger buffer. DNS Flag Day 2020 recommended 1232 bytes to avoid IP fragmentation.
+- An answer that still does not fit is truncated (tc flag) and the client retries over TCP.
+- ECS: the resolver passes part of the client's address to the authoritative server, which answers with a nearby server. Show the two commands: France and Chile get different addresses for www.wikipedia.org.
+- This is one way to build the "DNS Global Load Balancing" of the Split Horizon slide. Students use the same +subnet option in the dig lab.
+- Privacy cost: part of the client's address reaches every authoritative server. Not every resolver or server supports ECS.
+- Output captured in November 2026; rerun it before class.
+
+**Next:** spreading load with several addresses.
 :::
 
 ## DNS Concepts: Round Robin
@@ -648,6 +914,17 @@ This is one way to build the "DNS Global Load Balancing" of the Split Horizon sl
 - **Use Cases**: Ideal for websites or services hosted on multiple redundant servers or when a single DNS name directs to multiple proxy servers.
 - **How it works**: The nameserver returns all the server IPs and rotates their order in each response. Clients mostly use the first one (shown in the diagram), which spreads the traffic.
 - **Limits**: Caching makes the balancing rough, and a server that is down keeps being handed out.
+:::
+
+::: notes
+**Main point:** round robin returns several addresses for one name and rotates their order, which spreads clients across servers.
+
+- Run `dig` twice on a name with several A records and show the order change.
+- No special hardware is needed: the authoritative server does it.
+- Limits: caches serve the same order to many clients, so the balance is rough; and DNS does not know when a server is down, so clients keep receiving its address.
+- Real load balancers or health-checked DNS services fix the second limit.
+
+**Next:** keeping several authoritative servers in sync.
 :::
 
 ## DNS Concepts: Primary, Secondary & Zone Update
@@ -668,6 +945,18 @@ The secondary reads the primary's SOA record, checks the serial number and reque
 It is impossible to determine from a query result that it came from a zone primary or secondary.
 :::
 
+::: notes
+**Main point:** a zone is edited on one primary server and copied to secondaries; the SOA serial tells secondaries when to copy it again.
+
+- Follow the diagram: the secondary checks the primary's SOA serial (every REFRESH seconds); if it is higher, it requests a zone transfer (AXFR for the whole zone, IXFR for changes). NOTIFY lets the primary prompt it at once.
+- Forgetting to raise the serial is a classic mistake: the secondaries never update.
+- Clients cannot tell a primary's answer from a secondary's: both are authoritative.
+- Security: an open zone transfer lets anyone list the whole zone (reconnaissance, part 2). Allow it only to the secondaries.
+- The old terms master/slave still appear in older documents and configurations.
+
+**Next:** the dig lab.
+:::
+
 ## Request DNS with dig {.lab-slide}
 
 ![](images/lab-tools.svg){.absolute .lab-icon left=96 top=140 width=150 height=150}
@@ -679,23 +968,47 @@ Practical Exercise: Request DNS with Dig
 ::: {.absolute left=96 top=350 width=760 .f29}
 You now have what the questions need: records, resolution, TTL, reverse DNS and split horizon.
 
-The lab is in `dns-dig-lab`, with a one-page **dig cheat sheet**. Then check your answers and compete on **Dig Quest**: scan the code on the leaderboard.
+The lab is in `dns-dig-lab`, with a one-page **dig cheat sheet**. Then check your answers and compete on **Dig Quest** at **dns.jmanteau.fr**: scan the code on the leaderboard.
 :::
 
 <div class="qr" style="left:880px;top:330px"><img src="images/qr-dig-lab.svg">dig lab</div>
 <div class="qr" style="left:1066px;top:330px"><img src="images/qr-cheatsheet.svg">Cheat sheet</div>
 
 ::: notes
-Create the Dig Quest session before class (see dns-dig-lab/game/README.md) and project the leaderboard: it shows the join QR code for the session. Closing the session unlocks the explanations, which replace a slide-by-slide correction.
+**Main point:** students now have what the dig lab needs: records, resolution, TTL, reverse DNS and split horizon.
+
+- Students scan the QR codes: the dig lab and the one-page cheat sheet.
+- Create the Dig Quest session before class (see dns-dig-lab/game/README.md) and project the leaderboard: it shows the join QR code for the session.
+- On your admin page (`admin.html?session=CODE`), check the **Dig lab** activity is on. You can pause it to get everyone's attention back: students then see a waiting screen, with their progress kept.
+- Give the time box (about one hour), then walk around: most blockers are resolver timeouts (use `@1.1.1.1`) and reading the wrong section.
+- Closing the session unlocks the explanations, which replace a slide-by-slide correction.
+
+**Next:** a quiz on part 1.
 :::
 
 ## Quiz time {.quiz-slide}
 
-::: {.absolute left=43 top=344 width=612 .f37 .center}
-www.pollev.com/jmanteau973
+::: {.absolute left=43 top=150 width=740 .f37}
+**Quiz round 2** · Resolution, caching and advanced concepts
 :::
-![](images/image11.png){.absolute left=643 top=91 width=585 height=585}
 
+::: {.absolute left=43 top=300 width=740 .f27 .gray}
+1. Open Dig Quest on your phone: **dns.jmanteau.fr**, same session as the dig lab. Not in yet? Scan the code on the board.
+2. Each question appears on your screen: answer before the timer ends.
+3. Right and fast answers score points on the **Quiz** leaderboard.
+:::
+
+<div class="a" style="left:860px;top:170px;width:340px;height:340px;border-radius:50%;background:var(--amber);color:#fff;font-size:200px;font-weight:700;display:flex;align-items:center;justify-content:center">2</div>
+
+::: notes
+**Main point:** check resolution, caching and the advanced concepts, now that students have done the dig lab: 10 questions.
+
+- Admin page, "Round 2", then → / R / Esc as in round 1.
+- Spend time on the reveals that most students miss: they show which slides to revisit before part 2 (NODATA vs NXDOMAIN, negative caching, the TTL a resolver shows).
+- The questions and answers are in the private `secret/quiz.json`.
+
+**Next:** part 2, DNS security.
+:::
 ## Agenda {.agenda-slide}
 
 <div class="pillar dim" style="top:140px"><div class="badge">1</div><div class="lbl">DNS Overview<small>What is the Domain Name System?</small></div></div>
@@ -703,7 +1016,11 @@ www.pollev.com/jmanteau973
 <div class="pillar dim" style="top:490px"><div class="badge">3</div><div class="lbl">Wrap-up<small>What to remember</small></div></div>
 
 ::: notes
-End of part 1. Next: how attackers abuse DNS, and how to defend it.
+**Main point:** end of part 1. Next: how attackers abuse DNS, and how to defend it.
+
+- Everything in part 2 reuses part 1: the same resolution, the same records, the same caches.
+
+**Next:** part 2.
 :::
 
 ## DNS Security {.divider}
@@ -711,6 +1028,14 @@ End of part 1. Next: how attackers abuse DNS, and how to defend it.
 <div class="panel" style="--panel:#3a0b10"><img src="images/image36.png"></div>
 <div class="part">Part 2</div>
 <div class="sub">How attackers abuse DNS, and how to defend it</div>
+
+::: notes
+**Main point:** part 2: DNS is both a channel attackers use and a target they attack.
+
+- Three sections: how attackers abuse DNS, how to detect and block that abuse, and how to protect DNS itself.
+
+**Next:** why attackers like DNS so much.
+:::
 
 ## From Part 1 to Part 2: why attackers like DNS
 
@@ -725,7 +1050,13 @@ End of part 1. Next: how attackers abuse DNS, and how to defend it.
 <b>The resolution you just traced, with a different destination.</b></pre>
 
 ::: notes
-This is the key idea of the second half. Nothing new is needed: it is the same resolution as in part 1, except that the attacker owns the last server. Ask the class what a firewall sees: only the client talking to its own resolver.
+**Main point:** attackers like DNS because it is allowed out of every network, and the resolver delivers any query to whoever runs the domain's server.
+
+- This is the key idea of the second half. Nothing new is needed: it is the same resolution as in part 1, except that the attacker owns the last server.
+- Reveal the three points, then the path: infected client → enterprise resolver → root and TLD → attacker's server.
+- Ask the class what a firewall sees: only the client talking to its own resolver.
+
+**Next:** where DNS appears in an attack.
 :::
 
 ## DNS in the kill chain
@@ -737,9 +1068,13 @@ The kill chain (Lockheed Martin) lists the stages of a cyberattack. DNS plays a 
 :::
 
 ::: notes
-Use this as a map, not a list to memorise: the DNS terms in the orange and grey boxes are explained in the next slides. Ask for each stage how an attacker could use DNS before showing the boxes.
+**Main point:** DNS plays a role at most stages of an attack, from reconnaissance to command and control.
 
-The kill chain gives the big picture. MITRE ATT&CK is the finer map used in practice: T1071.004 (C2 over DNS), T1568.001 (fast flux), T1568.002 (DGA).
+- Use this as a map, not a list to memorise: the DNS terms in the orange and grey boxes are explained in the next slides.
+- Ask for each stage how an attacker could use DNS before showing the boxes.
+- The kill chain gives the big picture. MITRE ATT&CK is the finer map used in practice: T1071.004 (C2 over DNS), T1568.001 (fast flux), T1568.002 (DGA).
+
+**Next:** the roadmap of part 2.
 :::
 
 ## Part 2: DNS Security {.pillars-slide}
@@ -749,9 +1084,11 @@ The kill chain gives the big picture. MITRE ATT&CK is the finer map used in prac
 <div class="pillar dim" style="top:490px"><div class="badge">3</div><div class="lbl">Protecting DNS itself</div><img src="images/roadmap-shield-lock.svg"></div>
 
 ::: notes
-The three parts ahead: how attackers abuse DNS, how to detect and block that abuse, and how to protect DNS itself.
+**Main point:** the three sections of part 2: how attackers abuse DNS, how to detect and block that abuse, and how to protect DNS itself.
 
-First part: how DNS is abused to move data and control malware.
+- First section: how DNS is abused to move data and control malware.
+
+**Next:** using DNS to send data out.
 :::
 
 ## DNS as a transport: exfiltration
@@ -771,9 +1108,15 @@ First part: how DNS is abused to move data and control malware.
 ![](images/exfiltration-path.png){.absolute left=870 top=120 width=370}
 
 ::: notes
-Follow the diagram from bottom to top, and link it to the bridge slide: the enterprise DNS server is simply doing its job. DNS names are case-insensitive, which is why the data is encoded in Base32 rather than Base64. Each query carries only a little data, so an exfiltration produces many queries: that is what detection will look for. Each name is also unique, because a repeated name would be answered from the resolver's cache and never reach the attacker.
+**Main point:** data can leave a network inside DNS names: encoded, cut into labels, and delivered by the company's own resolver to the attacker's server.
 
-Real case: SUNBURST (the SolarWinds compromise, 2020) encoded victim data in subdomains of avsvmcloud.com, then used a CNAME in the DNS answer to move chosen victims to the next C2 stage.
+- Follow the diagram from bottom to top, and link it to the bridge slide: the enterprise DNS server is simply doing its job.
+- The limits shape the encoding: 63 characters per label, about 255 per name. DNS names are case-insensitive, which is why the data is encoded in Base32 rather than Base64.
+- Each query carries only a little data, so an exfiltration produces many queries: that is what detection will look for.
+- Each name is also unique, because a repeated name would be answered from the resolver's cache and never reach the attacker.
+- Real case: SUNBURST (the SolarWinds compromise, 2020) encoded victim data in subdomains of avsvmcloud.com, then used a CNAME in the DNS answer to move chosen victims to the next C2 stage.
+
+**Next:** the opposite direction, bringing data in.
 :::
 
 ## DNS as a transport: infiltration
@@ -792,7 +1135,14 @@ Real case: SUNBURST (the SolarWinds compromise, 2020) encoded victim data in sub
 :::
 
 ::: notes
-Same channel, opposite direction. The record type is a trade-off between speed and stealth: TXT and NULL carry the most data, but they stand out. NULL is a rarely used record type, which is exactly why it is suspicious.
+**Main point:** the answers carry data back in; the record type is a trade-off between speed and stealth.
+
+- Same channel, opposite direction: used to download a payload or receive commands.
+- Go through the record types: A carries 4 bytes, AAAA 16, CNAME about 110 in Base32, TXT and NULL much more.
+- TXT and NULL carry the most data, but they stand out. NULL is a rarely used record type, which is exactly why it is suspicious.
+- Reliability is rebuilt on top, like TCP: chunk numbers and checksums inside the names.
+
+**Next:** how malware finds its server: DGA.
 :::
 
 ## DGA – Domain Generation Algorithm
@@ -815,7 +1165,14 @@ For example: every day malware connects to time-based server FQDN: *\<month\>-\<
 ![](images/dga-lookup.png){.absolute left=765 top=130 width=480}
 
 ::: notes
-Point out the diagram: the bot gets NXDOMAIN answers until it hits the one domain the attacker registered. Many NXDOMAIN answers from one client are themselves a signal for detection.
+**Main point:** a domain generation algorithm (DGA) lets malware compute a new list of rendezvous domains every day; the attacker registers only one of them.
+
+- Read the date-based example, then the three real families in the table: the names look random.
+- The asymmetry: the attacker registers one domain, defenders must predict and block them all.
+- Point out the diagram: the bot gets NXDOMAIN answers until it hits the one domain the attacker registered. Many NXDOMAIN answers from one client are themselves a signal for detection.
+- Defenders reverse-engineer the algorithm to pre-register or block tomorrow's domains.
+
+**Next:** the vocabulary needed for the lab.
 :::
 
 ## C2 vocabulary
@@ -832,7 +1189,14 @@ The next lab uses **Sliver**, an open-source C2 framework. Its implant talks to 
 :::
 
 ::: notes
-The lab README has the longer list (staged payload, BOF, etc). Three words are enough to follow the lab.
+**Main point:** command and control (C2) is how an attacker drives malware remotely; three words are enough for the lab: implant, beacon, jitter.
+
+- Implant: the program on the victim. Beacon: its regular check-in. Jitter: the random delay that hides the rhythm.
+- Fast flux reuses part 1: short TTLs and round robin make the C2 server's address change constantly.
+- The lab uses Sliver, an open-source C2 framework, with its implant talking only through DNS.
+- The lab README has the longer list (staged payload, BOF, etc).
+
+**Next:** the red team lab.
 :::
 
 ## Command and control over DNS {.lab-slide}
@@ -848,7 +1212,15 @@ Practical Exercise: DNS C2 with Sliver (Red Team)
 <div class="qr" style="left:96px;top:330px;width:160px"><img src="images/qr-cyber-lab.svg">Cyber lab</div>
 
 ::: notes
-Run the Red Team part only, then leave the lab running: the Blue Team part comes after the detection slides and uses the logs created here.
+**Main point:** students run a real C2 channel over DNS in a closed lab, as the attacker.
+
+- Students scan the QR code and follow the red team steps of the cyber lab.
+- The topology: the firewall lets only DNS out, so the implant has no other way to talk.
+- Run the Red Team part only, then leave the lab running: the Blue Team part comes after the detection slides and uses the logs created here.
+- Common blocker: all sessions [DEAD]. Restart the implant and use an [ALIVE] session (see the lab's maintainer notes).
+- Remind the rule: these tools stay inside the lab.
+
+**Next:** detecting and blocking what they just did.
 :::
 
 ## Part 2: DNS Security {.pillars-slide}
@@ -858,7 +1230,9 @@ Run the Red Team part only, then leave the lab running: the Blue Team part comes
 <div class="pillar dim" style="top:490px"><div class="badge">3</div><div class="lbl">Protecting DNS itself</div><img src="images/roadmap-shield-lock.svg"></div>
 
 ::: notes
-Second part: how to detect and block what we just did.
+**Main point:** second section: how to detect and block what we just did.
+
+**Next:** spotting domains that imitate real ones.
 :::
 
 ## Lookalike Domain Detection
@@ -875,7 +1249,14 @@ Second part: how to detect and block what we just did.
 :::
 
 ::: notes
-This is a defensive technique: it works on newly observed domains, before any attack has been seen. Ask the class to spot the fake in each example before showing it in the other font.
+**Main point:** lookalike detection flags new domains that imitate known brands, before they are used for phishing.
+
+- This is a defensive technique: it works on newly observed domains, before any attack has been seen.
+- Ask the class to spot the fake in each example before showing it in the other font (apple.com with a capital I instead of l).
+- Techniques: letter swaps (g00gle), homographs (same-looking characters), TLD changes, and distance between names.
+- The SOA record is also analysed, to catch false positives.
+
+**Next:** a test: which names are malicious?
 :::
 
 ## Which of these are malicious? {.exercise-slide}
@@ -895,7 +1276,14 @@ This is a defensive technique: it works on newly observed domains, before any at
 :::
 
 ::: notes
-Give the class a minute and take a vote before revealing the answer. These names come from Spotify, McAfee, Sophos, Google, Akamai, CloudFront and Rackspace. Come back to this list when you show the entropy numbers.
+**Main point:** none of these random-looking names is malicious: legitimate services encode data in DNS names too.
+
+- Give the class a minute and take a vote before revealing the answer.
+- These names come from Spotify, McAfee, Sophos, Google, Akamai, CloudFront and Rackspace.
+- The lesson: "random-looking" is not enough to block; detection must cope with false positives.
+- Come back to this list when you show the entropy numbers.
+
+**Next:** the traditional way of detecting tunnels.
 :::
 
 ## Detecting tunnels: the traditional approach
@@ -912,7 +1300,15 @@ Give the class a minute and take a vote before revealing the answer. These names
 ![](images/tunnel-detection-path.png){.absolute left=930 top=115 width=325}
 
 ::: notes
-The traditional approach works after the fact, by hand, and is easy to evade. Students will do a scripted version of the log analysis in the lab: the point is that a one-off regex does not hold, not that logs are useless.
+**Main point:** the traditional approach (rate limits, manual log reviews, regex rules) is slow, after the fact, and easy to evade.
+
+- Rate limiting slows a tunnel but does not stop it.
+- Manual log analysis finds tunnels after the data has left.
+- Blocking one endpoint works until the attacker changes domain.
+- Static regex rules break legitimate software, such as anti-virus lookups.
+- The traditional approach works after the fact, by hand, and is easy to evade. Students will do a scripted version of the log analysis in the lab: the point is that a one-off regex does not hold, not that logs are useless.
+
+**Next:** RPZ, the mechanism behind modern DNS blocking.
 :::
 
 ## DNS Concepts: RPZ definition
@@ -925,7 +1321,14 @@ The traditional approach works after the fact, by hand, and is easy to evade. St
 :::
 
 ::: notes
-RPZ comes up now because we have a reason to use it. Students block their own C2 domain with it in the Blue Team part of the lab.
+**Main point:** a response policy zone (RPZ) lets a resolver change its answers on purpose: block, redirect or allow chosen names.
+
+- RPZ is a "lying" mechanism: the client gets the resolver's policy, not the real answer.
+- The policy is itself a DNS zone, so it can be updated and transferred like any zone (threat feeds).
+- RPZ comes up now because we have a reason to use it. Students block their own C2 domain with it in the Blue Team part of the lab.
+- A DNS firewall (also called DNS sinkhole or Protective DNS) is the usual name for RPZ in use.
+
+**Next:** how several policies combine.
 :::
 
 ## DNS Concepts: RPZ schema
@@ -933,7 +1336,13 @@ RPZ comes up now because we have a reason to use it. Students block their own C2
 ![](images/rpz-policy-chain.png){.absolute left=115 top=115 width=1050}
 
 ::: notes
-Follow one query through the chain: the first matching policy wins. An allow list at the top protects legitimate domains from a mistake further down.
+**Main point:** several policy zones are checked in order, and the first matching policy wins.
+
+- Follow one query through the chain: the first matching policy wins.
+- An allow list at the top protects legitimate domains from a mistake further down.
+- Typical order: local allow list, local block list, then commercial threat feeds.
+
+**Next:** RPZ as a firewall: triggers and actions.
 :::
 
 ## DNS Firewall
@@ -954,7 +1363,13 @@ Follow one query through the chain: the first matching policy wins. An allow lis
 ![](images/image69.png){.absolute left=856 top=238 width=305 height=272}
 
 ::: notes
-Link each action to RPZ syntax for the lab: CNAME . gives NXDOMAIN, CNAME *. gives an empty answer (NODATA), and a CNAME to another name redirects. The lab uses CNAME *.
+**Main point:** a DNS firewall applies a security policy to DNS answers: triggers say what to match, actions say what to answer.
+
+- Triggers: the queried name, an IP address in the answer, or the client's address.
+- Actions: NXDOMAIN, NODATA, redirect to a warning page, or pass through and log.
+- Link each action to RPZ syntax for the lab: CNAME . gives NXDOMAIN, CNAME *. gives an empty answer (NODATA), and a CNAME to another name redirects. The lab uses CNAME *.
+
+**Next:** the three families of detection in products.
 :::
 
 ## Detecting tunnels: DNS firewall products
@@ -964,7 +1379,13 @@ Link each action to RPZ syntax for the lab: CNAME . gives NXDOMAIN, CNAME *. giv
 <div class="vcard" style="left:862px;top:150px;background:var(--navy)"><img src="images/image67.png" style="width:145px;top:40px"><h3>Behavior</h3><p>Use <b>DNS heuristics</b> to detect and block zero day data exfiltration, using real-time streaming analytics to mitigate against previously unseen code</p></div>
 
 ::: notes
-Three families to remember, whichever product implements them: signature (known tools), reputation (known bad domains), behavior (unknown threats). Only behavior can catch something new, and the next slides explain how.
+**Main point:** products detect tunnels in three ways: signature (known tools), reputation (known bad domains), and behaviour (anything that looks wrong).
+
+- Three families to remember, whichever product implements them.
+- Signature and reputation only catch what is already known.
+- Only behavior can catch something new, and the next slides explain how.
+
+**Next:** the heuristics behind behavioural detection.
 :::
 
 ## DNS heuristics
@@ -981,7 +1402,14 @@ Three families to remember, whichever product implements them: signature (known 
 :::
 
 ::: notes
-Entropy measures how unpredictable the characters are. The worked numbers come two slides later. The lexical ratios are cheap to compute, so they are often the first filter.
+**Main point:** the first heuristics look at the name itself: entropy and simple character ratios.
+
+- Entropy measures how unpredictable the characters are: encoded data scores higher than words.
+- Lexical ratios: share of non-letters, of hex letters (a to f), of vowels. Encoded names have few vowels and many digits.
+- The lexical ratios are cheap to compute, so they are often the first filter.
+- The worked numbers come two slides later.
+
+**Next:** n-grams.
 :::
 
 ## DNS heuristics
@@ -999,7 +1427,13 @@ Source: [https://books.google.com/ngrams](https://books.google.com/ngrams)
 :::
 
 ::: notes
-The charts use book text, not domain names: in real language, some letter pairs are common (ed) and others almost never occur (qz, qy). A domain name full of rare pairs is unlikely to have been chosen by a human.
+**Main point:** n-grams compare letter pairs and triples with real language; names full of rare pairs were not chosen by a human.
+
+- The charts use book text, not domain names: in real language, some letter pairs are common (ed) and others almost never occur (qz, qy).
+- A domain name full of rare pairs is unlikely to have been chosen by a human.
+- The lab's script scores 2-grams and 3-grams of each name against a frequency table.
+
+**Next:** measures of the traffic, not just the name.
 :::
 
 ## DNS heuristics
@@ -1012,7 +1446,15 @@ The charts use book text, not domain names: in real language, some letter pairs 
 :::
 
 ::: notes
-Gini and classification error are other ways to measure how evenly characters are spread. The next slide gives real values. Frequency and size are about the traffic rather than the name, and they catch what the name analysis misses.
+**Main point:** the last heuristics measure character spread (Gini, classification error) and the traffic itself (labels, frequency, size).
+
+- Gini and classification error are other ways to measure how evenly characters are spread. The next slide gives real values.
+- Number of labels: tunnels use many labels per name.
+- Frequency: many unique subdomains under one domain, many NXDOMAIN answers, or perfectly regular intervals (a beacon).
+- Size: tunnels push names close to the length limit.
+- Frequency and size are about the traffic rather than the name, and they catch what the name analysis misses.
+
+**Next:** real numbers for real names.
 :::
 
 ## DNS heuristics: real numbers
@@ -1039,9 +1481,15 @@ Worked example, facebook: 6 letters appear once and "o" twice, so entropy = 6 ×
 :::
 
 ::: notes
-Formulas, the same as in the lab's analysis.py. With p the share of each character: entropy = minus the sum of p × log2(p), Gini = 1 minus the sum of p², classification error = 1 minus the largest p.
+**Main point:** no single indicator separates good from bad: the legitimate Spotify name has the highest entropy of all.
 
-Entropy also grows with length, so a short random name can score close to a real word (vlbqryjd against facebook). The tunnel chunk is real Base32, generated for this example.
+- Ask the prediction, then reveal the values.
+- Work through facebook on the board: 6 letters once, o twice: 6 × (1/8 × 3) + 1/4 × 2 = 2.75 bits per character.
+- Formulas, the same as in the lab's analysis.py. With p the share of each character: entropy = minus the sum of p × log2(p), Gini = 1 minus the sum of p², classification error = 1 minus the largest p.
+- Entropy also grows with length, so a short random name can score close to a real word (vlbqryjd against facebook). The tunnel chunk is real Base32, generated for this example.
+- Conclusion: combine indicators into one score, as the lab's script does.
+
+**Next:** the blue team lab.
 :::
 
 ## Detect and block DNS C2 {.lab-slide}
@@ -1063,25 +1511,39 @@ Back to the lab you left running. Now you are the defender:
 :::
 
 ::: notes
-Students reuse the logs from the Red Team part, so the lab must still be running. The expected result is NOERROR with an empty answer, because the lab uses CNAME *.
+**Main point:** students switch sides: find their own C2 traffic in the logs, tune the detection, and block the domain with RPZ.
+
+- Students reuse the logs from the Red Team part, so the lab must still be running.
+- Three tasks: run the analysis script, tune its weights and threshold to remove false positives, then add the RPZ rule.
+- The expected result is NOERROR with an empty answer, because the lab uses CNAME *.; the implant then loses contact.
+- Ask what threshold they chose and why: there is no single right value.
+
+**Next:** a quiz on detection.
 :::
 
 ## Quiz time {.quiz-slide}
 
-::: {.absolute left=43 top=344 width=612 .f37 .center}
-www.pollev.com/jmanteau973
+::: {.absolute left=43 top=150 width=740 .f37}
+**Quiz round 3** · DNS security
 :::
-![](images/image11.png){.absolute left=643 top=91 width=585 height=585}
+
+::: {.absolute left=43 top=300 width=740 .f27 .gray}
+1. Open Dig Quest on your phone: **dns.jmanteau.fr**, same session as the dig lab. Not in yet? Scan the code on the board.
+2. Each question appears on your screen: answer before the timer ends.
+3. Right and fast answers score points on the **Quiz** leaderboard.
+:::
+
+<div class="a" style="left:860px;top:170px;width:340px;height:340px;border-radius:50%;background:var(--amber);color:#fff;font-size:200px;font-weight:700;display:flex;align-items:center;justify-content:center">3</div>
 
 ::: notes
-Draft questions for PollEverywhere, to be added to the poll:
+**Main point:** check the security part before protecting DNS itself: 9 questions on tunnels, DGA, detection, RPZ, DNSSEC and dangling records.
 
-1. An attacker's server receives a tunneled query. Which server sent it? (The enterprise's recursive resolver.)
-2. Why do attackers use a DGA? (They need one registered domain, while defenders must block them all.)
-3. A name has very high entropy. Is it malicious? (Not necessarily: CDNs and other services use such names.)
-4. Which RPZ rule returns NXDOMAIN? (CNAME . while CNAME *. returns an empty answer.)
+- Admin page, "Round 3", then → / R / Esc.
+- The quiz leaderboard now has three rounds of points: show it (Esc) before moving on.
+- The questions and answers are in the private `secret/quiz.json`; they replace the draft list that used to be in these notes.
+
+**Next:** the third section, protecting DNS itself.
 :::
-
 ## Part 2: DNS Security {.pillars-slide}
 
 <div class="pillar dim" style="top:140px"><div class="badge">1</div><div class="lbl">How attackers abuse DNS</div><img src="images/roadmap-spy.svg"></div>
@@ -1089,7 +1551,9 @@ Draft questions for PollEverywhere, to be added to the poll:
 <div class="pillar" style="top:490px"><div class="badge">3</div><div class="lbl">Protecting DNS itself</div><img src="images/roadmap-shield-lock.svg"></div>
 
 ::: notes
-Third part: protecting DNS itself. So far DNS was the attacker's channel. Now DNS is the target.
+**Main point:** third section: protecting DNS itself. So far DNS was the attacker's channel. Now DNS is the target.
+
+**Next:** attacks that flood DNS.
 :::
 
 ## Types of DNS attacks: volumetric/DDoS
@@ -1104,7 +1568,14 @@ Third part: protecting DNS itself. So far DNS was the attacker's channel. Now DN
 </table>
 
 ::: notes
-These attacks aim to overwhelm: the DNS content does not matter, the volume does. Reflection and amplification are often used together: a small spoofed query gets a large answer, sent to the victim.
+**Main point:** volumetric attacks overwhelm DNS servers or use them to flood a victim; the content does not matter, the volume does.
+
+- These attacks aim to overwhelm: the DNS content does not matter, the volume does.
+- Reflection and amplification are often used together: a small spoofed query gets a large answer, sent to the victim.
+- Go through the "Main defense" column: close open resolvers, response rate limiting, anycast, negative caching.
+- NXDOMAIN and phantom domain attacks target the resolver itself, by making it work for names that do not exist.
+
+**Next:** attacks that abuse how DNS works.
 :::
 
 ## Types of DNS attacks: DNS-specific
@@ -1120,11 +1591,13 @@ These attacks aim to overwhelm: the DNS content does not matter, the volume does
 </table>
 
 ::: notes
-These attacks abuse how DNS works. Cache poisoning is the one to remember for the next slides: it is what DNSSEC was built to stop. You have already practiced the defense against tunneling.
+**Main point:** DNS-specific attacks abuse the protocol or the data: exploits, cache poisoning, tunnelling, reconnaissance and hijacking.
 
-DNSSEC does not stop a hijack through the registrar account: an attacker who controls the account can replace the DS record as well. Randomising the source port and query ID makes forged answers much harder to get accepted, and it is what resolvers deployed first after Kaminsky.
+- These attacks abuse how DNS works. Cache poisoning is the one to remember for the next slides: it is what DNSSEC was built to stop. You have already practiced the defense against tunneling.
+- DNSSEC does not stop a hijack through the registrar account: an attacker who controls the account can replace the DS record as well. Randomising the source port and query ID makes forged answers much harder to get accepted, and it is what resolvers deployed first after Kaminsky.
+- For reconnaissance, registration data now comes from RDAP: since 28 January 2025 ICANN no longer requires gTLD registries and registrars to run WHOIS, except for .com, .name and .post.
 
-For reconnaissance, registration data now comes from RDAP: since 28 January 2025 ICANN no longer requires gTLD registries and registrars to run WHOIS, except for .com, .name and .post.
+**Next:** how cache poisoning works.
 :::
 
 ## Cache poisoning: winning the race
@@ -1144,9 +1617,15 @@ For reconnaissance, registration data now comes from RDAP: since 28 January 2025
 :::
 
 ::: notes
-Before Kaminsky, poisoning one name meant waiting for its TTL to expire before a new try. The random-subdomain trick removed that wait, which is why all resolvers were patched together in July 2008 with source port randomisation.
+**Main point:** cache poisoning is a race: the attacker tries to get a forged answer accepted before the real one arrives.
 
-Mention 0x20 encoding (random upper and lower case in the query name) as one more source of randomness some resolvers add. DNSSEC is the only defense that does not rely on the attacker failing to guess: this is the bridge to the DNSSEC slides.
+- Reveal the three steps: the race, Kaminsky's trick, the defences.
+- The race: a forged answer must match the 16-bit query ID, 1 chance in 65,536 per try.
+- Before Kaminsky, poisoning one name meant waiting for its TTL to expire before a new try. The random-subdomain trick removed that wait, which is why all resolvers were patched together in July 2008 with source port randomisation.
+- Mention 0x20 encoding (random upper and lower case in the query name) as one more source of randomness some resolvers add.
+- DNSSEC is the only defense that does not rely on the attacker failing to guess: this is the bridge to the DNSSEC slides.
+
+**Next:** an attack that needs no hacking at all: dangling records.
 :::
 
 ## Dangling records: subdomain takeover
@@ -1160,9 +1639,16 @@ Mention 0x20 encoding (random upper and lower case in the query name) as one mor
 :::
 
 ::: notes
-This uses the CNAME chain from the worked example in part 1: the CDN pattern is safe only while the far end still belongs to you. No DNS server is hacked, and DNSSEC would not help, because the company's own record is the problem.
+**Main point:** a record that still points to a released cloud resource lets anyone who claims that resource take over the subdomain.
 
-Vendor reports give very different counts for how common this is, so teach the mechanism rather than a number.
+- Follow the diagram: the company deletes its cloud resource but forgets the CNAME; an attacker claims the same name and now serves content under the company's subdomain.
+- This uses the CNAME chain from the worked example in part 1: the CDN pattern is safe only while the far end still belongs to you.
+- No DNS server is hacked, and DNSSEC would not help, because the company's own record is the problem.
+- Defence: delete the record before the resource, and audit records regularly.
+- Sitting Ducks: the same idea at the delegation level, with a DNS provider that lets anyone claim a zone.
+- Vendor reports give very different counts for how common this is, so teach the mechanism rather than a number.
+
+**Next:** how DNS itself has been improved.
 :::
 
 ## Improvements of DNS
@@ -1179,11 +1665,17 @@ Vendor reports give very different counts for how common this is, so teach the m
 ![](images/encrypted-dns-stacks.png){.absolute left=830 top=160 width=400}
 
 ::: notes
-The split is the frame for what follows: transport protects the path against someone watching, while DNSSEC proves the data is genuine. One does not replace the other.
+**Main point:** two separate improvements: encrypt the transport (DoT, DoH, DoQ), and authenticate the data (DNSSEC).
 
-❯ curl 'https://dns.google.com/resolve?name=eu.nomad.airbus.com' -H "Host: dns.google.com"
+- The split is the frame for what follows: transport protects the path against someone watching, while DNSSEC proves the data is genuine. One does not replace the other.
+- DoT: TLS on TCP port 853. DoH: HTTPS on port 443. DoQ: QUIC on UDP port 853.
+- Optional live demo of DoH with curl, to show it is just HTTPS returning JSON:
 
-{"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"eu.nomad.airbus.com.","type":1}],"Answer":[{"name":"eu.nomad.airbus.com.","type":5,"TTL":60,"data":"eu-nomad.dyn.airbus.com."},{"name":"eu-nomad.dyn.airbus.com.","type":1,"TTL":60,"data":"193.56.36.114"}],"Comment":"Response from 193.56.36.45."}
+  `curl 'https://dns.google.com/resolve?name=eu.nomad.airbus.com' -H "Host: dns.google.com"`
+
+  Output seen earlier: {"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"eu.nomad.airbus.com.","type":1}],"Answer":[{"name":"eu.nomad.airbus.com.","type":5,"TTL":60,"data":"eu-nomad.dyn.airbus.com."},{"name":"eu-nomad.dyn.airbus.com.","type":1,"TTL":60,"data":"193.56.36.114"}],"Comment":"Response from 193.56.36.45."}
+
+**Next:** choosing between DoT/DoQ and DoH.
 :::
 
 ## Comparing DoT/DoQ and DoH/DoH3
@@ -1201,7 +1693,14 @@ The split is the frame for what follows: transport protects the path against som
 ![](images/encrypted-dns-stacks.png){.absolute left=925 top=150 width=310}
 
 ::: notes
-Good for privacy, a problem for defenders: all the detection and blocking of this course happens on the resolver, and DoH can route around it. Enterprises usually turn it off in browsers, or provide their own DoH service. Two standards help a network point its clients to an approved encrypted resolver: DDR (RFC 9462) and DNR (RFC 9463). Client support varies, so check it before relying on them. The next slide shows the attacker's side of this.
+**Main point:** DoT and DoQ use their own port and are easy to manage; DoH hides in normal HTTPS and can bypass the company resolver.
+
+- Read the last row aloud: DoH can bypass the enterprise resolver, and with it the RPZ students just built.
+- Good for privacy, a problem for defenders: all the detection and blocking of this course happens on the resolver, and DoH can route around it.
+- Enterprises usually turn it off in browsers, or provide their own DoH service.
+- Two standards help a network point its clients to an approved encrypted resolver: DDR (RFC 9462) and DNR (RFC 9463). Client support varies, so check it before relying on them.
+
+**Next:** the attacker's side of DoH.
 :::
 
 ## C2 over DNS over HTTPS (DoH)
@@ -1227,9 +1726,16 @@ This command works because both names belong to the same service. Tested in Nov 
 :::
 
 ::: notes
-This command is harmless and safe to run live, since it only looks up example.com. Retest it before class, as providers change this behavior. Domain fronting still appears in older reports and tools, which is why it stays in the course.
+**Main point:** the privacy of DoH helps attackers too: C2 lookups sent to a public DoH service look like ordinary HTTPS.
 
-The tests in November 2026 were: SNI google.com or www.google.com with Host dns.google (404), and SNI cloudflare.com with Host cloudflare-dns.com (403).
+- The enterprise resolver never sees the lookup, so RPZ and the heuristics cannot act.
+- Domain fronting (mostly history): a harmless name in the visible TLS SNI, the real one in the encrypted Host header. Major providers blocked it, Google and Amazon in 2018.
+- The curl command is harmless and safe to run live, since it only looks up example.com. Retest it before class, as providers change this behavior.
+- The tests in November 2026 were: SNI google.com or www.google.com with Host dns.google (404), and SNI cloudflare.com with Host cloudflare-dns.com (403).
+- Domain fronting still appears in older reports and tools, which is why it stays in the course.
+- ECH (Encrypted Client Hello) hides the SNI too, so defenders lose that view as well.
+
+**Next:** DNSSEC, the defence against forged answers.
 :::
 
 ## DNSSEC
@@ -1243,9 +1749,14 @@ DNS was designed without security: a resolver cannot tell a forged answer from a
 <div class="rec fragment" style="left:53px;top:470px;width:1180px"><div class="code" style="--c:var(--blue);width:230px;font-size:24px">CHAIN<br>OF TRUST</div><div class="d" style="font-size:25px">It follows the tree you know: the root vouches for the key of .fr (DS), .fr for the domain's key (DNSKEY), and the domain signs its records.</div></div>
 
 ::: notes
-Domain Name System Security Extensions (DNSSEC) give resolvers origin authentication of DNS data through digital signatures. By validating them, a resolver checks that the data is identical to what the zone owner published on its authoritative server. This defeats cache poisoning and man-in-the-middle changes, as seen on the poisoning slide.
+**Main point:** DNSSEC signs DNS data so a resolver can prove an answer is genuine; it does not encrypt anything.
 
-DNSSEC does not provide confidentiality: responses are authenticated, not encrypted.
+- Start from the problem: a resolver cannot tell a forged answer from a real one, which is what cache poisoning exploits.
+- Domain Name System Security Extensions (DNSSEC) give resolvers origin authentication of DNS data through digital signatures. By validating them, a resolver checks that the data is identical to what the zone owner published on its authoritative server. This defeats cache poisoning and man-in-the-middle changes, as seen on the poisoning slide.
+- DNSSEC does not provide confidentiality: responses are authenticated, not encrypted.
+- Chain of trust: it follows the same tree as resolution. The parent vouches for the child's key with a DS record.
+
+**Next:** the chain of trust, drawn.
 :::
 
 ## DNSSEC
@@ -1257,9 +1768,14 @@ DNSSEC does not provide confidentiality: responses are authenticated, not encryp
 :::
 
 ::: notes
-Compare with slide "Full DNS Query": the same tree, now carrying signatures. The ad flag comes from the resolver, so the client is trusting its resolver and the path to it. This is one reason DNSSEC and encrypted transport go together.
+**Main point:** validation follows the same tree as resolution: the root's key, known in advance, vouches for each level down to the answer.
 
-The root key rollover completed on 11 October 2026 (ICANN), and the old key is due to be revoked on 11 January 2027. APNIC measured validation falling by half or more on 58 networks afterwards.
+- Compare with slide "Full DNS Query": the same tree, now carrying signatures.
+- The ad flag comes from the resolver, so the client is trusting its resolver and the path to it. This is one reason DNSSEC and encrypted transport go together.
+- A validation failure gives SERVFAIL: the same status as a dead server.
+- The root key rollover completed on 11 October 2026 (ICANN), and the old key is due to be revoked on 11 January 2027. APNIC measured validation falling by half or more on 58 networks afterwards.
+
+**Next:** the wrap-up.
 :::
 
 ## Agenda {.agenda-slide}
@@ -1269,7 +1785,9 @@ The root key rollover completed on 11 October 2026 (ICANN), and the old key is d
 <div class="pillar" style="top:490px"><div class="badge">3</div><div class="lbl">Wrap-up<small>What to remember</small></div></div>
 
 ::: notes
-End of part 2. Last part: what to remember.
+**Main point:** end of part 2. Last part: what to remember.
+
+**Next:** part 3.
 :::
 
 ## Wrap-up {.divider}
@@ -1277,6 +1795,12 @@ End of part 2. Last part: what to remember.
 <div class="panel" style="--panel:#f4f6f8"><img src="images/namespace-tree.png"></div>
 <div class="part">Part 3</div>
 <div class="sub">What to remember</div>
+
+::: notes
+**Main point:** part 3 checks what stuck: six myths, seven points to remember, and an exit ticket.
+
+**Next:** true or false.
+:::
 
 ## True or false? {.exercise-slide}
 
@@ -1288,7 +1812,13 @@ End of part 2. Last part: what to remember.
 <div class="myth" style="top:558px"><div class="s">DNSSEC encrypts DNS.</div><div class="ans fragment"><div class="v">FALSE</div><div class="d"><span>It signs: anyone can still read the answers. DoT, DoH and DoQ encrypt.</span></div></div></div>
 
 ::: notes
-Read each statement and ask for a show of hands (true or false) before revealing it. They are all false, and each one is a classic source of support tickets. Students who voted "true" on one know which slide to revisit.
+**Main point:** six common beliefs about DNS, all false; each one is a classic source of support tickets.
+
+- Read each statement and ask for a show of hands (true or false) before revealing it.
+- Link each answer to its slide: UDP and TCP (DNS Protocol), propagation and TTL (TTL slides), browser cache (DNS Cache), negative caching (status and flags), DNSSEC (Improvements of DNS).
+- Students who voted "true" on one know which slide to revisit.
+
+**Next:** the seven points to remember.
 :::
 
 ## What to remember
@@ -1304,31 +1834,39 @@ Read each statement and ask for a show of hands (true or false) before revealing
 :::
 
 ::: notes
-These seven points match the seven objectives on the second slide. Ask students which one they could not yet do on their own. Run the exit ticket next, then point them to the Resources slide.
+**Main point:** seven points, one per objective of the course.
+
+- These seven points match the seven objectives on the second slide.
+- Read them aloud and ask students which one they could not yet do on their own.
+- Run the exit ticket next, then point them to the Resources slide.
+
+**Next:** the exit ticket.
 :::
 
 ## Exit ticket {.quiz-slide}
 
-::: {.absolute left=43 top=300 width=612 .f37 .center}
-www.pollev.com/jmanteau973
+::: {.absolute left=43 top=150 width=740 .f37}
+**Before you leave** · four quick questions
 :::
 
-::: {.absolute left=43 top=400 width=612 .f25 .center .gray}
-Three quick questions before you leave.
+::: {.absolute left=43 top=300 width=740 .f27 .gray}
+1. Open Dig Quest on your phone: **dns.jmanteau.fr**, same session as the dig lab. Not in yet? Scan the code on the board.
+2. Each question appears on your screen: answer before the timer ends.
+3. Right and fast answers score points on the **Quiz** leaderboard.
 :::
 
-![](images/image11.png){.absolute left=643 top=91 width=585 height=585}
+<div class="a" style="left:860px;top:170px;width:340px;height:340px;border-radius:50%;background:var(--amber);color:#fff;font-size:180px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>
 
 ::: notes
-Questions to add to PollEverywhere (one per part, plus a self-assessment):
+**Main point:** three quick questions and one open answer before students leave: what they take away, and what they are least sure about.
 
-1. You change a record's IP, then lower its TTL from 86400 to 60. An hour later some users still reach the old IP. Why? (Their resolvers cached the record with the old 86400 TTL: lower it before the change, not after.)
-2. A DNS C2 implant is active on a laptop. Which control cuts it off: DNSSEC, DoH or RPZ? (RPZ. DNSSEC only proves authenticity, and DoH can even hide the C2 traffic.)
-3. Open question: which of the seven objectives are you least sure about?
+- Admin page, "Exit ticket", then → / R / Esc.
+- The "least sure" poll has no right answer: read the bars aloud, they tell you where to start the next session.
+- The answers stay in Dig Quest for this session: open the board (or `make quiz-list`) before the next class and start with the weakest point.
+- The questions and answers are in the private `secret/quiz.json`.
 
-Look at the answers before the next session and open with the weakest point.
+**Next:** resources to go further.
 :::
-
 ## Resources
 
 <div class="qr" style="left:1066px;top:137px"><img src="images/qr-cheatsheet.svg">dig cheat sheet</div>
@@ -1342,6 +1880,20 @@ Look at the answers before the next session and open with the weakest point.
 - [MITRE ATT&CK: C2 over DNS (T1071.004)](https://attack.mitre.org/techniques/T1071/004/)
 :::
 
+::: notes
+**Main point:** where to go further: the cheat sheet first, then references for each part.
+
+- dig cheat sheet: the one-page summary to keep.
+- DNS RFCs: the index of standards cited in the course.
+- Kaminsky guide: the clearest explanation of the 2008 attack.
+- DNS for Rocket Scientists: a free book covering BIND configuration in depth.
+- NIST SP 800-81r3: the current guide to deploying DNS securely.
+- MITRE ATT&CK T1071.004: how C2 over DNS is classified and detected.
+- Students who finish early can open the DNS Beyond the Basics deck and the Dig Quest advanced missions.
+
+**Next:** a last joke.
+:::
+
 ## {.xkcd background-color="#eef1f5"}
 
 ![](images/image78.png){.absolute left=29 top=57 width=332 height=487}
@@ -1352,3 +1904,13 @@ dns.google.
 ❯ dig txt dns.google. +short
 "https://xkcd.com/1361/"
 "v=spf1 -all"</pre>
+
+::: notes
+**Main point:** end on a joke hidden in DNS: Google's resolver name points to an xkcd comic.
+
+- Run the two commands live: the reverse name of 8.8.8.8 is dns.google, and its TXT records hold the comic's address.
+- The TXT record points to xkcd comic 1361: an easter egg in Google's own zone.
+- The second TXT value, v=spf1 -all, is a real SPF policy: this name never sends mail.
+- Thank the class and take questions.
+:::
+

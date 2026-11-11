@@ -10,7 +10,7 @@ The Domain Name System (DNS) course of IUT Blagnac: slides, two hands-on labs an
 |------|------------|-----|-------|
 | Slides | *Domain Name System Fundamentals*, the course | Students | [Course site](https://jmanteau.github.io/dns-course-labs/), or the [course slides as PDF](Domain%20Name%20System%20Fundamentals.pdf) |
 | Dig lab | Query real DNS servers with `dig` and answer questions | Students | [Dig lab handout](dns-dig-lab/) |
-| Dig Quest | The dig lab as a game, with a score, a class leaderboard and advanced missions | Students, with the link given in class | [Dig Quest guide](dns-dig-lab/game/) |
+| Dig Quest | The dig lab as a game, with a score, a class leaderboard and advanced missions | Students, at [dns.jmanteau.fr](https://dns.jmanteau.fr) with the class code given in class | [Dig Quest guide](dns-dig-lab/game/) |
 | Cyber lab | Hide traffic inside DNS as an attacker, then detect and block it as a defender | Students | [Cyber lab guide](dns-cyber-lab/) |
 | Slide sources | The Quarto sources of both slide decks and of the course site | Teachers | [Course sources](course/) |
 

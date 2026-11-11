@@ -147,3 +147,25 @@ def test_game_server_alt_port(server):
         want = {v for r in zone["records"] if r["name"] == "@" and r["type"] == "TXT" for v in r["values"]}
         resp = dns.query.udp(dns.message.make_query(zone["name"], "TXT"), ip, port=spec["alt_port"], timeout=3)
         assert txt_of(resp) == want
+
+
+# ---- the advanced missions keep their commands behind hints ----
+
+
+def test_advanced_hints_ladder():
+    """No dig command in an advanced mission's text or labels (a03's faulty commands are its puzzle);
+    every part has 3 hints, concept, ingredients, command, and a command appears only in the third."""
+    import re
+
+    with open(SECRET, encoding="utf-8") as fh:
+        questions = [q for q in json.load(fh)["questions"] if q.get("stage") == "advanced"]
+    command = re.compile(r"`[^`]*\bdig\b[^`]*`")
+    for q in questions:
+        if q["id"] != "a03":
+            assert not command.search(q["prompt"]), q["id"]
+        for p in q["parts"]:
+            where = f"{q['id']}{p['id']}"
+            if q["id"] != "a03":
+                assert not command.search(p["label"]), where
+            assert len(p["hints"]) == 3, where
+            assert not any(command.search(h) for h in p["hints"][:2]), where

@@ -15,7 +15,7 @@ SUBNET = "10.53.0.0/24"
 RESOLVER, ZONE, SERVER, RUNNER = "10.53.0.2", "10.53.0.10", "10.53.0.53", "10.53.0.100"
 
 RUNNER_DOCKERFILE = """FROM python:3.13-slim
-RUN pip install --no-cache-dir dnspython "moto[server]" pytest boto3
+RUN pip install --no-cache-dir dnspython "moto[server]" pytest boto3 websockets
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /repo/dns-dig-lab/game
 """
@@ -93,7 +93,7 @@ def compose(alt, game_server_name):
         f"      DIG_ALLOW_NET: {SUBNET}",
         "      HOST: 0.0.0.0",
         f"      GAME_SERVER: {game_server_name}",
-        "    ports: [\"127.0.0.1:8787:8787\"]",
+        "    ports: [\"127.0.0.1:8787:8787\", \"127.0.0.1:8788:8788\"]",
         "    volumes:",
         "      - ../..:/repo/dns-dig-lab/game:ro",
         "      - ../../../../course/_site:/repo/course/_site:ro",

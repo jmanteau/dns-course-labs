@@ -51,11 +51,13 @@ Query real DNS servers with `dig` and read what they answer. Keep the cheat shee
 
 ## Dig Quest
 
-The dig lab as a game, with a score and a class leaderboard. Your teacher gives you the link and the session code in class.
+The dig lab as a game, with a score, a class leaderboard and the live quiz. Your teacher gives you the class code.
 
-When every mission is solved, the advanced missions open. Read these slides first:
+- [Play Dig Quest at dns.jmanteau.fr](https://dns.jmanteau.fr){.button}
 
-- [Open the DNS Beyond the Basics slides](dns-advanced.html){.button}
+Once you have solved 80% of the missions, the advanced missions open. Read these slides first:
+
+- [Open the DNS Beyond the Basics slides](dns-advanced.html)
 :::
 
 ::: {.card}

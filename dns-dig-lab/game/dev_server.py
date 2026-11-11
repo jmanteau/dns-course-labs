@@ -3,13 +3,15 @@
     .venv/bin/python dev_server.py    # game: http://localhost:8787/?session=DEV
     admin token: dev
     DynamoDB viewer (live, auto-refresh):  http://localhost:8787/_debug
+    WebSocket doorbell (as API Gateway's on AWS):  ws://localhost:8788
     (moto's own /moto-api/ dashboard lists items but not their attributes, hence this viewer)
 """
 import json
 import os
 import sys
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import parse_qs, parse_qsl, urlsplit
 
 import boto3
 from moto.server import ThreadedMotoServer
@@ -27,6 +29,7 @@ if os.path.isfile(SERVER_SPEC):
 PORT = int(os.environ.get("PORT", "8787"))
 HOST = os.environ.get("HOST", "127.0.0.1")  # 0.0.0.0 in the local simulation container
 MOTO_PORT = int(os.environ.get("MOTO_PORT", "5000"))
+WS_PORT = int(os.environ.get("WS_PORT", "8788"))
 os.environ["AWS_ENDPOINT_URL"] = f"http://127.0.0.1:{MOTO_PORT}"
 FRONT = os.path.join(HERE, "frontend")
 # the advanced theory deck, built in course/ with `make single DECK=dns-advanced`
@@ -72,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         url = urlsplit(self.path)
-        if url.path in ("/state", "/leaderboard", "/explanations"):
+        if url.path in ("/state", "/leaderboard", "/explanations", "/quiz", "/quiz/board"):
             return self._api("GET")
         if url.path == "/_debug":
             return self._send(200, VIEWER.encode(), "text/html")
@@ -92,6 +95,37 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
+def start_doorbell():
+    """The local stand-in for the API Gateway WebSocket API: pages connect with ?session=CODE, and the
+    handler's push.notify() rings them through push.local_hook."""
+    import asyncio
+
+    import push
+    from websockets.asyncio.server import serve
+
+    loop = asyncio.new_event_loop()
+    rooms = {}
+
+    async def page(ws):
+        code = parse_qs(urlsplit(ws.request.path).query).get("session", [""])[0].upper()
+        rooms.setdefault(code, set()).add(ws)
+        try:
+            await ws.wait_closed()
+        finally:
+            rooms[code].discard(ws)
+
+    def ring(code, message):  # called from the HTTP threads
+        for ws in list(rooms.get(code, ())):
+            asyncio.run_coroutine_threadsafe(ws.send(message), loop)
+
+    async def main():
+        async with serve(page, HOST, WS_PORT):
+            await asyncio.Future()
+
+    threading.Thread(target=lambda: loop.run_until_complete(main()), daemon=True).start()
+    push.local_hook = ring
+
+
 if __name__ == "__main__":
     moto_server = ThreadedMotoServer(ip_address="127.0.0.1", port=MOTO_PORT, verbose=False)
     moto_server.start()
@@ -104,6 +138,7 @@ if __name__ == "__main__":
         import store
 
         store.create_session("DEV", "Local dev")
+        start_doorbell()
         print(f"game      http://localhost:{PORT}/?session=DEV")
         print(f"board     http://localhost:{PORT}/board.html?session=DEV")
         print(f"db viewer  http://localhost:{PORT}/_debug")

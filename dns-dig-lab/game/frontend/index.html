@@ -17,9 +17,10 @@
     <p class="err" id="loginErr" role="alert"></p>
   </form>
 
+  <section id="quiz" class="quiz hidden" aria-live="polite" role="dialog" aria-label="Quiz question"></section>
   <section id="game" class="hidden">
     <div class="hud">
-      <div class="hud-row"><h1 id="who">Dig Quest</h1><div class="score"><span id="score">0</span> pts<span id="advScoreBox" class="adv-score hidden"> · advanced <span id="advScore">0</span></span></div></div>
+      <div class="hud-row"><h1 id="who">Dig Quest</h1><div class="score"><span id="score">0</span> pts<span id="advScoreBox" class="adv-score hidden"> · advanced <span id="advScore">0</span></span><span id="quizScoreBox" class="adv-score hidden"> · quiz <span id="quizScore">0</span></span></div></div>
       <div class="hud-row"><span class="sub" id="progress"></span><button class="ghost" id="leave">Leave</button></div>
       <div class="bar"><i id="barFill"></i></div>
     </div>
@@ -85,6 +86,7 @@
 <script src="config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script src="live.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
