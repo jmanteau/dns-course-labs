@@ -21,7 +21,7 @@ def test_docker_folder():
     assert set(files) == {"Dockerfile", "start.sh", "compose.yaml", "quest/main/named.conf", "quest/alt/named.conf",
                           "quest/main/axfr.quest.example.org.zone", "quest/main/walk.quest.example.org.zone",
                           "quest/main/secret.lab.zone", "quest/alt/door.quest.example.org.zone"}
-    assert "FROM debian:trixie-slim" in files["Dockerfile"]
+    assert "FROM public.ecr.aws/docker/library/debian:trixie-slim" in files["Dockerfile"]
     compose = files["compose.yaml"]
     assert compose.count("network_mode: host") == 2 and '"main"' in compose and '"alt"' in compose
 

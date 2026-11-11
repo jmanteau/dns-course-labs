@@ -1,5 +1,6 @@
 # Multi-arch BIND9 image based on Alpine (works on amd64 + arm64)
-FROM alpine:3.20
+# Docker Hub (rate-limited per IP): FROM alpine:3.20
+FROM public.ecr.aws/docker/library/alpine:3.20
 
 RUN apk add --no-cache bind bind-tools tcpdump iproute2 \
     fstrm-utils protobuf-c python3 py3-pip vim && \
