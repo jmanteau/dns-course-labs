@@ -79,6 +79,7 @@ site:
 	$(QUARTO) render dns-advanced.qmd
 	$(QUARTO) render dns-cyber-lab.qmd
 	cp "../Domain Name System Fundamentals.pdf" _site/Domain-Name-System-Fundamentals.pdf
+	cp "../DNS Beyond the Basics.pdf" _site/DNS-Beyond-the-Basics.pdf
 	cp $(CHEATSHEET).pdf _site/dig-cheatsheet.pdf
 
 clean:

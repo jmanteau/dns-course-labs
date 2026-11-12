@@ -58,6 +58,7 @@ The dig lab as a game, with a score, a class leaderboard and the live quiz. Your
 Once you have solved 80% of the missions, the advanced missions open. Read these slides first:
 
 - [Open the DNS Beyond the Basics slides](dns-advanced.html)
+- [Download the slides as PDF](DNS-Beyond-the-Basics.pdf)
 :::
 
 ::: {.card}
