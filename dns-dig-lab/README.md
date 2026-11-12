@@ -224,7 +224,7 @@ The questions:
 
 9. Which of these media uses Slack: New York Times (nytimes.com), Le Monde (lemonde.fr) or BBC (bbc.com)?
 10. Which certificate authorities are allowed to issue certificates for boursorama.com?
-11. How many websites in the list100.txt file use Facebook Domain Verification (which allows Facebook login, comments, likes and so on)? (Hint: look for facebook-domain-verification.)
+11. How many websites in the [list100.txt](https://github.com/jmanteau/dns-course-labs/blob/main/dns-dig-lab/list100.txt) file use Facebook Domain Verification (which allows Facebook login, comments, likes and so on)? (Hint: look for facebook-domain-verification.)
 12. (Seldom used in real life.) Which city do the coordinates in the LOC record of dyndns.com point to?
 13. What is the IPv6 address (AAAA record) of www.wikipedia.org?
 
