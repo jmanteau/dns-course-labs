@@ -67,7 +67,7 @@ Once you have solved 80% of the missions, the advanced missions open. Read these
 
 Act as an attacker who hides traffic inside DNS, then as the defender who finds and blocks it. Needs Docker on your computer.
 
-- [Open the cyber lab on GitHub](https://github.com/jmanteau/dns-course-labs/tree/main/dns-cyber-lab){.button}
+- [Open the cyber lab](dns-cyber-lab.html){.button}
 :::
 
 :::

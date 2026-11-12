@@ -1,0 +1,21 @@
+:root {
+  --navy: #15315b; --teal-ink: #0e7c8c;
+  --surface: #f4f6f8; --line: #dfe4ea;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --navy: #9cc3f5; --teal-ink: #5fd0de;
+    --surface: #18243a; --line: #2c3a52;
+  }
+}
+
+body { font-family: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif; }
+code, pre { font-family: "JetBrains Mono", Menlo, Consolas, monospace; }
+
+h1, h2, h3 { color: var(--navy); }
+a { color: var(--teal-ink); }
+
+pre.sourceCode { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+
+details > summary { cursor: pointer; font-weight: 600; color: var(--teal-ink); }
+details { margin: 0.5em 0; }

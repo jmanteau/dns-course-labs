@@ -1,0 +1,11 @@
+[project]
+name = "dns-resolver-diagram"
+version = "0.1.0"
+description = "Script de résolution DNS itérative avec génération de diagramme de séquence"
+requires-python = ">=3.8"
+dependencies = [
+    "dnspython>=2.6.0",
+]
+
+[project.scripts]
+dns-resolve = "dns_resolver_diagram:main"

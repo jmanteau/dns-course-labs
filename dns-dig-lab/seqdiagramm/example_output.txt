@@ -1,0 +1,4 @@
+# Résolution DNS réelle via dig +trace: www.impots.gouv.fr
+
+# Erreur dig: Command '['dig', '+trace', 'www.impots.gouv.fr']' timed out after 30 seconds
+# Erreur lors de la génération du diagramme

@@ -48,7 +48,7 @@ $(filter-out images/full-dns-sequence-step8.png,$(STEPS)): images/full-dns-seque
 qr:
 	uvx -q segno "$(SITE)/" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-dig-lab.svg
 	uvx -q segno "$(SITE)/dig-cheatsheet.pdf" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cheatsheet.svg
-	uvx -q segno "$(SITE)/" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cyber-lab.svg
+	uvx -q segno "$(SITE)/dns-cyber-lab.html" --scale 8 --border 2 --dark "#15315b" --no-size --output images/qr-cyber-lab.svg
 
 cheatsheet: $(CHEATSHEET).pdf
 
@@ -77,8 +77,9 @@ site:
 	$(QUARTO) render index.qmd
 	$(QUARTO) render dns-fundamentals.qmd
 	$(QUARTO) render dns-advanced.qmd
+	$(QUARTO) render dns-cyber-lab.qmd
 	cp "../Domain Name System Fundamentals.pdf" _site/Domain-Name-System-Fundamentals.pdf
 	cp $(CHEATSHEET).pdf _site/dig-cheatsheet.pdf
 
 clean:
-	rm -rf _site .quarto dns-fundamentals_files dns-advanced_files
+	rm -rf _site .quarto dns-fundamentals_files dns-advanced_files dns-cyber-lab_files
