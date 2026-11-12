@@ -365,13 +365,15 @@ class TestBlueTeam:
         assert r["exit_code"] == 0
 
     def test_step4_c2_subdomain_blocked(self, run):
-        """dig xxx.s.commandcontrol.com should return empty / NXDOMAIN."""
-        time.sleep(2)
-        r = run("client", "dig +short xxx.s.commandcontrol.com")
-        stdout = r["stdout"].strip()
-        # RPZ CNAME *. → empty answer or NXDOMAIN
-        assert stdout == "" or "NXDOMAIN" in stdout or "0.0.0.0" not in stdout, \
-            f"C2 still resolves: {stdout}"
+        """dig xxx.s.commandcontrol.com should return NOERROR with an empty answer."""
+
+        def _blocked():
+            # RPZ CNAME *. gives NODATA. An unblocked name gets NXDOMAIN from Sliver,
+            # or SERVFAIL if it is not listening, so an empty +short proves nothing.
+            out = run("client", "dig +time=4 +tries=1 xxx.s.commandcontrol.com")["stdout"]
+            return "status: NOERROR" in out and "ANSWER: 0" in out
+
+        wait_for(_blocked, timeout=90, interval=10, msg="C2 not blocked by RPZ")
 
     def test_step4_legitimate_dns_unaffected(self, run):
         r = run("client", "dig +short google.com A")

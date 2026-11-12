@@ -1,6 +1,8 @@
 {
   "app": "python3 app.py",
   "context": {
-    "@aws-cdk/aws-lambda:recognizeLayerVersion": true
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+    "siteDomain": "dns.jmanteau.fr",
+    "siteZone": "jmanteau.fr"
   }
 }

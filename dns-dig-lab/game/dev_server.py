@@ -3,13 +3,15 @@
     .venv/bin/python dev_server.py    # game: http://localhost:8787/?session=DEV
     admin token: dev
     DynamoDB viewer (live, auto-refresh):  http://localhost:8787/_debug
+    WebSocket doorbell (as API Gateway's on AWS):  ws://localhost:8788
     (moto's own /moto-api/ dashboard lists items but not their attributes, hence this viewer)
 """
 import json
 import os
 import sys
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import parse_qs, parse_qsl, urlsplit
 
 import boto3
 from moto.server import ThreadedMotoServer
@@ -18,10 +20,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "backend"))
 os.environ.update(AWS_DEFAULT_REGION="eu-west-3", AWS_ACCESS_KEY_ID="x", AWS_SECRET_ACCESS_KEY="x", TABLE="quest", ADMIN_TOKEN="dev")
 os.environ.setdefault("SECRET_DIR", os.path.join(HERE, "secret"))
+# like the deployed console: AXFR and -p are allowed toward the game server of the spec
+SERVER_SPEC = os.path.join(HERE, "secret", "server.json")
+if os.path.isfile(SERVER_SPEC):
+    with open(SERVER_SPEC, encoding="utf-8") as _fh:
+        _spec = json.load(_fh)
+    os.environ.setdefault("GAME_SERVER", f"{_spec['server']}.{_spec['game_zone'].rstrip('.')}")
 PORT = int(os.environ.get("PORT", "8787"))
+HOST = os.environ.get("HOST", "127.0.0.1")  # 0.0.0.0 in the local simulation container
 MOTO_PORT = int(os.environ.get("MOTO_PORT", "5000"))
+WS_PORT = int(os.environ.get("WS_PORT", "8788"))
 os.environ["AWS_ENDPOINT_URL"] = f"http://127.0.0.1:{MOTO_PORT}"
 FRONT = os.path.join(HERE, "frontend")
+# the advanced theory deck, built in course/ with `make single DECK=dns-advanced`
+DECK = os.path.join(HERE, "..", "..", "course", "_site", "dns-advanced-single.html")
 VIEWER = """<!doctype html><meta charset=utf-8><title>DynamoDB viewer</title>
 <style>body{font:13px ui-monospace,monospace;margin:16px;background:#0b110d;color:#d4f5de}
 table{border-collapse:collapse;width:100%}td,th{border:1px solid #24372b;padding:4px 8px;vertical-align:top;text-align:left}
@@ -63,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         url = urlsplit(self.path)
-        if url.path in ("/state", "/leaderboard", "/explanations"):
+        if url.path in ("/state", "/leaderboard", "/explanations", "/quiz", "/quiz/board"):
             return self._api("GET")
         if url.path == "/_debug":
             return self._send(200, VIEWER.encode(), "text/html")
@@ -73,14 +85,45 @@ class Handler(BaseHTTPRequestHandler):
             items = sorted((store.plain(i) for i in store.table().scan()["Items"]), key=lambda i: (i["PK"], i["SK"]))
             return self._send(200, json.dumps(items, default=str).encode(), "application/json")
         name = "index.html" if url.path == "/" else url.path.lstrip("/")
-        path = os.path.normpath(os.path.join(FRONT, name))
-        if not path.startswith(FRONT) or not os.path.isfile(path):
+        path = DECK if name == "deck/dns-advanced.html" else os.path.normpath(os.path.join(FRONT, name))
+        if not (path.startswith(FRONT) or path == DECK) or not os.path.isfile(path):
             return self._send(404, b"not found", "text/plain")
         with open(path, "rb") as fh:
             self._send(200, fh.read(), TYPES.get(os.path.splitext(path)[1], "application/octet-stream"))
 
     def log_message(self, *args):
         pass
+
+
+def start_doorbell():
+    """The local stand-in for the API Gateway WebSocket API: pages connect with ?session=CODE, and the
+    handler's push.notify() rings them through push.local_hook."""
+    import asyncio
+
+    import push
+    from websockets.asyncio.server import serve
+
+    loop = asyncio.new_event_loop()
+    rooms = {}
+
+    async def page(ws):
+        code = parse_qs(urlsplit(ws.request.path).query).get("session", [""])[0].upper()
+        rooms.setdefault(code, set()).add(ws)
+        try:
+            await ws.wait_closed()
+        finally:
+            rooms[code].discard(ws)
+
+    def ring(code, message):  # called from the HTTP threads
+        for ws in list(rooms.get(code, ())):
+            asyncio.run_coroutine_threadsafe(ws.send(message), loop)
+
+    async def main():
+        async with serve(page, HOST, WS_PORT):
+            await asyncio.Future()
+
+    threading.Thread(target=lambda: loop.run_until_complete(main()), daemon=True).start()
+    push.local_hook = ring
 
 
 if __name__ == "__main__":
@@ -95,10 +138,11 @@ if __name__ == "__main__":
         import store
 
         store.create_session("DEV", "Local dev")
+        start_doorbell()
         print(f"game      http://localhost:{PORT}/?session=DEV")
         print(f"board     http://localhost:{PORT}/board.html?session=DEV")
         print(f"db viewer  http://localhost:{PORT}/_debug")
-        ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+        ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
     except KeyboardInterrupt:
         pass
     finally:

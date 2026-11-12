@@ -2,7 +2,8 @@
 services:
   # Firewall
   firewall:
-    image: alpine:3.20
+    # Docker Hub (rate-limited per IP): image: alpine:3.20
+    image: public.ecr.aws/docker/library/alpine:3.20
     container_name: firewall
     networks:
       - internal_network
@@ -17,7 +18,8 @@ services:
 
   # Internal Network
   client:
-    image: alpine:3.20
+    # Docker Hub (rate-limited per IP): image: alpine:3.20
+    image: public.ecr.aws/docker/library/alpine:3.20
     container_name: client
     networks:
       - internal_network
@@ -104,7 +106,8 @@ services:
 
 
   webserver:
-    image: nginx:1.27-alpine
+    # Docker Hub (rate-limited per IP): image: nginx:1.27-alpine
+    image: public.ecr.aws/docker/library/nginx:1.27-alpine
     container_name: webserver
     ports:
       - "8090:80"

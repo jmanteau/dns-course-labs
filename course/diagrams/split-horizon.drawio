@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Split horizon">
+    <mxGraphModel dx="1115" dy="330" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1115" pageHeight="330" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+<mxCell id="enterprise" value="Enterprise perimeter" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#e6ecf5;strokeColor=#2c5aa0;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="600" height="330" as="geometry" />
+</mxCell>
+<mxCell id="internet" value="Internet" style="swimlane;startSize=38;html=1;fontSize=22;fontStyle=1;fontFamily=Source Sans 3;fillColor=#fbefe7;strokeColor=#e07b39;strokeWidth=2;fontColor=#1f2a44;rounded=1;arcSize=4;swimlaneFillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="745" y="0" width="370" height="330" as="geometry" />
+</mxCell>
+<mxCell id="idns" value="&lt;b&gt;Internal DNS&lt;/b&gt;&lt;br&gt;www.example.com&lt;br&gt;is &lt;b&gt;10.0.0.1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="170" y="50" width="200" height="192" as="geometry" />
+</mxCell>
+<mxCell id="web" value="&lt;b&gt;Web server&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="400" y="250" width="180" height="60" as="geometry" />
+</mxCell>
+<mxCell id="firewall" value="&lt;b&gt;Firewall&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Source Sans 3;fillColor=#f9e4e0;strokeColor=#d64933;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="1">
+  <mxGeometry x="620" y="90" width="105" height="80" as="geometry" />
+</mxCell>
+<mxCell id="pdns" value="&lt;b&gt;Public DNS&lt;/b&gt;&lt;br&gt;www.example.com&lt;br&gt;is &lt;b&gt;11.22.33.44&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#f4f6f8;strokeColor=#3b4660;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internet">
+  <mxGeometry x="20" y="50" width="200" height="192" as="geometry" />
+</mxCell>
+<mxCell id="emp0" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="20" y="50" width="100" height="56" as="geometry" />
+</mxCell>
+<mxCell id="emp0_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.1458;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="emp0" target="idns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="emp1" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="20" y="118" width="100" height="56" as="geometry" />
+</mxCell>
+<mxCell id="emp1_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="emp1" target="idns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="emp2" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="enterprise">
+  <mxGeometry x="20" y="186" width="100" height="56" as="geometry" />
+</mxCell>
+<mxCell id="emp2_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8542;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="emp2" target="idns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="ext0" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internet">
+  <mxGeometry x="270" y="78" width="80" height="56" as="geometry" />
+</mxCell>
+<mxCell id="ext0_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.2917;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="ext0" target="pdns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="ext1" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Source Sans 3;fillColor=#ffffff;strokeColor=#5b6478;strokeWidth=2;fontColor=#1f2a44;" vertex="1" parent="internet">
+  <mxGeometry x="270" y="168" width="80" height="56" as="geometry" />
+</mxCell>
+<mxCell id="ext1_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.7604;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="ext1" target="pdns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="dns_fw" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.4167;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="idns" target="firewall">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="fw_dns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.4167;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="firewall" target="pdns">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+<mxCell id="web_fw" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#5b6478;strokeWidth=2;fontSize=18;fontFamily=Source Sans 3;fontColor=#1f2a44;labelBackgroundColor=#ffffff;startArrow=classic;startFill=1;" edge="1" parent="1" source="web" target="firewall">
+  <mxGeometry relative="1" as="geometry"></mxGeometry>
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

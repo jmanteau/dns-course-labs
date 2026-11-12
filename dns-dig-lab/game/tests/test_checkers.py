@@ -1,11 +1,13 @@
+import dns.edns
 import dns.message
 import pytest
 
 import checkers
 
 
-def resp(*lines, rcode="NOERROR"):
-    text = f"id 1\nopcode QUERY\nrcode {rcode}\nflags QR RD RA\n;QUESTION\nx. IN A\n;ANSWER\n" + "\n".join(lines)
+def resp(*lines, rcode="NOERROR", edns=False):
+    head = "edns 0\n" if edns else ""
+    text = f"id 1\nopcode QUERY\nrcode {rcode}\nflags QR RD RA\n{head};QUESTION\nx. IN A\n;ANSWER\n" + "\n".join(lines)
     return dns.message.from_text(text)
 
 
@@ -13,8 +15,9 @@ def resp(*lines, rcode="NOERROR"):
 def fake(monkeypatch):
     table = {}
 
-    def q(name, rtype, server="8.8.8.8", ecs=None, recurse=True):
-        return table[(name.lower(), rtype, server, ecs)]
+    def q(name, rtype, server="8.8.8.8", ecs=None, recurse=True, rdclass="IN", cd=False):
+        key = (name.lower(), rtype, server, ecs)
+        return table[key + (rdclass, cd) if rdclass != "IN" or cd else key]
 
     monkeypatch.setattr(checkers, "query", q)
     return table
@@ -85,3 +88,79 @@ def test_lookup_failure_is_not_a_wrong_answer(monkeypatch):
     monkeypatch.setattr(checkers, "query", boom)
     with pytest.raises(checkers.CheckError):
         checkers.grade({"type": "live", "check": {"kind": "rcode", "name": "x"}}, "nxdomain")
+
+
+# ---- advanced kinds ----------------------------------------------------------
+
+
+def test_chaos_version_accepts_the_upstream_version(fake):
+    fake[("version.bind", "TXT", "ns.example", None, "CH", False)] = resp('version.bind. 0 CH TXT "9.20.26-1~deb13u1-Debian"')
+    part = {"type": "live", "check": {"kind": "chaos_txt", "name": "version.bind", "server": "ns.example", "match": "version"}}
+    assert checkers.grade(part, "9.20.26-1~deb13u1-Debian")
+    assert checkers.grade(part, "9.20.26")
+    assert not checkers.grade(part, "9.20.2")
+    assert not checkers.grade(part, "9")
+    assert not checkers.grade(part, "9.18.1")
+
+
+def test_soa_fields(fake):
+    fake[("afnic.fr", "SOA", "8.8.8.8", None)] = resp(
+        "afnic.fr. 1 IN SOA dnsmaster.nic.fr. hostmaster.nic.fr. 2026110701 7200 1800 2419200 5400")
+    def part(field):
+        return {"type": "live", "check": {"kind": "soa_field", "name": "afnic.fr", "field": field}}
+    assert checkers.grade(part("rname"), "hostmaster@nic.fr")
+    assert not checkers.grade(part("rname"), "hostmaster.nic.fr")
+    assert checkers.grade(part("mname"), "dnsmaster.nic.fr.")
+    for date in ("2026-11-07", "20261107", "7/11/2026", "07/11/2026"):
+        assert checkers.grade(part("serial_date"), date), date
+    assert not checkers.grade(part("serial_date"), "2026-07-11")
+    assert checkers.grade(part("expire_days"), "28")
+    assert checkers.grade(part("minimum"), "5400")
+
+
+def test_rcode_and_rrset_with_cd(fake):
+    fake[("bad.org", "A", "8.8.8.8", None)] = resp(rcode="SERVFAIL")
+    fake[("bad.org", "A", "8.8.8.8", None, "IN", True)] = resp("bad.org. 1 IN A 96.99.227.255")
+    assert checkers.grade({"type": "live", "check": {"kind": "rcode", "name": "bad.org"}}, "SERVFAIL")
+    assert checkers.grade({"type": "live", "check": {"kind": "rrset", "name": "bad.org", "type": "A", "cd": True}}, "96.99.227.255")
+
+
+def test_ede_code(fake):
+    msg = resp(rcode="SERVFAIL", edns=True)
+    msg.use_edns(0, options=[dns.edns.EDEOption(9, "No DNSKEY matches DS RRs")])
+    fake[("bad.org", "A", "8.8.8.8", None)] = msg
+    part = {"type": "live", "check": {"kind": "ede_code", "name": "bad.org"}}
+    assert checkers.grade(part, "9") and not checkers.grade(part, "6")
+
+
+def test_field_picks_one_word(fake):
+    fake[("afnic.fr", "DS", "8.8.8.8", None)] = resp("afnic.fr. 1 IN DS 30098 13 2 dea3df8f5147ef21a6bc35f497be6369dad5c988ca6895317d1fe1fdfd24db1d")
+    fake[("_imaps._tcp.gmail.com", "SRV", "8.8.8.8", None)] = resp("_imaps._tcp.gmail.com. 1 IN SRV 5 0 993 imap.gmail.com.")
+    assert checkers.grade({"type": "live", "check": {"kind": "rrset", "name": "afnic.fr", "type": "DS", "field": 0}}, "30098")
+    assert checkers.grade({"type": "live", "check": {"kind": "rrset", "name": "_imaps._tcp.gmail.com", "type": "SRV", "field": 2}}, "993")
+
+
+def test_nsec_next_name(fake):
+    fake[("_dmarc.isc.org", "NSEC", "8.8.8.8", None)] = resp("_dmarc.isc.org. 1 IN NSEC abc._domainkey.isc.org. TXT RRSIG NSEC")
+    part = {"type": "live", "check": {"kind": "rrset", "name": "_dmarc.isc.org", "type": "NSEC"}}
+    assert checkers.grade(part, "ABC._domainkey.isc.org.")
+
+
+def test_txt_tag_follows_the_cname(fake):
+    fake[("_dmarc.airbus.com", "TXT", "8.8.8.8", None)] = resp(
+        "_dmarc.airbus.com. 1 IN CNAME reject.dmarc.airbus.com.", 'reject.dmarc.airbus.com. 1 IN TXT "v=DMARC1;p=reject;fo=1;"')
+    part = {"type": "live", "check": {"kind": "txt_tag", "name": "_dmarc.airbus.com", "tag": "p"}}
+    assert checkers.grade(part, "reject") and not checkers.grade(part, "none")
+
+
+def test_null_mx(fake):
+    fake[("example.com", "MX", "8.8.8.8", None)] = resp("example.com. 1 IN MX 0 .")
+    fake[("iana.org", "MX", "8.8.8.8", None)] = resp("iana.org. 1 IN MX 10 mx.icann.org.")
+    part = {"type": "live", "check": {"kind": "null_mx", "domains": ["example.com", "iana.org"]}}
+    assert checkers.grade(part, "example.com") and not checkers.grade(part, "iana.org")
+
+
+def test_txt_contains_yes_no(fake):
+    fake[("o-o.myaddr.l.google.com", "TXT", "1.1.1.1", None)] = resp('o-o.myaddr.l.google.com. 1 IN TXT "2400:cb00::1"')
+    part = {"type": "live", "check": {"kind": "txt_contains", "name": "o-o.myaddr.l.google.com", "server": "1.1.1.1", "needle": "edns0-client-subnet"}}
+    assert checkers.grade(part, "No") and not checkers.grade(part, "yes")

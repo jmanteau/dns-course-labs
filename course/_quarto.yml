@@ -2,6 +2,14 @@ project:
   type: default
   output-dir: _site
 
+# top level, not under format, so that `make single` can turn it off (theme/single.yml)
+chalkboard:
+  buttons: false
+
+filters:
+  - theme/link-icons.lua
+  - theme/part-footer.lua
+
 format:
   revealjs:
     theme: [default, theme/dns.scss]

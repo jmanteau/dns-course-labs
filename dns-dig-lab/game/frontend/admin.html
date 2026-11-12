@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dig Quest Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin">
+<main>
+  <header class="admin-head">
+    <h1 id="title">Dig Quest · admin</h1>
+    <p class="sub" id="meta">Add <code>?session=CODE</code> to the URL.</p>
+    <p class="admin-links" id="links"></p>
+    <p><button id="tokenAsk" class="ghost" hidden>Enter the admin token</button> <span class="err" id="err" role="alert"></span></p>
+  </header>
+
+  <div class="admin-grid" id="panels" hidden>
+    <section class="card">
+      <h2>Session</h2>
+      <p id="sessionInfo"></p>
+      <button id="sessionToggle" class="ghost"></button>
+    </section>
+
+    <section class="card">
+      <h2>Activities</h2>
+      <p class="sub">What students can work on. Off: they see a waiting screen, their progress is kept.</p>
+      <label class="switch"><input type="checkbox" id="actDig"> <span><b>Dig lab</b>: warm-up, missions and the dig console</span> <em id="actDigState"></em></label>
+      <label class="switch"><input type="checkbox" id="actAdvanced"> <span><b>Advanced missions</b>: for those who solved 80% of the missions</span> <em id="actAdvancedState"></em></label>
+    </section>
+
+    <section class="card quiz-admin">
+      <h2>Live quiz</h2>
+      <p class="sub">The question you open fills every student's screen until you close it.</p>
+      <div class="present-row">
+        <select id="round" aria-label="Quiz round"></select>
+        <div id="qlist" class="qlist"></div>
+      </div>
+      <div class="present-row">
+        <button id="qNext" title="Open the next question (→)">Open next →</button>
+        <button id="qReveal" title="Reveal the answer (R)">Reveal</button>
+        <button id="qClose" class="ghost" title="Close the question (Esc)">Close</button>
+      </div>
+      <div class="quiz-split">
+        <div id="qPreview" class="qpreview"></div>
+        <figure class="boardprev">
+          <figcaption class="sub">On the projector</figcaption>
+          <div class="frame"><iframe id="boardFrame" title="What the projector shows" tabindex="-1"></iframe></div>
+        </figure>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="config.js"></script>
+<script src="admin-token.js"></script>
+<script src="live.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
